@@ -1,5 +1,5 @@
-import React from 'react';
-import { Volume2, VolumeX, Flame, Zap, ArrowUpRight } from 'lucide-react';
+import React, { useState } from 'react';
+import { Volume2, VolumeX, Flame, Zap, ArrowUpRight, Menu, X } from 'lucide-react';
 import { TOKEN_CONFIG } from '../config/tokenConfig';
 import { getAssetUrl } from '../utils/assets';
 
@@ -16,93 +16,98 @@ export const Navbar: React.FC<NavbarProps> = ({
   isMuted,
   onToggleMute,
 }) => {
-  return (
-    <header className="sticky top-0 z-40 w-full bg-arcade-chalk border-b-4 border-black">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-2">
-        {/* Logo & Ticker */}
-        <a 
-          href="#" 
-          className="flex items-center gap-3 group focus:outline-none"
-        >
-          <div className="w-12 h-12 border-4 border-black bg-arcade-grass shadow-pixel-sm overflow-hidden flex-shrink-0 group-hover:translate-x-1 group-hover:translate-y-1 group-hover:shadow-none transition-all">
-            <img 
-              src={getAssetUrl('/mascot-pixel.png')} 
-              alt="Nosey Cat Mascot" 
-              className="w-full h-full object-cover pixelated" 
-            />
-          </div>
-          <div className="flex flex-col">
-            <span className="font-pixel text-sm md:text-lg tracking-wider text-arcade-black leading-tight">
-              {TOKEN_CONFIG.name}
-            </span>
-            <span className="font-pixel text-xs text-green-700 font-bold">
-              {TOKEN_CONFIG.ticker}
-            </span>
-          </div>
-        </a>
+  const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
 
-        {/* Navigation Links - Desktop */}
-        <nav className="hidden lg:flex items-center gap-6 font-pixel text-xs">
+  return (
+    <header className="sticky top-0 z-40 w-full bg-arcade-chalk border-b-4 border-black select-none">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-3 sm:gap-4">
+        {/* Left: Brand Identity (Logo & Ticker) */}
+        <div className="flex-shrink-0 flex items-center">
+          <a 
+            href="#" 
+            className="flex items-center gap-2 sm:gap-2.5 group focus:outline-none"
+          >
+            <div className="w-9 h-9 sm:w-11 sm:h-11 border-2 sm:border-4 border-black bg-arcade-grass shadow-pixel-sm overflow-hidden flex-shrink-0 group-hover:translate-x-0.5 group-hover:translate-y-0.5 group-hover:shadow-none transition-all">
+              <img 
+                src={getAssetUrl('/mascot-pixel.png')} 
+                alt="Nosey Cat Mascot" 
+                className="w-full h-full object-cover pixelated" 
+              />
+            </div>
+            <div className="flex flex-col leading-none">
+              <span className="font-pixel text-[11px] sm:text-sm lg:text-base tracking-wider text-arcade-black whitespace-nowrap">
+                {TOKEN_CONFIG.name}
+              </span>
+              <span className="font-pixel text-[8px] sm:text-[9px] text-green-700 font-bold mt-1">
+                {TOKEN_CONFIG.ticker}
+              </span>
+            </div>
+          </a>
+        </div>
+
+        {/* Center: Desktop Navigation Links (Zero Word-Wrapping, Balanced & Symmetrical) */}
+        <nav className="hidden lg:flex items-center justify-center gap-1 xl:gap-1.5 font-pixel text-[9px] xl:text-[9.5px] whitespace-nowrap flex-shrink-0">
           <a 
             href="#about" 
-            className="text-arcade-black hover:text-green-700 hover:underline decoration-4 underline-offset-4 transition-colors"
+            className="px-1.5 xl:px-2 py-1 text-arcade-black hover:text-black hover:bg-arcade-yellow border-2 border-transparent hover:border-black hover:shadow-pixel-sm transition-all whitespace-nowrap flex-shrink-0"
           >
             ABOUT
           </a>
           <a 
             href="#lore" 
-            className="text-arcade-black hover:text-green-700 hover:underline decoration-4 underline-offset-4 transition-colors"
+            className="px-1.5 xl:px-2 py-1 text-arcade-black hover:text-black hover:bg-arcade-yellow border-2 border-transparent hover:border-black hover:shadow-pixel-sm transition-all whitespace-nowrap flex-shrink-0"
           >
             THE SNOOT
           </a>
           <a 
             href="#trollbox" 
-            className="text-arcade-black hover:text-green-700 hover:underline decoration-4 underline-offset-4 transition-colors"
+            className="px-1.5 xl:px-2 py-1 text-arcade-black hover:text-black hover:bg-arcade-yellow border-2 border-transparent hover:border-black hover:shadow-pixel-sm transition-all whitespace-nowrap flex-shrink-0"
           >
             TROLLBOX
           </a>
           <a 
             href="#security" 
-            className="text-arcade-black hover:text-green-700 hover:underline decoration-4 underline-offset-4 transition-colors"
+            className="px-1.5 xl:px-2 py-1 text-arcade-black hover:text-black hover:bg-arcade-yellow border-2 border-transparent hover:border-black hover:shadow-pixel-sm transition-all whitespace-nowrap flex-shrink-0"
           >
             SECURITY
           </a>
           <a 
             href="#studio" 
-            className="text-arcade-black hover:text-green-700 hover:underline decoration-4 underline-offset-4 transition-colors"
+            className="px-1.5 xl:px-2 py-1 text-arcade-black hover:text-black hover:bg-arcade-yellow border-2 border-transparent hover:border-black hover:shadow-pixel-sm transition-all whitespace-nowrap flex-shrink-0"
           >
             MEME STUDIO
           </a>
           <a 
             href="#howtobuy" 
-            className="text-arcade-black hover:text-green-700 hover:underline decoration-4 underline-offset-4 transition-colors"
+            className="px-1.5 xl:px-2 py-1 text-arcade-black hover:text-black hover:bg-arcade-yellow border-2 border-transparent hover:border-black hover:shadow-pixel-sm transition-all whitespace-nowrap flex-shrink-0"
           >
             HOW TO BUY
           </a>
         </nav>
 
-        {/* Action Controls */}
-        <div className="flex items-center gap-2 sm:gap-3">
-          {/* Audio Mute/Unmute */}
+        {/* Right: Symmetrical Action Controls */}
+        <div className="flex-shrink-0 flex items-center gap-1 sm:gap-2">
+          {/* Audio Mute/Unmute (visible on sm+) */}
           <button
             onClick={onToggleMute}
             title={isMuted ? "Unmute 8-Bit Audio" : "Mute Audio"}
-            className="h-11 w-11 flex items-center justify-center border-4 border-black bg-arcade-yellow text-black shadow-pixel-sm active:translate-x-0.5 active:translate-y-0.5 active:shadow-none rounded-none focus:outline-none"
+            className="hidden sm:flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center border-2 sm:border-4 border-black bg-arcade-yellow text-black shadow-pixel-sm active:translate-x-0.5 active:translate-y-0.5 active:shadow-none rounded-none focus:outline-none flex-shrink-0"
             aria-label="Toggle Audio"
           >
-            {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+            {isMuted ? <VolumeX size={15} /> : <Volume2 size={15} />}
           </button>
 
           {/* CHAOS MODE Toggle */}
           <button
             onClick={onToggleChaos}
-            className={`h-11 px-3 sm:px-4 flex items-center gap-1.5 font-pixel text-[10px] sm:text-xs border-4 border-black rounded-none shadow-pixel-sm active:translate-x-0.5 active:translate-y-0.5 active:shadow-none focus:outline-none transition-colors ${
+            title="Toggle Chaos Mode"
+            className={`h-8 sm:h-9 px-1.5 sm:px-2.5 flex items-center gap-1 font-pixel text-[9px] sm:text-[10px] border-2 sm:border-4 border-black rounded-none shadow-pixel-sm active:translate-x-0.5 active:translate-y-0.5 active:shadow-none focus:outline-none transition-colors whitespace-nowrap flex-shrink-0 ${
               chaosMode 
-                ? 'bg-red-500 text-white animate-arcade-shake' 
+                ? 'bg-red-600 text-yellow-300 animate-arcade-shake' 
                 : 'bg-arcade-pink text-black hover:bg-pink-300'
             }`}
           >
-            {chaosMode ? <Zap size={16} className="text-yellow-300 fill-yellow-300" /> : <Flame size={16} />}
+            {chaosMode ? <Zap size={13} className="text-yellow-300 fill-yellow-300" /> : <Flame size={13} />}
             <span className="hidden sm:inline">CHAOS:</span>
             <span>{chaosMode ? 'ON!' : 'OFF'}</span>
           </button>
@@ -112,15 +117,80 @@ export const Navbar: React.FC<NavbarProps> = ({
             href={TOKEN_CONFIG.buyUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="h-11 px-3 sm:px-5 flex items-center gap-1.5 font-pixel text-xs sm:text-sm bg-arcade-green text-black border-4 border-black rounded-none shadow-pixel hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-pixel-sm active:translate-x-1 active:translate-y-1 active:shadow-none transition-all font-bold"
+            className="h-8 sm:h-9 px-2 sm:px-3 flex items-center gap-1 font-pixel text-[9px] sm:text-[10px] bg-arcade-green text-black border-2 sm:border-4 border-black rounded-none shadow-pixel-sm hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none active:translate-x-1 active:translate-y-1 transition-all font-bold whitespace-nowrap flex-shrink-0"
           >
-            <span>BUY</span>
-            <span className="hidden xs:inline">{TOKEN_CONFIG.ticker}</span>
-            <ArrowUpRight size={18} className="stroke-[3]" />
+            <span className="hidden sm:inline">BUY NOW</span>
+            <span className="sm:hidden">BUY</span>
+            <ArrowUpRight size={13} className="stroke-[3]" />
           </a>
+
+          {/* Mobile Menu Hamburger Button (< lg screens) */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="lg:hidden h-8 w-8 sm:h-9 sm:w-9 flex items-center justify-center border-2 sm:border-4 border-black bg-arcade-yellow text-black shadow-pixel-sm active:translate-x-0.5 active:translate-y-0.5 active:shadow-none rounded-none focus:outline-none flex-shrink-0"
+            aria-label="Toggle Navigation Menu"
+          >
+            {mobileMenuOpen ? <X size={16} /> : <Menu size={16} />}
+          </button>
         </div>
       </div>
+
+      {/* Mobile / Tablet Dropdown Menu Drawer */}
+      {mobileMenuOpen && (
+        <div className="lg:hidden w-full bg-arcade-chalk border-t-4 border-black px-4 py-3 flex flex-col gap-2 font-pixel text-xs shadow-pixel">
+          {/* Mobile Sound Toggle */}
+          <button 
+            onClick={onToggleMute}
+            className="sm:hidden p-2 border-2 border-black bg-arcade-yellow text-black flex items-center justify-between font-pixel text-xs"
+          >
+            <span>AUDIO SOUND FX:</span>
+            <span className="font-bold">{isMuted ? 'MUTED ✕' : 'PLAYING ♪'}</span>
+          </button>
+
+          <a 
+            href="#about" 
+            onClick={() => setMobileMenuOpen(false)}
+            className="p-2 border-2 border-black bg-white hover:bg-arcade-yellow text-black transition-colors"
+          >
+            👉 ABOUT
+          </a>
+          <a 
+            href="#lore" 
+            onClick={() => setMobileMenuOpen(false)}
+            className="p-2 border-2 border-black bg-white hover:bg-arcade-yellow text-black transition-colors"
+          >
+            🐾 THE SNOOT LORE
+          </a>
+          <a 
+            href="#trollbox" 
+            onClick={() => setMobileMenuOpen(false)}
+            className="p-2 border-2 border-black bg-white hover:bg-arcade-yellow text-black transition-colors"
+          >
+            💬 LIVE TROLLBOX
+          </a>
+          <a 
+            href="#security" 
+            onClick={() => setMobileMenuOpen(false)}
+            className="p-2 border-2 border-black bg-white hover:bg-arcade-yellow text-black transition-colors"
+          >
+            🔒 SECURITY &amp; AUDIT
+          </a>
+          <a 
+            href="#studio" 
+            onClick={() => setMobileMenuOpen(false)}
+            className="p-2 border-2 border-black bg-white hover:bg-arcade-yellow text-black transition-colors"
+          >
+            🎨 MEME STUDIO
+          </a>
+          <a 
+            href="#howtobuy" 
+            onClick={() => setMobileMenuOpen(false)}
+            className="p-2 border-2 border-black bg-white hover:bg-arcade-yellow text-black transition-colors"
+          >
+            🚀 HOW TO BUY
+          </a>
+        </div>
+      )}
     </header>
   );
 };
-

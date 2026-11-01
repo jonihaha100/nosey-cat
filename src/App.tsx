@@ -46,7 +46,7 @@ export const App: React.FC = () => {
 
   return (
     <div 
-      className={`min-h-screen relative flex flex-col font-retro ${
+      className={`min-h-screen relative flex flex-col font-retro overflow-x-hidden w-full max-w-full ${
         chaosMode ? 'chaos-active-bg' : 'bg-arcade-grass'
       }`}
     >
