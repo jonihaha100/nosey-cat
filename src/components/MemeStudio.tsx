@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Download, RotateCcw, Upload, Check, Sliders } from 'lucide-react';
+import { getAssetUrl } from '../utils/assets';
 
 interface AccessoryOption {
   id: string;
@@ -32,7 +33,7 @@ const DEFAULT_GLASSES_TRANSFORM: TransformState = {
 
 export const MemeStudio: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [baseImageSrc, setBaseImageSrc] = useState<string>('/mascot-pixel.png');
+  const [baseImageSrc, setBaseImageSrc] = useState<string>(getAssetUrl('/mascot-pixel.png'));
   const [topText, setTopText] = useState<string>('BUY $NOSEY NOW');
   const [bottomText, setBottomText] = useState<string>('OR GET ZERO GAINS!');
   const [activeAccessories, setActiveAccessories] = useState<Record<string, boolean>>({
@@ -299,7 +300,7 @@ export const MemeStudio: React.FC = () => {
 
   // Reset to default
   const handleReset = () => {
-    setBaseImageSrc('/mascot-pixel.png');
+    setBaseImageSrc(getAssetUrl('/mascot-pixel.png'));
     setTopText('BUY $NOSEY NOW');
     setBottomText('OR GET ZERO GAINS!');
     setActiveAccessories({
@@ -352,11 +353,11 @@ export const MemeStudio: React.FC = () => {
               <button
                 type="button"
                 onClick={() => {
-                  setBaseImageSrc('/mascot-pixel.png');
+                  setBaseImageSrc(getAssetUrl('/mascot-pixel.png'));
                   setActiveAccessories({ glasses: true, verified: true });
                 }}
                 className={`px-2 py-1 font-pixel text-[9px] border-2 border-black transition-all ${
-                  baseImageSrc === '/mascot-pixel.png' ? 'bg-arcade-yellow shadow-pixel-sm' : 'bg-white hover:bg-gray-100'
+                  baseImageSrc === getAssetUrl('/mascot-pixel.png') ? 'bg-arcade-yellow shadow-pixel-sm' : 'bg-white hover:bg-gray-100'
                 }`}
               >
                 🐱 MASCOT
@@ -364,11 +365,11 @@ export const MemeStudio: React.FC = () => {
               <button
                 type="button"
                 onClick={() => {
-                  setBaseImageSrc('/banners/nosey-moon-mission.png');
+                  setBaseImageSrc(getAssetUrl('/banners/nosey-moon-mission.png'));
                   setActiveAccessories({ glasses: false, verified: true });
                 }}
                 className={`px-2 py-1 font-pixel text-[9px] border-2 border-black transition-all ${
-                  baseImageSrc === '/banners/nosey-moon-mission.png' ? 'bg-arcade-yellow shadow-pixel-sm' : 'bg-white hover:bg-gray-100'
+                  baseImageSrc === getAssetUrl('/banners/nosey-moon-mission.png') ? 'bg-arcade-yellow shadow-pixel-sm' : 'bg-white hover:bg-gray-100'
                 }`}
               >
                 🚀 MOON
@@ -376,11 +377,11 @@ export const MemeStudio: React.FC = () => {
               <button
                 type="button"
                 onClick={() => {
-                  setBaseImageSrc('/banners/nosey-degen-battle-station.png');
+                  setBaseImageSrc(getAssetUrl('/banners/nosey-degen-battle-station.png'));
                   setActiveAccessories({ glasses: false, verified: true });
                 }}
                 className={`px-2 py-1 font-pixel text-[9px] border-2 border-black transition-all ${
-                  baseImageSrc === '/banners/nosey-degen-battle-station.png' ? 'bg-arcade-yellow shadow-pixel-sm' : 'bg-white hover:bg-gray-100'
+                  baseImageSrc === getAssetUrl('/banners/nosey-degen-battle-station.png') ? 'bg-arcade-yellow shadow-pixel-sm' : 'bg-white hover:bg-gray-100'
                 }`}
               >
                 💻 STATION
@@ -647,7 +648,7 @@ export const MemeStudio: React.FC = () => {
                 </div>
                 <div className="border-4 border-black overflow-hidden bg-black shadow-pixel-sm group relative aspect-video">
                   <img
-                    src="/banners/nosey-moon-mission.png"
+                    src={getAssetUrl('/banners/nosey-moon-mission.png')}
                     alt="Nosey Cat Moon Mission Banner"
                     className="w-full h-full object-cover pixelated group-hover:scale-105 transition-transform duration-300"
                   />
@@ -659,7 +660,7 @@ export const MemeStudio: React.FC = () => {
 
               <div className="flex gap-2 pt-2">
                 <a
-                  href="/banners/nosey-moon-mission-1080p.png"
+                  href={getAssetUrl('/banners/nosey-moon-mission-1080p.png')}
                   download="nosey-cat-moon-mission-banner-1080p.png"
                   className="flex-1 h-11 bg-arcade-green text-black border-4 border-black font-pixel text-xs flex items-center justify-center gap-2 shadow-pixel-sm hover:translate-x-0.5 hover:translate-y-0.5 active:translate-x-1 active:translate-y-1 font-bold"
                 >
@@ -669,7 +670,7 @@ export const MemeStudio: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => {
-                    setBaseImageSrc('/banners/nosey-moon-mission.png');
+                    setBaseImageSrc(getAssetUrl('/banners/nosey-moon-mission.png'));
                     setActiveAccessories({ glasses: false, verified: true });
                     window.scrollTo({ top: document.getElementById('studio')?.offsetTop, behavior: 'smooth' });
                   }}
@@ -692,7 +693,7 @@ export const MemeStudio: React.FC = () => {
                 </div>
                 <div className="border-4 border-black overflow-hidden bg-black shadow-pixel-sm group relative aspect-video">
                   <img
-                    src="/banners/nosey-degen-battle-station.png"
+                    src={getAssetUrl('/banners/nosey-degen-battle-station.png')}
                     alt="Nosey Cat Degen Trading Battle Station Banner"
                     className="w-full h-full object-cover pixelated group-hover:scale-105 transition-transform duration-300"
                   />
@@ -704,7 +705,7 @@ export const MemeStudio: React.FC = () => {
 
               <div className="flex gap-2 pt-2">
                 <a
-                  href="/banners/nosey-degen-battle-station-1080p.png"
+                  href={getAssetUrl('/banners/nosey-degen-battle-station-1080p.png')}
                   download="nosey-cat-degen-battle-station-banner-1080p.png"
                   className="flex-1 h-11 bg-arcade-green text-black border-4 border-black font-pixel text-xs flex items-center justify-center gap-2 shadow-pixel-sm hover:translate-x-0.5 hover:translate-y-0.5 active:translate-x-1 active:translate-y-1 font-bold"
                 >
@@ -714,7 +715,7 @@ export const MemeStudio: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => {
-                    setBaseImageSrc('/banners/nosey-degen-battle-station.png');
+                    setBaseImageSrc(getAssetUrl('/banners/nosey-degen-battle-station.png'));
                     setActiveAccessories({ glasses: false, verified: true });
                     window.scrollTo({ top: document.getElementById('studio')?.offsetTop, behavior: 'smooth' });
                   }}

@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { getAssetUrl } from '../utils/assets';
 
 interface ChaosOverlayProps {
   active: boolean;
@@ -46,7 +47,7 @@ export const ChaosOverlay: React.FC<ChaosOverlayProps> = ({ active }) => {
           }}
         >
           <img
-            src="/mascot-pixel.png"
+            src={getAssetUrl('/mascot-pixel.png')}
             alt="Falling Mascot"
             className="w-full h-full object-contain filter drop-shadow-[2px_2px_0px_#000]"
           />

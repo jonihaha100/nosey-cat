@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { TOKEN_CONFIG } from '../config/tokenConfig';
 import { playBoopSound } from '../utils/soundEffects';
+import { getAssetUrl } from '../utils/assets';
 
 interface MascotInteractiveProps {
   chaosMode: boolean;
@@ -131,7 +132,7 @@ export const MascotInteractive: React.FC<MascotInteractiveProps> = ({
           }}
         >
           <img 
-            src="/mascot-pixel.png" 
+            src={getAssetUrl('/mascot-pixel.png')} 
             alt="Nosey Cat Mascot Pixel" 
             className="w-full h-full object-cover pixelated select-none pointer-events-none" 
           />

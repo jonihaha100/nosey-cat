@@ -9,6 +9,7 @@ import { HowToBuyAndChart } from './components/HowToBuyAndChart';
 import { ChaosOverlay } from './components/ChaosOverlay';
 import { CRTOverlay } from './components/CRTOverlay';
 import { TOKEN_CONFIG } from './config/tokenConfig';
+import { getAssetUrl } from './utils/assets';
 import { 
   playPowerUpSound, 
   getAudioMuteStatus, 
@@ -87,7 +88,7 @@ export const App: React.FC = () => {
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 border-2 border-white bg-arcade-grass">
                 <img 
-                  src="/mascot-pixel.png" 
+                  src={getAssetUrl('/mascot-pixel.png')} 
                   alt="Mascot Icon" 
                   className="w-full h-full object-cover pixelated" 
                 />

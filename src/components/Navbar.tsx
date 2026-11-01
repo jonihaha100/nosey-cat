@@ -1,6 +1,7 @@
 import React from 'react';
 import { Volume2, VolumeX, Flame, Zap, ArrowUpRight } from 'lucide-react';
 import { TOKEN_CONFIG } from '../config/tokenConfig';
+import { getAssetUrl } from '../utils/assets';
 
 interface NavbarProps {
   chaosMode: boolean;
@@ -25,7 +26,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         >
           <div className="w-12 h-12 border-4 border-black bg-arcade-grass shadow-pixel-sm overflow-hidden flex-shrink-0 group-hover:translate-x-1 group-hover:translate-y-1 group-hover:shadow-none transition-all">
             <img 
-              src="/mascot-pixel.png" 
+              src={getAssetUrl('/mascot-pixel.png')} 
               alt="Nosey Cat Mascot" 
               className="w-full h-full object-cover pixelated" 
             />
