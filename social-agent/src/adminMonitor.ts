@@ -3,6 +3,8 @@
  * Enables the creator to steer the AI Agent's brain and monitor project health in real-time.
  */
 
+import fs from 'fs';
+import path from 'path';
 import TelegramBot from 'node-telegram-bot-api';
 import { brainState, setBusinessPhase, setActiveDirective, BusinessPhase } from './brainConfig.js';
 import { fetchTokenMarketMetrics } from './dexScreenerClient.js';
@@ -191,16 +193,35 @@ Try greeting me right now: ask *"When launch?"* or *"Is the contract safe?"* �
 
     const target = match?.[1]?.trim() || 'Top Solana Influencers / Pump.fun';
     const raidMsg = generateRaidTrigger(target);
+    const raidGifPath = path.resolve(process.cwd(), '../public/animations/nosey-moon-raid.gif');
 
-    // Send preview to admin
-    await bot.sendMessage(msg.chat.id, raidMsg, { parse_mode: 'Markdown' });
+    // Send preview to admin with raid animation
+    if (fs.existsSync(raidGifPath)) {
+      try {
+        await bot.sendAnimation(msg.chat.id, fs.createReadStream(raidGifPath), {
+          caption: raidMsg,
+          parse_mode: 'Markdown',
+        });
+      } catch {
+        await bot.sendMessage(msg.chat.id, raidMsg, { parse_mode: 'Markdown' });
+      }
+    } else {
+      await bot.sendMessage(msg.chat.id, raidMsg, { parse_mode: 'Markdown' });
+    }
 
-    // If target group ID is configured, optionally broadcast to community group
+    // If target group ID is configured, broadcast to community group
     const targetGroupId = process.env.TELEGRAM_GROUP_ID;
     if (targetGroupId && targetGroupId.startsWith('-')) {
       try {
-        await bot.sendMessage(targetGroupId, raidMsg, { parse_mode: 'Markdown' });
-        bot.sendMessage(msg.chat.id, `🚀 Raid Alert has been automatically broadcasted to the community group!`);
+        if (fs.existsSync(raidGifPath)) {
+          await bot.sendAnimation(targetGroupId, fs.createReadStream(raidGifPath), {
+            caption: raidMsg,
+            parse_mode: 'Markdown',
+          });
+        } else {
+          await bot.sendMessage(targetGroupId, raidMsg, { parse_mode: 'Markdown' });
+        }
+        bot.sendMessage(msg.chat.id, `🚀 Raid Alert has been automatically broadcasted with animated pixel visual to the community group!`);
       } catch (err: any) {
         bot.sendMessage(msg.chat.id, `⚠️ Failed to broadcast to group (${err?.message}). Please copy-paste the template above manually.`);
       }
@@ -214,8 +235,9 @@ Try greeting me right now: ask *"When launch?"* or *"Is the contract safe?"* �
       return;
     }
 
-    bot.sendMessage(msg.chat.id, '⏳ Crafting viral tweet drafts for X (Twitter)...');
+    bot.sendMessage(msg.chat.id, '⏳ Crafting viral tweet drafts with pixel animation for X (Twitter)...');
     const tweets = await generateDailyTweets(2);
+    const boopGifPath = path.resolve(process.cwd(), '../public/animations/nosey-laser-boop.gif');
 
     for (let i = 0; i < tweets.length; i++) {
       const tweetText = tweets[i];
@@ -225,16 +247,33 @@ Try greeting me right now: ask *"When launch?"* or *"Is the contract safe?"* �
 ━━━━━━━━━━━━━━━━━━━━━━
 ${tweetText}
 ━━━━━━━━━━━━━━━━━━━━━━
-💡 _Tekan tombol di bawah untuk langsung membuka X dan post cuitan ini dalam 1 klik!_
+💡 _Tekan tombol di bawah untuk langsung membuka X dan post cuitan ini! Jangan lupa lampirkan GIF animasi di atas agar tweet Anda viral!_
       `.trim();
-      await bot.sendMessage(msg.chat.id, reply, {
-        parse_mode: 'Markdown',
-        reply_markup: {
-          inline_keyboard: [
-            [{ text: `🐦 1-Click Post Tweet #${i + 1} to X ↗`, url: intentUrl }],
-          ],
-        },
-      });
+      const keyboard = {
+        inline_keyboard: [
+          [{ text: `🐦 1-Click Post Tweet #${i + 1} to X ↗`, url: intentUrl }],
+        ],
+      };
+
+      if (fs.existsSync(boopGifPath)) {
+        try {
+          await bot.sendAnimation(msg.chat.id, fs.createReadStream(boopGifPath), {
+            caption: reply,
+            parse_mode: 'Markdown',
+            reply_markup: keyboard,
+          });
+        } catch {
+          await bot.sendMessage(msg.chat.id, reply, {
+            parse_mode: 'Markdown',
+            reply_markup: keyboard,
+          });
+        }
+      } else {
+        await bot.sendMessage(msg.chat.id, reply, {
+          parse_mode: 'Markdown',
+          reply_markup: keyboard,
+        });
+      }
     }
   });
 

@@ -4,6 +4,8 @@
  * and 1-Click Viral Tweet dispatches to Admin via Twitter Intent URLs.
  */
 
+import fs from 'fs';
+import path from 'path';
 import TelegramBot from 'node-telegram-bot-api';
 import { brainState, BusinessPhase } from './brainConfig.js';
 import { generateDailyTweets } from './xContentPlanner.js';
@@ -158,22 +160,43 @@ export async function triggerAdminTweetDispatch(bot: TelegramBot): Promise<boole
 ${tweetText}
 ━━━━━━━━━━━━━━━━━━━━━━
 
-💡 **Cara Post:** Cukup tekan tombol di bawah, aplikasi X akan langsung terbuka dengan teks di atas yang sudah terisi rapi!
+💡 **Cara Post:** 
+1. Simpan animasi pixel GIF di atas ke galeri HP Anda.
+2. Tekan tombol **1-Click Post to X** di bawah, lalu lampirkan GIF tersebut agar tweet Anda meledak di algoritma X! 🔥
     `.trim();
 
-    await bot.sendMessage(adminId, adminNotification, {
-      parse_mode: 'Markdown',
-      reply_markup: {
-        inline_keyboard: [
-          [
-            { text: '🐦 1-Click Post to X (Twitter) ↗', url: twitterIntentUrl },
-          ],
-          [
-            { text: '🔄 Generate Different Tweet', callback_data: 'regen_tweet' },
-          ],
+    const gifPath = path.resolve(process.cwd(), '../public/animations/nosey-laser-boop.gif');
+    const replyMarkup = {
+      inline_keyboard: [
+        [
+          { text: '🐦 1-Click Post to X (Twitter) ↗', url: twitterIntentUrl },
         ],
-      },
-    });
+        [
+          { text: '🔄 Generate Different Tweet', callback_data: 'regen_tweet' },
+        ],
+      ],
+    };
+
+    if (fs.existsSync(gifPath)) {
+      try {
+        await bot.sendAnimation(adminId, fs.createReadStream(gifPath), {
+          caption: adminNotification,
+          parse_mode: 'Markdown',
+          reply_markup: replyMarkup,
+        });
+      } catch (animErr) {
+        // Fallback to text message if animation stream fails
+        await bot.sendMessage(adminId, adminNotification, {
+          parse_mode: 'Markdown',
+          reply_markup: replyMarkup,
+        });
+      }
+    } else {
+      await bot.sendMessage(adminId, adminNotification, {
+        parse_mode: 'Markdown',
+        reply_markup: replyMarkup,
+      });
+    }
 
     console.log(`[Content Engine] 1-Click Tweet dispatched to Admin (${adminId})`);
     return true;
