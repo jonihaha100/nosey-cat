@@ -49,11 +49,11 @@ export async function generateCharacterReply(
     // Format chat history context
     let formattedHistory = '';
     if (chatHistory.length > 0) {
-      formattedHistory = 'Percakapan grup terakhir:\n' + 
+      formattedHistory = 'Recent group conversation:\n' + 
         chatHistory.slice(-5).map(h => `${h.sender}: ${h.text}`).join('\n') + '\n\n';
     }
 
-    const prompt = `${formattedHistory}${senderName} berkata: "${userMessage}"\n\nBalasan Kucing Kepo:`;
+    const prompt = `${formattedHistory}${senderName} says: "${userMessage}"\n\nNosey Cat's snappy English reply:`;
 
     const result = await model.generateContent({
       contents: [{ role: 'user', parts: [{ text: prompt }] }],
@@ -80,12 +80,38 @@ export async function analyzeMessageSentiment(text: string): Promise<'bullish' |
   const lower = text.toLowerCase();
 
   // Quick heuristic keyword detection
-  if (lower.includes('rug') || lower.includes('scam') || lower.includes('drop') || lower.includes('dump') || lower.includes('jeed') || lower.includes('turun') || lower.includes('rugpull')) {
+  if (
+    lower.includes('rug') ||
+    lower.includes('scam') ||
+    lower.includes('drop') ||
+    lower.includes('dump') ||
+    lower.includes('jeet') ||
+    lower.includes('jeed') ||
+    lower.includes('turun') ||
+    lower.includes('sell') ||
+    lower.includes('fake') ||
+    lower.includes('dead') ||
+    lower.includes('rugpull')
+  ) {
     brainState.sentimentCounters.fud++;
     return 'fud';
   }
 
-  if (lower.includes('moon') || lower.includes('pump') || lower.includes('terbang') || lower.includes('serok') || lower.includes('buy') || lower.includes('ape') || lower.includes('candle') || lower.includes('gacor') || lower.includes('mantap')) {
+  if (
+    lower.includes('moon') ||
+    lower.includes('pump') ||
+    lower.includes('buy') ||
+    lower.includes('ape') ||
+    lower.includes('candle') ||
+    lower.includes('bull') ||
+    lower.includes('chad') ||
+    lower.includes('send it') ||
+    lower.includes('gem') ||
+    lower.includes('diamond') ||
+    lower.includes('based') ||
+    lower.includes('boop') ||
+    lower.includes('snoot')
+  ) {
     brainState.sentimentCounters.bullish++;
     return 'bullish';
   }
@@ -95,19 +121,19 @@ export async function analyzeMessageSentiment(text: string): Promise<'bullish' |
 }
 
 /**
- * Generates an automated idle chime-in joke, tease, or meme question
+ * Generates an automated idle chime-in joke, tease, or meme question in English
  */
 export async function generateIdleChimeIn(): Promise<string> {
   const instance = getGeminiInstance();
   const website = process.env.WEBSITE_URL || 'https://jonihaha100.github.io/nosey-cat/';
-  const ticker = process.env.TOKEN_TICKER || '$KEPO';
+  const ticker = process.env.TOKEN_TICKER || '$NOSEY';
 
   const defaultJokes = [
-    `🐾 *krik krik* Sepi bener nih grup, pada lagi pantengin chart Solana apa lagi ketiduran? Mending pencet idung gua di ${website} biar dapet berkah green candle! 👃✨`,
-    `😼 Hidung gue gatel nih... biasanya kalo idung si ${ticker} gatel tandanya bakal ada 1000x god candle di Pump.fun! Ada yang masih melek? 🕯️🚀`,
-    `👃 Anon, jangan ngaku degen sejati kalo belum pernah nyalain CHAOS MODE di website kita: ${website}! Udah pada berapa kali mencet idung gue hari ini? ⚡`,
-    `💸 Dev can't rug, LP burned to void, tax 0%! Yang paper hand mending nonton kartun dulu, yang diamond paws cung tangannya! 🐾💎`,
-    `🎨 Lagi gabut? Bikin meme sekreatif mungkin di 16-Bit MEME STUDIO kita: ${website}! Yang paling kocak bakal dipajang di panggung snoot! 🚀`,
+    `🐾 *crickets chirping* Group is awfully quiet... Are you all staring at the 1m Solana chart or napping? Go boop my nose at ${website} for green candle luck! 👃✨`,
+    `😼 My pink snoot is twitching... In meme prophecy, whenever ${ticker}'s nose itches, a massive god candle is loading on Pump.fun! Who's awake? 🕯️🚀`,
+    `👃 Anon, you cannot call yourself a true degen until you toggle CHAOS MODE on our site: ${website}! How many times did you boop today? ⚡`,
+    `💸 Dev can't rug, LP burned into the void, 0% tax! Paper hands go watch cartoons, diamond paws raise your claws! 🐾💎`,
+    `🎨 Bored waiting? Cook some spicy memes on our 16-Bit MEME STUDIO at ${website}! The funniest meme gets community bragging rights! 🚀`,
   ];
 
   if (!instance) {
@@ -126,7 +152,7 @@ export async function generateIdleChimeIn(): Promise<string> {
       contents: [{
         role: 'user',
         parts: [{
-          text: 'Grup Telegram sedang sepi hening selama 30 menit. Berikan 1 celetukan lucu, tengil, santai, dan mengajak member interaksi (bisa tebak-tebakan kripto, nanya kabar boop hidung di web, atau tebar optimisme Solana). Maksimal 2 kalimat!'
+          text: 'The Telegram group has been quiet for 30 minutes. Provide 1 witty, sassy, English crypto degen banter message to re-ignite community hype (can be a crypto riddle, asking how many times they booped the nose at the website, or hyping Solana green candles). Maximum 2 sentences strictly in English!'
         }]
       }],
       generationConfig: {
@@ -142,32 +168,33 @@ export async function generateIdleChimeIn(): Promise<string> {
 }
 
 /**
- * Offline witty fallback in case GEMINI_API_KEY is not configured or network drops
+ * Offline witty fallback in English in case GEMINI_API_KEY is not configured or network drops
  */
 function getOfflineFallbackReply(userMessage: string, senderName: string): string {
   const website = process.env.WEBSITE_URL || 'https://jonihaha100.github.io/nosey-cat/';
   const ca = process.env.SOLANA_TOKEN_CA || 'COMING_SOON_ON_PUMPFUN';
+  const ticker = process.env.TOKEN_TICKER || '$NOSEY';
   const lower = userMessage.toLowerCase();
 
-  if (lower.includes('ca') || lower.includes('kontrak') || lower.includes('address')) {
+  if (lower.includes('ca') || lower.includes('contract') || lower.includes('address')) {
     if (ca.includes('COMING_SOON')) {
-      return `😼 Sabar dong ${senderName}! CA masih rahasia (${ca}) biar bot sniper ga curang! Pantengin terus grup ini ya! 🐾`;
+      return `😼 Easy there ${senderName}! CA is still classified (${ca}) so sniper bots don't frontrun the diamond paws! Stay glued to this chat! 🐾`;
     }
-    return `🚀 Nih CA resmi $KEPO / $NOSEY: \`${ca}\`! Cek di Pump.fun atau Raydium, LP udah gosong dibakar! 🔒`;
+    return `🚀 Official CA for ${ticker}: \`${ca}\`! Check it on Pump.fun or Raydium, LP is permanently burned! 🔒`;
   }
 
-  if (lower.includes('aman') || lower.includes('rug') || lower.includes('dev')) {
-    return `🔒 100% RUG-PROOF fren! 0% Buy/Sell Tax, LP keys udah dibuang ke black hole, dev no greedy allocation! Cek bukti auditnya di ${website} 🐾`;
+  if (lower.includes('safe') || lower.includes('rug') || lower.includes('dev') || lower.includes('scam')) {
+    return `🔒 100% RUG-PROOF anon! 0% Buy/Sell Tax, LP keys launched into the black hole, zero dev greed! Verify the proof at ${website} 🐾`;
   }
 
-  if (lower.includes('kapan') || lower.includes('launch') || lower.includes('rilis')) {
-    return `⏳ Kita stealth launch di Pump.fun! Daripada bengong mending nabung Nose Boops dulu di website: ${website} 👃`;
+  if (lower.includes('when') || lower.includes('launch') || lower.includes('drop')) {
+    return `⏳ We're stealth launching on Pump.fun! Instead of staring at the ceiling, go stack some Nose Boops at: ${website} 👃`;
   }
 
   const randomReplies = [
-    `Meoong! ${senderName}, daripada FUD mending colek dulu hidung pink gue di web: ${website} biar hoki! 🐾👃`,
-    `Tumben nanya gitu ${senderName}? Kucing Kepo lagi mantau blockchain Solana nih, bau-bau cuan tercium! 🕯️🚀`,
-    `Gaspol fren! Jangan lupa cobain CHAOS MODE di ${website}, ada laser mata neon 1000 watt! ⚡😼`,
+    `Meow! ${senderName}, stop fading and go boop my pink snoot at ${website} for instant good fortune! 🐾👃`,
+    `Whatcha sniffing around for, ${senderName}? Nosey Cat is monitoring the Solana blockchain 24/7, smells like alpha! 🕯️🚀`,
+    `Full send anon! Don't forget to flip on CHAOS MODE at ${website} for 1000W neon laser eyes! ⚡😼`,
   ];
 
   return randomReplies[Math.floor(Math.random() * randomReplies.length)];

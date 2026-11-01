@@ -64,16 +64,16 @@ export async function generateDailyTweets(count: number = 3): Promise<string[]> 
     });
 
     const prompt = `
-Buatkan ${count} draf cuitan Twitter/X (bahasa Inggris atau campuran gaul degen Indo-Inggris) untuk meme coin "Kucing Kepo" (${ticker}) di Solana.
-Target fase bisnis: ${brainState.currentPhase}
-Konteks pasar: ${dexContext}
-Link website: ${website}
+Generate ${count} viral Twitter/X drafts in natural crypto-native English for the Solana meme coin "${process.env.TOKEN_NAME || 'Nosey Cat'}" (${ticker}).
+Current business phase: ${brainState.currentPhase}
+Market telemetry: ${dexContext}
+Website link: ${website}
 
-Kriteria:
-1. Maksimal 280 karakter per tweet.
-2. Gunakan emoji kucing, hidung, roket, petir.
-3. Hook yang viral, lucu, degen, anti-slop, mention fitur Nose Boop di website.
-4. Pisahkan setiap tweet dengan format "---TWEET---".
+Requirements:
+1. Maximum 280 characters per tweet.
+2. Use engaging emojis: 🐾, 👃, 🚀, ⚡, 😼, 🕯️.
+3. Hook must be viral, snappy, degen, anti-slop, highlighting the interactive pink snoot boop on the website.
+4. Separate each tweet with "---TWEET---".
     `.trim();
 
     const result = await model.generateContent(prompt);
@@ -95,12 +95,12 @@ Kriteria:
  */
 export async function generateAlphaThread(): Promise<string[]> {
   const website = process.env.WEBSITE_URL || 'https://jonihaha100.github.io/nosey-cat/';
-  const ticker = process.env.TOKEN_TICKER || '$KEPO';
+  const ticker = process.env.TOKEN_TICKER || '$NOSEY';
 
   return [
-    `1/4 🧵 Why $KEPO is the most boopable & unruggable tuxedo cat on Solana.\n\nLet's break down the tokenomics that jeets don't want you to know 👇🐾`,
+    `1/4 🧵 Why $NOSEY is the most boopable & unruggable tuxedo cat on Solana.\n\nLet's break down the tokenomics that jeets don't want you to know 👇🐾`,
     `2/4 🔒 Zero BS Security:\n• 0% Buy / Sell Tax (Forever)\n• 100% LP Liquidity Keys burned to the void\n• Dev can't mint, freeze, or alter contracts\n• Total Transparency.`,
-    `3/4 🕹️ Retro Arcade Culture:\nForget boring static images. $KEPO is powered by a full 16-Bit retro arcade site featuring interactive Nose Boops, Chaos Mode, and an in-browser Meme Studio.\n\nPlay here: ${website}`,
+    `3/4 🕹️ Retro Arcade Culture:\nForget boring static images. $NOSEY is powered by a full 16-Bit retro arcade site featuring interactive Nose Boops, Chaos Mode, and an in-browser Meme Studio.\n\nPlay here: ${website}`,
     `4/4 🌕 The Cult of the Snoot:\nWe're stealth dropping on Pump.fun.\nBoop the pink snoot, stack your bag, and send it to Valhalla.\n\nJoin the telegram portal: https://t.me/noseycat_portal 🚀`,
   ];
 }
@@ -109,19 +109,19 @@ export async function generateAlphaThread(): Promise<string[]> {
  * Generates an explosive Raid message for the Telegram community to raid an X target
  */
 export function generateRaidTrigger(targetAccountOrUrl: string = 'Solana Influencers / Pump.fun'): string {
-  const ticker = process.env.TOKEN_TICKER || '$KEPO';
+  const ticker = process.env.TOKEN_TICKER || '$NOSEY';
   const website = process.env.WEBSITE_URL || 'https://jonihaha100.github.io/nosey-cat/';
 
   return `
 🚨🚨🚨 **SNOOT RAID ALARM ENGAGED!** 🚨🚨🚨
 
-🐾 Target Raid: **${targetAccountOrUrl}**
-🎯 Misi: Serbu dengan stiker & meme ${ticker}!
-💬 Copy kalimat ini & gas komen sekarang:
+🐾 Raid Target: **${targetAccountOrUrl}**
+🎯 Mission: Raid comments with ${ticker} memes & snoot stickers!
+💬 Copy this exact phrase and drop it in the replies:
 
-*"The most curious cat on Solana is coming to take over! 0% tax, burned LP, boopable pink nose. $KEPO to the moon! 🐾👃 ${website}"*
+*"The most curious cat on Solana is taking over! 0% tax, burned LP, interactive pink snoot booper. $NOSEY to Valhalla! 🐾👃 ${website}"*
 
-👉 **Tunjukkan kekuatan Diamond Paws! Like, RT, dan reply sampai tren!** 🚀🔥
+👉 **Unleash the Diamond Paws! Like, RT, and reply to make us trend!** 🚀🔥
   `.trim();
 }
 

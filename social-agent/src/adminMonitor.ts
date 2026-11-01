@@ -29,21 +29,21 @@ export function registerAdminCommands(bot: TelegramBot): void {
     const senderName = msg.from?.first_name || 'Fren';
     const website = process.env.WEBSITE_URL || 'https://jonihaha100.github.io/nosey-cat/';
     const welcome = `
-🐾 **Meoong! Halo ${senderName}!** 😼✨
-Gue **Kucing Kepo ($NOSEY / $KEPO)** — Kucing tuxedo 16-bit paling tengil & boopable di blockchain Solana!
+🐾 **Meow! Welcome ${senderName}!** 😼✨
+I'm **Nosey Cat ($NOSEY)** — The most curious & boopable 16-bit tuxedo cat on Solana!
 
-Gue di sini buat nemenin lu 24/7, mantau wallet dari jeet & rugger, dan bikin komunitas makin rame! 🚀
+I'm here 24/7 to guard your bags from jeets, provide alpha telemetry, and keep the community buzzing! 🚀
 
-🎯 **Yang bisa lu lakuin bareng gue:**
-• **Ngobrol Langsung:** Tanya apa aja soal koin, Solana, dev, atau sekadar curhat receh. Gue bakal jawab pakai AI Gemini!
-• **Cek Status Bisnis:** Ketik \`/status\` untuk pantau metrik live & sentimen.
-• **Ganti Fase Strategi (Admin):** Ketik \`/set_phase [PRE_LAUNCH|LIVE_LAUNCH|COMMUNITY_HOLD]\`.
-• **Suntik Arahan Live (Admin):** Ketik \`/set_directive [arahan]\`.
-• **Raid Komunitas:** Ketik \`/raid [target]\`.
-• **Bikin Tweet Viral:** Ketik \`/tweet\`.
-• **Main di Website:** Pencet hidung gue di [Nosey Cat Website](${website}) buat nabung *Total Nose Boops* dan cobain *Chaos Laser Eyes*! 👃⚡️
+🎯 **What you can do with me:**
+• **Chat Live:** Ask me anything about the token, Solana, dev security, or meme lore. Powered by Gemini AI!
+• **Check Business Status:** Type \`/status\` to view live telemetry & sentiment metrics.
+• **Switch Strategic Phase (Admin):** Type \`/set_phase [PRE_LAUNCH|LIVE_LAUNCH|COMMUNITY_HOLD]\`.
+• **Inject Live Directives (Admin):** Type \`/set_directive [instruction]\`.
+• **Community Raid:** Type \`/raid [target]\`.
+• **Generate Viral Tweets:** Type \`/tweet\`.
+• **Play on Website:** Boop my pink snoot at [Nosey Cat Website](${website}) to boost Total Nose Boops & unlock Chaos Laser Eyes! 👃⚡️
 
-Coba sapa gue sekarang: ketik *"Halo cing, kapan launch?"* atau *"Dev aman gak nih?"* 🐾
+Try greeting me right now: ask *"When launch?"* or *"Is the contract safe?"* 🐾
     `.trim();
 
     bot.sendMessage(msg.chat.id, welcome, { parse_mode: 'Markdown', disable_web_page_preview: true });
@@ -52,7 +52,7 @@ Coba sapa gue sekarang: ketik *"Halo cing, kapan launch?"* atau *"Dev aman gak n
   // 1. /status command
   bot.onText(/^\/status/i, async (msg) => {
     if (!isAdminUser(msg)) {
-      bot.sendMessage(msg.chat.id, '⛔ Akses ditolak. Perintah ini khusus Direktur/Admin Kucing Kepo.');
+      bot.sendMessage(msg.chat.id, '⛔ Access denied. This command is restricted to the Project Director / Admin.');
       return;
     }
 
@@ -66,30 +66,30 @@ Coba sapa gue sekarang: ketik *"Halo cing, kapan launch?"* atau *"Dev aman gak n
     const fudPct = Math.round((brainState.sentimentCounters.fud / totalSentiments) * 100);
 
     const report = `
-📊 **EXECUTIVE BUSINESS MONITOR ($KEPO / $NOSEY)** 🐾
+📊 **EXECUTIVE BUSINESS MONITOR ($NOSEY)** 🐾
 ━━━━━━━━━━━━━━━━━━━━━━
-⏱ **Agent Uptime:** ${hours} jam ${minutes} menit
-🎯 **Fase Bisnis:** \`${brainState.currentPhase}\`
+⏱ **Agent Uptime:** ${hours}h ${minutes}m
+🎯 **Business Phase:** \`${brainState.currentPhase}\`
 🧠 **Active Directive:**
 "${brainState.activeDirective}"
 
-💬 **Aktivitas Grup:**
-• Pesan Diproses: ${brainState.totalMessagesProcessed}
-• Balasan AI Dikirim: ${brainState.totalRepliesSent}
-• Sentimen Komunitas:
+💬 **Group Activity:**
+• Messages Processed: ${brainState.totalMessagesProcessed}
+• AI Replies Delivered: ${brainState.totalRepliesSent}
+• Community Sentiment:
   - 🟢 Bullish: ${brainState.sentimentCounters.bullish} (${bullishPct}%)
   - 🔴 FUD: ${brainState.sentimentCounters.fud} (${fudPct}%)
-  - ⚪️ Netral: ${brainState.sentimentCounters.neutral}
+  - ⚪️ Neutral: ${brainState.sentimentCounters.neutral}
 
-📈 **Market Telemetri (DexScreener):**
-• Harga: ${metrics.priceUsd}
-• Perubahan 24h: ${metrics.priceChange24h}
-• Volume 24h: ${metrics.volume24h}
+📈 **Market Telemetry (DexScreener):**
+• Price: ${metrics.priceUsd}
+• 24h Change: ${metrics.priceChange24h}
+• 24h Volume: ${metrics.volume24h}
 • Market Cap: ${metrics.marketCapUsd}
-• Likuiditas: ${metrics.liquidityUsd}
+• Liquidity: ${metrics.liquidityUsd}
 
 ━━━━━━━━━━━━━━━━━━━━━━
-💡 _Gunakan /set_phase atau /set_directive untuk mengubah haluan strategi secara instan._
+💡 _Use /set_phase or /set_directive to steer the AI's brain in real-time._
     `.trim();
 
     bot.sendMessage(msg.chat.id, report, { parse_mode: 'Markdown' });
@@ -98,7 +98,7 @@ Coba sapa gue sekarang: ketik *"Halo cing, kapan launch?"* atau *"Dev aman gak n
   // 2. /set_phase [PRE_LAUNCH | LIVE_LAUNCH | COMMUNITY_HOLD]
   bot.onText(/^\/set_phase(?:\s+(.+))?/i, (msg, match) => {
     if (!isAdminUser(msg)) {
-      bot.sendMessage(msg.chat.id, '⛔ Akses ditolak.');
+      bot.sendMessage(msg.chat.id, '⛔ Access denied.');
       return;
     }
 
@@ -106,10 +106,10 @@ Coba sapa gue sekarang: ketik *"Halo cing, kapan launch?"* atau *"Dev aman gak n
     if (!requestedPhase || !Object.values(BusinessPhase).includes(requestedPhase as BusinessPhase)) {
       bot.sendMessage(
         msg.chat.id,
-        `⚠️ Format salah! Pilihan fase yang valid:\n` +
-        `• \`/set_phase PRE_LAUNCH\` (Fokus misteri & boop)\n` +
-        `• \`/set_phase LIVE_LAUNCH\` (Fokus konversi & raid)\n` +
-        `• \`/set_phase COMMUNITY_HOLD\` (Fokus retensi & meme)`,
+        `⚠️ Invalid phase format! Valid options:\n` +
+        `• \`/set_phase PRE_LAUNCH\` (Focus on mystery, lore & booping)\n` +
+        `• \`/set_phase LIVE_LAUNCH\` (Focus on conversion, CA & raids)\n` +
+        `• \`/set_phase COMMUNITY_HOLD\` (Focus on retention & meme contests)`,
         { parse_mode: 'Markdown' }
       );
       return;
@@ -118,17 +118,17 @@ Coba sapa gue sekarang: ketik *"Halo cing, kapan launch?"* atau *"Dev aman gak n
     setBusinessPhase(requestedPhase as BusinessPhase);
     bot.sendMessage(
       msg.chat.id,
-      `✅ **SUKSES!** Fase bisnis Kucing Kepo berhasil diubah ke: \`${requestedPhase}\`.\n\n` +
-      `🧠 Otak dan gaya bicara Agent di seluruh medsos telah menyesuaikan otomatis!\n` +
-      `🎯 Arahan default baru: "${brainState.activeDirective}"`,
+      `✅ **SUCCESS!** Business phase switched to: \`${requestedPhase}\`.\n\n` +
+      `🧠 AI Agent's tone and promotional goals updated immediately across all channels!\n` +
+      `🎯 New active directive: "${brainState.activeDirective}"`,
       { parse_mode: 'Markdown' }
     );
   });
 
-  // 3. /set_directive [instruksi baru]
+  // 3. /set_directive [new instruction]
   bot.onText(/^\/set_directive(?:\s+(.+))?/i, (msg, match) => {
     if (!isAdminUser(msg)) {
-      bot.sendMessage(msg.chat.id, '⛔ Akses ditolak.');
+      bot.sendMessage(msg.chat.id, '⛔ Access denied.');
       return;
     }
 
@@ -136,7 +136,7 @@ Coba sapa gue sekarang: ketik *"Halo cing, kapan launch?"* atau *"Dev aman gak n
     if (!directive) {
       bot.sendMessage(
         msg.chat.id,
-        `⚠️ Masukkan arahan yang ingin disuntikkan!\nContoh:\n\`/set_directive Hari ini fokus ajak member lomba bikin meme di website untuk hadiah 1 SOL!\``,
+        `⚠️ Please enter an instruction to inject!\nExample:\n\`/set_directive Challenge all members to create laser-eyes memes on the website for a 1 SOL prize!\``,
         { parse_mode: 'Markdown' }
       );
       return;
@@ -145,9 +145,9 @@ Coba sapa gue sekarang: ketik *"Halo cing, kapan launch?"* atau *"Dev aman gak n
     setActiveDirective(directive);
     bot.sendMessage(
       msg.chat.id,
-      `✅ **DIRECTIVE TERSUNTIKKAN!**\n\nInstruksi sistem Kucing Kepo sekarang difokuskan ke:\n` +
+      `✅ **DIRECTIVE INJECTED!**\n\nNosey Cat's system instructions are now focused on:\n` +
       `👉 "${directive}"\n\n` +
-      `AI Agent akan langsung menyisipkan arahan ini dalam setiap interaksi tanpa perlu restart server! 🚀`,
+      `The AI Agent will immediately incorporate this direction in subsequent conversations! 🚀`,
       { parse_mode: 'Markdown' }
     );
   });
@@ -155,11 +155,11 @@ Coba sapa gue sekarang: ketik *"Halo cing, kapan launch?"* atau *"Dev aman gak n
   // 4. /raid [target]
   bot.onText(/^\/raid(?:\s+(.+))?/i, async (msg, match) => {
     if (!isAdminUser(msg)) {
-      bot.sendMessage(msg.chat.id, '⛔ Akses ditolak.');
+      bot.sendMessage(msg.chat.id, '⛔ Access denied.');
       return;
     }
 
-    const target = match?.[1]?.trim() || 'Akun Kripto Populer Solana / Pump.fun';
+    const target = match?.[1]?.trim() || 'Top Solana Influencers / Pump.fun';
     const raidMsg = generateRaidTrigger(target);
 
     // Send preview to admin
@@ -170,9 +170,9 @@ Coba sapa gue sekarang: ketik *"Halo cing, kapan launch?"* atau *"Dev aman gak n
     if (targetGroupId && targetGroupId.startsWith('-')) {
       try {
         await bot.sendMessage(targetGroupId, raidMsg, { parse_mode: 'Markdown' });
-        bot.sendMessage(msg.chat.id, `🚀 Peringatan Raid telah otomatis dibroadcast ke grup komunitas!`);
+        bot.sendMessage(msg.chat.id, `🚀 Raid Alert has been automatically broadcasted to the community group!`);
       } catch (err: any) {
-        bot.sendMessage(msg.chat.id, `⚠️ Gagal broadcast ke grup (${err?.message}). Silakan copy-paste manual pesan di atas.`);
+        bot.sendMessage(msg.chat.id, `⚠️ Failed to broadcast to group (${err?.message}). Please copy-paste the template above manually.`);
       }
     }
   });
@@ -180,21 +180,21 @@ Coba sapa gue sekarang: ketik *"Halo cing, kapan launch?"* atau *"Dev aman gak n
   // 5. /tweet
   bot.onText(/^\/tweet/i, async (msg) => {
     if (!isAdminUser(msg)) {
-      bot.sendMessage(msg.chat.id, '⛔ Akses ditolak.');
+      bot.sendMessage(msg.chat.id, '⛔ Access denied.');
       return;
     }
 
-    bot.sendMessage(msg.chat.id, '⏳ Menyiapkan draf cuitan viral untuk X (Twitter)...');
+    bot.sendMessage(msg.chat.id, '⏳ Crafting viral tweet drafts for X (Twitter)...');
     const tweets = await generateDailyTweets(2);
 
     for (let i = 0; i < tweets.length; i++) {
       const tweetText = tweets[i];
       const reply = `
-📝 **DRAF TWEET #${i + 1}:**
+📝 **TWEET DRAFT #${i + 1}:**
 ━━━━━━━━━━━━━━━━━━━━━━
 ${tweetText}
 ━━━━━━━━━━━━━━━━━━━━━━
-Ketik \`/post_tweet ${i + 1}\` untuk auto-post ke akun X resmi, atau copy-paste langsung!
+Type \`/post_tweet ${i + 1}\` to auto-post if X API is connected, or copy-paste directly!
       `.trim();
       await bot.sendMessage(msg.chat.id, reply, { parse_mode: 'Markdown' });
     }
@@ -203,14 +203,14 @@ Ketik \`/post_tweet ${i + 1}\` untuk auto-post ke akun X resmi, atau copy-paste 
   // 6. /help command
   bot.onText(/^\/help/i, (msg) => {
     const helpText = `
-👑 **DAFTAR PERINTAH EKSEKUTIF DIREKTUR KUCING KEPO:**
+👑 **NOSEY CAT EXECUTIVE COMMAND SUITE:**
 
-• \`/status\` — Rangkuman kesehatan grup, sentimen pasar, metrik token, dan uptime.
-• \`/set_phase [PHASE]\` — Ganti fase bisnis: \`PRE_LAUNCH\`, \`LIVE_LAUNCH\`, atau \`COMMUNITY_HOLD\`.
-• \`/set_directive [teks]\` — Suntikkan instruksi kampanye spesifik ke otak AI secara *live*.
-• \`/raid [target]\` — Buat pesan alarm Raid dan tembakkan ke grup Telegram komunitas.
-• \`/tweet\` — Hasilkan draf konten X (Twitter) siap posting.
-• \`/help\` — Panduan ini.
+• \`/status\` — Live health summary, market sentiment, token telemetry, and agent uptime.
+• \`/set_phase [PHASE]\` — Change business phase: \`PRE_LAUNCH\`, \`LIVE_LAUNCH\`, or \`COMMUNITY_HOLD\`.
+• \`/set_directive [text]\` — Dynamically inject high-priority campaign instructions into the AI brain.
+• \`/raid [target]\` — Generate a coordinated community raid message.
+• \`/tweet\` — Generate viral, high-conversion tweets for X (Twitter).
+• \`/help\` — This command reference.
     `.trim();
 
     bot.sendMessage(msg.chat.id, helpText, { parse_mode: 'Markdown' });
