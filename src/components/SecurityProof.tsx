@@ -1,6 +1,5 @@
 import React from 'react';
-import { Lock, ShieldAlert, Award, ExternalLink } from 'lucide-react';
-import { TOKEN_CONFIG } from '../config/tokenConfig';
+import { Lock, ShieldAlert, Award } from 'lucide-react';
 
 export const SecurityProof: React.FC = () => {
   return (
@@ -38,26 +37,20 @@ export const SecurityProof: React.FC = () => {
             {/* Content */}
             <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
               <div>
-                <div className="inline-block bg-green-200 border-2 border-black px-2 py-0.5 font-pixel text-[10px] text-green-900 mb-2 font-bold">
-                  VERIFIED LOCKED
+                <div className="inline-block bg-yellow-200 border-2 border-black px-2 py-0.5 font-pixel text-[10px] text-yellow-900 mb-2 font-bold">
+                  LAUNCH PROTOCOL
                 </div>
                 <h3 className="font-pixel text-base text-black mb-2">
-                  DEV SUPPLY LOCKED
+                  DEV SUPPLY TIMELOCK
                 </h3>
                 <p className="font-retro text-xl text-gray-800 leading-relaxed">
-                  Developer token allocations are transparently locked using verified third-party smart contracts (Streamflow). Dev cannot dump tokens.
+                  Any developer token reserve held for community rewards will be locked on Streamflow smart contracts upon launch. Proof link will update live upon mint.
                 </p>
               </div>
 
-              <a
-                href={TOKEN_CONFIG.tokenLockProofUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-4 w-full h-11 bg-arcade-yellow text-black border-4 border-black font-pixel text-xs flex items-center justify-center gap-2 shadow-pixel-sm hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none active:translate-x-1 active:translate-y-1 transition-all font-bold"
-              >
-                <span>VIEW LOCK PROOF</span>
-                <ExternalLink size={14} />
-              </a>
+              <div className="mt-4 w-full h-11 bg-arcade-yellow text-black border-4 border-black font-pixel text-xs flex items-center justify-center gap-2 shadow-pixel-sm font-bold">
+                <span>COMMITTED VIA STREAMFLOW</span>
+              </div>
             </div>
           </div>
 
