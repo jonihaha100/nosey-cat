@@ -26,7 +26,7 @@ export const TOKEN_CONFIG: TokenConfig = {
   contractAddress: "COMING_SOON_ON_PUMPFUN",
   buyUrl: "https://pump.fun",
   dexScreenerUrl: "https://dexscreener.com",
-  telegramUrl: "https://t.me/nesey_cat_bot",
+  telegramUrl: "https://t.me/TheNoseyCat",
   twitterUrl: "https://x.com/TheNoseyCat",
   tokenLockProofUrl: "https://streamflow.finance",
   defaultTokenomics: {
