@@ -219,14 +219,22 @@ Try greeting me right now: ask *"When launch?"* or *"Is the contract safe?"* �
 
     for (let i = 0; i < tweets.length; i++) {
       const tweetText = tweets[i];
+      const intentUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
       const reply = `
 📝 **TWEET DRAFT #${i + 1}:**
 ━━━━━━━━━━━━━━━━━━━━━━
 ${tweetText}
 ━━━━━━━━━━━━━━━━━━━━━━
-Type \`/post_tweet ${i + 1}\` to auto-post if X API is connected, or copy-paste directly!
+💡 _Tekan tombol di bawah untuk langsung membuka X dan post cuitan ini dalam 1 klik!_
       `.trim();
-      await bot.sendMessage(msg.chat.id, reply, { parse_mode: 'Markdown' });
+      await bot.sendMessage(msg.chat.id, reply, {
+        parse_mode: 'Markdown',
+        reply_markup: {
+          inline_keyboard: [
+            [{ text: `🐦 1-Click Post Tweet #${i + 1} to X ↗`, url: intentUrl }],
+          ],
+        },
+      });
     }
   });
 

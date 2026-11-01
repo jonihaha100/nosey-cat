@@ -228,3 +228,4 @@ export async function getLiveProjectAnalytics(): Promise<string> {
 💡 _Use /tweet_now to craft an instant tweet, or /broadcast_now to rally the Telegram group._
   `.trim();
 }
+
