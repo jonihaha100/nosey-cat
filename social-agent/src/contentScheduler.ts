@@ -155,14 +155,14 @@ export async function triggerAdminTweetDispatch(bot: TelegramBot): Promise<boole
     const twitterIntentUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
 
     const adminNotification = `
-🚀 **[AI CONTENT WORKER] VIRAL TWEET READY FOR X!** 🐾
+⏰ **[PENGINGAT JADWAL KONTEN X] WAKTUNYA UPDATE SAGA NOSEY!** 🐾
 ━━━━━━━━━━━━━━━━━━━━━━
 ${tweetText}
 ━━━━━━━━━━━━━━━━━━━━━━
 
-💡 **Cara Post:** 
-1. Simpan animasi pixel GIF di atas ke galeri HP Anda.
-2. Tekan tombol **1-Click Post to X** di bawah, lalu lampirkan GIF tersebut agar tweet Anda meledak di algoritma X! 🔥
+💡 **Langkah Cepat (3 Detik):** 
+1. Simpan animasi pixel GIF di atas ke galeri HP Mas.
+2. Klik tombol **1-Click Post to X** di bawah, lalu lampirkan animasi tadi agar tweet Mas meledak di algoritma X! 🔥
     `.trim();
 
     const gifPath = path.resolve(process.cwd(), '../public/animations/nosey-laser-boop.gif');

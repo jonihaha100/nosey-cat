@@ -163,6 +163,37 @@ export class TelegramAgentService {
    * Processes each message in the group
    */
   private async handleIncomingMessage(msg: TelegramBot.Message): Promise<void> {
+    // 1. Handle new members joining the community (Social Experiment Greeting)
+    if (msg.new_chat_members && msg.new_chat_members.length > 0) {
+      for (const newMember of msg.new_chat_members) {
+        if (newMember.is_bot) continue;
+        const name = newMember.first_name || 'Anon';
+        const website = process.env.WEBSITE_URL || 'https://thenoseycat.vercel.app';
+        const welcomeText = `🧪 **EXPERIMENT #001: THE NOSEY PROTOCOL** 🐾\nWelcome to the testbed, **${name}**!\n\nCan an organic community of 50 curious minds defeat algorithmic sniper bots and 5-minute dev rugs on Solana?\n\n🔬 **THE LAB TERMINALS:**\n🕹️ **Arcade Testbed:** [Open Retro Terminal](${website})\n🗺️ **Experiment Roadmap:** [Read 4-Stage Protocol](${website}/#roadmap)\n🐦 **Transmission Wire:** [@TheNoseyCat](https://x.com/TheNoseyCat)\n\n⚔️ **ACTIVE PHASE: Quest 1 — Genesis 50**\nGathering the first 50 Pioneer Diamond Paws before initiating the Stealth Genesis on Pump.fun. 100% fair launch, zero presales.\n\n🧪 *Are you a spectator or a subject? Verify your curiosity on the terminal.* 🐾⚡`;
+        
+        try {
+          await this.bot?.sendMessage(msg.chat.id, welcomeText, {
+            parse_mode: 'Markdown',
+            disable_web_page_preview: false,
+            reply_markup: {
+              inline_keyboard: [
+                [
+                  { text: '🕹️ Enter Testbed Terminal', url: website },
+                  { text: '🗺️ Experiment Roadmap', url: `${website}/#roadmap` },
+                ],
+                [
+                  { text: '🐦 Follow Signal on X', url: 'https://x.com/TheNoseyCat' },
+                ]
+              ]
+            }
+          });
+        } catch (err: any) {
+          console.error('[Telegram Agent] Failed to greet new member:', err?.message || err);
+        }
+      }
+      return;
+    }
+
     if (!msg.text || msg.from?.is_bot) return;
 
     // Ignore command messages (starting with '/')
