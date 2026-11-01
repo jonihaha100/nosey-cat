@@ -4,6 +4,8 @@ import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { LiveMetricsBar } from './components/LiveMetricsBar';
 import { SecurityProof } from './components/SecurityProof';
+import { SnootLoreSection } from './components/SnootLoreSection';
+import { LiveTrollbox } from './components/LiveTrollbox';
 import { MemeStudio } from './components/MemeStudio';
 import { HowToBuyAndChart } from './components/HowToBuyAndChart';
 import { ChaosOverlay } from './components/ChaosOverlay';
@@ -71,10 +73,16 @@ export const App: React.FC = () => {
         {/* Section 2: Real-Time Metrics & Tokenomics Bar */}
         <LiveMetricsBar />
 
-        {/* Section 3: Anti-Rug On-Chain Security Proofs */}
+        {/* Section 3: The Snoot Lore & Origin Story */}
+        <SnootLoreSection />
+
+        {/* Section 4: Anti-Rug On-Chain Security Proofs */}
         <SecurityProof />
 
-        {/* Section 4: Client-Side Pixel Meme & PFP Studio */}
+        {/* Section 5: Anonymous Live Trollbox (Fans vs Haters Filter) */}
+        <LiveTrollbox />
+
+        {/* Section 6: Client-Side Pixel Meme & PFP Studio */}
         <MemeStudio />
 
         {/* Section 5: Arcade Quest & Live DexScreener Chart */}

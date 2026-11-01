@@ -7,3 +7,4 @@ export const getAssetUrl = (path: string): string => {
   const base = import.meta.env.BASE_URL || '/';
   return base.endsWith('/') ? `${base}${cleanPath}` : `${base}/${cleanPath}`;
 };
+

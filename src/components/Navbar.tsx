@@ -50,6 +50,18 @@ export const Navbar: React.FC<NavbarProps> = ({
             ABOUT
           </a>
           <a 
+            href="#lore" 
+            className="text-arcade-black hover:text-green-700 hover:underline decoration-4 underline-offset-4 transition-colors"
+          >
+            THE SNOOT
+          </a>
+          <a 
+            href="#trollbox" 
+            className="text-arcade-black hover:text-green-700 hover:underline decoration-4 underline-offset-4 transition-colors"
+          >
+            TROLLBOX
+          </a>
+          <a 
             href="#security" 
             className="text-arcade-black hover:text-green-700 hover:underline decoration-4 underline-offset-4 transition-colors"
           >

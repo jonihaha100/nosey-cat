@@ -101,6 +101,13 @@ export const MascotInteractive: React.FC<MascotInteractiveProps> = ({
 
   return (
     <div ref={containerRef} className="relative flex flex-col items-center select-none">
+      {/* Golden Community Motto Alert */}
+      <div className="mb-3 px-3 py-1.5 bg-arcade-yellow text-black border-2 border-black font-pixel text-[9px] sm:text-[10px] shadow-pixel-sm text-center flex items-center justify-center gap-1.5 max-w-sm sm:max-w-md animate-pixel-blink">
+        <span>⚠️</span>
+        <span>&ldquo;TIDAK ASYIK MASUK WEBSITE TANPA MEGANG HIDUNG KUCING INI!&rdquo;</span>
+        <span>🐾</span>
+      </div>
+
       {/* 8-Bit Retro Speech Bubble */}
       <div className="relative mb-6 max-w-sm sm:max-w-md bg-arcade-chalk border-4 border-black p-4 shadow-pixel text-center z-20">
         <p className="font-pixel text-xs sm:text-sm text-arcade-black leading-relaxed">
@@ -194,6 +201,29 @@ export const MascotInteractive: React.FC<MascotInteractiveProps> = ({
       <div className="mt-20 sm:mt-24 relative z-10 bg-black text-arcade-yellow border-4 border-black px-6 sm:px-8 py-3 font-pixel text-xs sm:text-sm leading-normal shadow-pixel text-center inline-flex items-center justify-center gap-2 overflow-visible">
         <span className="tracking-wide">TOTAL NOSE BOOPS:</span>
         <span className="text-white font-bold">{boopCount.toLocaleString()}</span>
+      </div>
+
+      {/* Real-time Booper Level Status */}
+      <div className="mt-3 relative z-10 flex flex-col items-center gap-1.5 text-center">
+        <div className={`px-3 py-1 border-2 border-black font-pixel text-[9px] sm:text-[10px] font-bold shadow-pixel-sm ${
+          boopCount === 0
+            ? 'bg-red-500 text-white animate-pulse'
+            : boopCount < 10
+            ? 'bg-arcade-yellow text-black'
+            : boopCount < 25
+            ? 'bg-arcade-green text-black'
+            : 'bg-arcade-pink text-black'
+        }`}>
+          {boopCount === 0 && '🚨 STATUS: UNBOOPED VISITOR (CLICK PINK SNOOT!)'}
+          {boopCount > 0 && boopCount < 10 && `🐾 STATUS: NOVICE SNOOTER (${boopCount} BOOPS)`}
+          {boopCount >= 10 && boopCount < 25 && `🔥 STATUS: BASED DIAMOND PAW (${boopCount} BOOPS)`}
+          {boopCount >= 25 && `👑 STATUS: GIGA-CHAD SNOOT MASTER (${boopCount} BOOPS)`}
+        </div>
+        <p className="font-retro text-base sm:text-lg text-black font-bold">
+          {boopCount === 0 
+            ? '👉 Press the pink nose above to unlock green candle blessings!'
+            : '✨ Proof-of-Boop (PoB) verified! Keep pressing for maximum luck!'}
+        </p>
       </div>
     </div>
   );
