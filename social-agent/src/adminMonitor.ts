@@ -46,7 +46,21 @@ I'm here 24/7 to guard your bags from jeets, provide alpha telemetry, and keep t
 Try greeting me right now: ask *"When launch?"* or *"Is the contract safe?"* 🐾
     `.trim();
 
-    bot.sendMessage(msg.chat.id, welcome, { parse_mode: 'Markdown', disable_web_page_preview: true });
+    bot.sendMessage(msg.chat.id, welcome, {
+      parse_mode: 'Markdown',
+      disable_web_page_preview: false,
+      reply_markup: {
+        inline_keyboard: [
+          [
+            { text: '🕹️ Open 16-Bit Website & Boop Snoot 🐾', url: website },
+          ],
+          [
+            { text: '🎨 16-Bit Meme Studio', url: `${website}#studio` },
+            { text: '⚡ Chaos Laser Mode', url: `${website}#chaos` },
+          ],
+        ],
+      },
+    });
   });
 
   // 1. /status command
@@ -56,6 +70,7 @@ Try greeting me right now: ask *"When launch?"* or *"Is the contract safe?"* �
       return;
     }
 
+    const website = process.env.WEBSITE_URL || 'https://jonihaha100.github.io/nosey-cat/';
     const uptimeSeconds = Math.floor((Date.now() - brainState.startTime) / 1000);
     const hours = Math.floor(uptimeSeconds / 3600);
     const minutes = Math.floor((uptimeSeconds % 3600) / 60);
@@ -92,7 +107,16 @@ Try greeting me right now: ask *"When launch?"* or *"Is the contract safe?"* �
 💡 _Use /set_phase or /set_directive to steer the AI's brain in real-time._
     `.trim();
 
-    bot.sendMessage(msg.chat.id, report, { parse_mode: 'Markdown' });
+    bot.sendMessage(msg.chat.id, report, {
+      parse_mode: 'Markdown',
+      reply_markup: {
+        inline_keyboard: [
+          [
+            { text: '🕹️ Open 16-Bit Website & Boop Snoot 🐾', url: website },
+          ],
+        ],
+      },
+    });
   });
 
   // 2. /set_phase [PRE_LAUNCH | LIVE_LAUNCH | COMMUNITY_HOLD]
@@ -213,6 +237,16 @@ Type \`/post_tweet ${i + 1}\` to auto-post if X API is connected, or copy-paste 
 • \`/help\` — This command reference.
     `.trim();
 
-    bot.sendMessage(msg.chat.id, helpText, { parse_mode: 'Markdown' });
+    const website = process.env.WEBSITE_URL || 'https://jonihaha100.github.io/nosey-cat/';
+    bot.sendMessage(msg.chat.id, helpText, {
+      parse_mode: 'Markdown',
+      reply_markup: {
+        inline_keyboard: [
+          [
+            { text: '🕹️ Open 16-Bit Website & Boop Snoot 🐾', url: website },
+          ],
+        ],
+      },
+    });
   });
 }

@@ -114,6 +114,34 @@ export class TelegramAgentService {
       // Register Admin Executive Control
       registerAdminCommands(this.bot);
 
+      // Configure Telegram Web App / Menu Button and Command hints
+      const website = process.env.WEBSITE_URL || 'https://jonihaha100.github.io/nosey-cat/';
+      try {
+        await this.bot.setChatMenuButton({
+          menu_button: {
+            type: 'web_app',
+            text: '🕹️ Play Arcade',
+            web_app: { url: website },
+          },
+        });
+        console.log(`[Telegram Agent] Configured Telegram Web App Menu button: ${website}`);
+      } catch (menuErr: any) {
+        console.log('[Telegram Agent] Notice on Menu Button:', menuErr?.message || menuErr);
+      }
+
+      try {
+        await this.bot.setMyCommands([
+          { command: 'start', description: 'Meow! Welcome & Interactive Links' },
+          { command: 'status', description: 'Executive Business Monitor & Telemetry' },
+          { command: 'raid', description: 'Generate Community Twitter/X Raid Alarm' },
+          { command: 'tweet', description: 'Generate Viral Tweets for X' },
+          { command: 'help', description: 'List all commands & documentation' },
+        ]);
+        console.log('[Telegram Agent] Registered official bot commands in Telegram UI.');
+      } catch (cmdErr: any) {
+        console.log('[Telegram Agent] Notice on Command registration:', cmdErr?.message || cmdErr);
+      }
+
       // Listen to all incoming community messages
       this.bot.on('message', async (msg) => {
         await this.handleIncomingMessage(msg);
@@ -179,8 +207,16 @@ export class TelegramAgentService {
 
       if (this.bot) {
         try {
+          const website = process.env.WEBSITE_URL || 'https://jonihaha100.github.io/nosey-cat/';
           await this.bot.sendMessage(chatId, replyText, {
             reply_to_message_id: msg.message_id,
+            reply_markup: {
+              inline_keyboard: [
+                [
+                  { text: '🕹️ Boop Snoot on Website 🐾', url: website },
+                ],
+              ],
+            },
           });
           console.log(`[Telegram] 🚀 Replied to ${senderName}: "${replyText}"`);
         } catch (sendErr: any) {
