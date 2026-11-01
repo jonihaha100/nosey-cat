@@ -162,3 +162,52 @@ export const playBuzzerSound = (): void => {
   }
 };
 
+/**
+ * 8-Bit Sci-Fi Laser Beam Zap (High energy rapid frequency sweep)
+ */
+export const playLaserSound = (): void => {
+  if (isMuted) return;
+  const ctx = getAudioContext();
+  if (!ctx) return;
+
+  try {
+    const now = ctx.currentTime;
+    // Primary laser oscillator (rapid downward chirp)
+    const osc1 = ctx.createOscillator();
+    const gain1 = ctx.createGain();
+
+    osc1.type = 'sawtooth';
+    osc1.frequency.setValueAtTime(2400, now);
+    osc1.frequency.exponentialRampToValueAtTime(140, now + 0.18);
+
+    gain1.gain.setValueAtTime(0.22, now);
+    gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
+
+    osc1.connect(gain1);
+    gain1.connect(ctx.destination);
+
+    osc1.start(now);
+    osc1.stop(now + 0.18);
+
+    // Sub-bass thump for laser impact
+    const osc2 = ctx.createOscillator();
+    const gain2 = ctx.createGain();
+
+    osc2.type = 'square';
+    osc2.frequency.setValueAtTime(180, now);
+    osc2.frequency.exponentialRampToValueAtTime(40, now + 0.22);
+
+    gain2.gain.setValueAtTime(0.2, now);
+    gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+
+    osc2.connect(gain2);
+    gain2.connect(ctx.destination);
+
+    osc2.start(now);
+    osc2.stop(now + 0.22);
+  } catch (err) {
+    console.warn('Audio playback error:', err);
+  }
+};
+
+

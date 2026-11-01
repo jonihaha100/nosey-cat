@@ -14,6 +14,7 @@ import { TOKEN_CONFIG } from './config/tokenConfig';
 import { getAssetUrl } from './utils/assets';
 import { 
   playPowerUpSound, 
+  playLaserSound,
   getAudioMuteStatus, 
   toggleAudioMute 
 } from './utils/soundEffects';
@@ -28,6 +29,7 @@ export const App: React.FC = () => {
     const nextState = !chaosMode;
     setChaosMode(nextState);
     if (nextState) {
+      playLaserSound();
       playPowerUpSound();
     }
   };
