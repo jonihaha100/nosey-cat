@@ -1,0 +1,102 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Pixelated rendering for retro crispness */
+img, canvas, .pixelated {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* CRT Scanline Overlay Effect */
+.crt-scanlines {
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.25) 50%
+  ), linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 0.03),
+    rgba(0, 255, 0, 0.01),
+    rgba(0, 0, 255, 0.03)
+  );
+  background-size: 100% 4px, 6px 100%;
+}
+
+/* Discrete stepped arcade animations */
+@keyframes arcade-shake {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-4px, 4px); }
+  50% { transform: translate(4px, -4px); }
+  75% { transform: translate(-4px, -4px); }
+  100% { transform: translate(4px, 4px); }
+}
+
+.animate-arcade-shake {
+  animation: arcade-shake 0.12s steps(2, end) infinite;
+}
+
+@keyframes pixel-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+.animate-pixel-blink {
+  animation: pixel-blink 1s steps(1, end) infinite;
+}
+
+@keyframes float-boop {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-40px); opacity: 0; }
+}
+
+.animate-boop-text {
+  animation: float-boop 0.6s steps(4, end) forwards;
+}
+
+@keyframes marquee-scroll {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 25s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* 8-bit disco background for CHAOS MODE */
+@keyframes disco-bg {
+  0% { background-color: #facc15; }
+  25% { background-color: #f472b6; }
+  50% { background-color: #4ade80; }
+  75% { background-color: #38bdf8; }
+  100% { background-color: #facc15; }
+}
+
+.chaos-active-bg {
+  animation: disco-bg 0.4s steps(1, end) infinite;
+}
+
+/* Custom scrollbar retro style */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #09090b;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #facc15;
+  border: 2px solid #000000;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #f472b6;
+}
+
