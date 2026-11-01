@@ -85,6 +85,7 @@ export class TelegramAgentService {
   private recentChatHistory: ChatHistoryItem[] = [];
   private idleCheckInterval: NodeJS.Timeout | null = null;
   private isRunning: boolean = false;
+  private recentlyWelcomedUsers = new Map<number, number>();
 
   constructor() {
     const token = process.env.TELEGRAM_BOT_TOKEN;
@@ -94,7 +95,13 @@ export class TelegramAgentService {
     }
 
     try {
-      this.bot = new TelegramBot(token, { polling: true });
+      this.bot = new TelegramBot(token, {
+        polling: {
+          params: {
+            allowed_updates: ['message', 'chat_member', 'my_chat_member', 'callback_query'],
+          },
+        },
+      });
     } catch (err: any) {
       console.error('[Telegram Agent] Failed to initialize bot:', err?.message || err);
     }
@@ -116,7 +123,7 @@ export class TelegramAgentService {
       registerAdminCommands(this.bot);
 
       // Configure Telegram Web App / Menu Button and Command hints
-      const website = process.env.WEBSITE_URL || 'https://nosey-cat.vercel.app';
+      const website = process.env.WEBSITE_URL || 'https://thenoseycat.vercel.app';
       try {
         await this.bot.setChatMenuButton({
           menu_button: {
@@ -144,9 +151,33 @@ export class TelegramAgentService {
         console.log('[Telegram Agent] Notice on Command registration:', cmdErr?.message || cmdErr);
       }
 
-      // Listen to all incoming community messages
+      // 1. Listen to all incoming community messages
       this.bot.on('message', async (msg) => {
         await this.handleIncomingMessage(msg);
+      });
+
+      // 2. Direct event listener for new chat members
+      this.bot.on('new_chat_members', async (msg) => {
+        if (!msg.new_chat_members) return;
+        for (const user of msg.new_chat_members) {
+          await this.greetNewMember(msg.chat.id, user);
+        }
+      });
+
+      // 3. Listen for chat_member updates (CRITICAL for Telegram Supergroups)
+      (this.bot as any).on('chat_member', async (update: any) => {
+        if (!update || !update.new_chat_member || !update.chat) return;
+        const oldStatus = update.old_chat_member?.status;
+        const newStatus = update.new_chat_member?.status;
+        const user = update.new_chat_member?.user;
+
+        const wasOutside = !oldStatus || oldStatus === 'left' || oldStatus === 'kicked';
+        const isNowInside = newStatus === 'member' || newStatus === 'restricted';
+
+        if (wasOutside && isNowInside && user && !user.is_bot) {
+          console.log(`[Telegram Agent] 👤 Detected new member join via chat_member update: ${user.first_name} (${user.id})`);
+          await this.greetNewMember(update.chat.id, user);
+        }
       });
 
       // Start the Idle Chime-In heartbeat timer
@@ -160,36 +191,52 @@ export class TelegramAgentService {
   }
 
   /**
+   * Sends the official Social Experiment #001 welcome greeting to a new member
+   */
+  private async greetNewMember(chatId: number | string, user: TelegramBot.User): Promise<void> {
+    if (user.is_bot) return;
+
+    // Deduplicate within 3 minutes
+    const lastWelcomed = this.recentlyWelcomedUsers.get(user.id);
+    if (lastWelcomed && Date.now() - lastWelcomed < 180000) {
+      return;
+    }
+    this.recentlyWelcomedUsers.set(user.id, Date.now());
+
+    const name = user.first_name || user.username || 'Anon';
+    const website = process.env.WEBSITE_URL || 'https://thenoseycat.vercel.app';
+    const welcomeText = `🧪 **EXPERIMENT #001: THE NOSEY PROTOCOL** 🐾\nWelcome to the testbed, **${name}**!\n\nCan an organic community of 50 curious minds defeat algorithmic sniper bots and 5-minute dev rugs on Solana?\n\n🔬 **THE LAB TERMINALS:**\n🕹️ **Arcade Testbed:** [Open Retro Terminal](${website})\n🗺️ **Experiment Roadmap:** [Read 4-Stage Protocol](${website}/#roadmap)\n🐦 **Transmission Wire:** [@TheNoseyCat](https://x.com/TheNoseyCat)\n\n⚔️ **ACTIVE PHASE: Quest 1 — Genesis 50**\nGathering the first 50 Pioneer Diamond Paws before initiating the Stealth Genesis on Pump.fun. 100% fair launch, zero presales.\n\n🧪 *Are you a spectator or a subject? Verify your curiosity on the terminal.* 🐾⚡`;
+
+    try {
+      await this.bot?.sendMessage(chatId, welcomeText, {
+        parse_mode: 'Markdown',
+        disable_web_page_preview: false,
+        reply_markup: {
+          inline_keyboard: [
+            [
+              { text: '🕹️ Enter Testbed Terminal', url: website },
+              { text: '🗺️ Experiment Roadmap', url: `${website}/#roadmap` },
+            ],
+            [
+              { text: '🐦 Follow Signal on X', url: 'https://x.com/TheNoseyCat' },
+            ],
+          ],
+        },
+      });
+      console.log(`[Telegram Agent] 🎉 Successfully sent welcome greeting to ${name} (${user.id}) in chat ${chatId}`);
+    } catch (err: any) {
+      console.error('[Telegram Agent] Failed to greet new member:', err?.message || err);
+    }
+  }
+
+  /**
    * Processes each message in the group
    */
   private async handleIncomingMessage(msg: TelegramBot.Message): Promise<void> {
-    // 1. Handle new members joining the community (Social Experiment Greeting)
+    // 1. Handle new members joining the community via service message
     if (msg.new_chat_members && msg.new_chat_members.length > 0) {
       for (const newMember of msg.new_chat_members) {
-        if (newMember.is_bot) continue;
-        const name = newMember.first_name || 'Anon';
-        const website = process.env.WEBSITE_URL || 'https://thenoseycat.vercel.app';
-        const welcomeText = `🧪 **EXPERIMENT #001: THE NOSEY PROTOCOL** 🐾\nWelcome to the testbed, **${name}**!\n\nCan an organic community of 50 curious minds defeat algorithmic sniper bots and 5-minute dev rugs on Solana?\n\n🔬 **THE LAB TERMINALS:**\n🕹️ **Arcade Testbed:** [Open Retro Terminal](${website})\n🗺️ **Experiment Roadmap:** [Read 4-Stage Protocol](${website}/#roadmap)\n🐦 **Transmission Wire:** [@TheNoseyCat](https://x.com/TheNoseyCat)\n\n⚔️ **ACTIVE PHASE: Quest 1 — Genesis 50**\nGathering the first 50 Pioneer Diamond Paws before initiating the Stealth Genesis on Pump.fun. 100% fair launch, zero presales.\n\n🧪 *Are you a spectator or a subject? Verify your curiosity on the terminal.* 🐾⚡`;
-        
-        try {
-          await this.bot?.sendMessage(msg.chat.id, welcomeText, {
-            parse_mode: 'Markdown',
-            disable_web_page_preview: false,
-            reply_markup: {
-              inline_keyboard: [
-                [
-                  { text: '🕹️ Enter Testbed Terminal', url: website },
-                  { text: '🗺️ Experiment Roadmap', url: `${website}/#roadmap` },
-                ],
-                [
-                  { text: '🐦 Follow Signal on X', url: 'https://x.com/TheNoseyCat' },
-                ]
-              ]
-            }
-          });
-        } catch (err: any) {
-          console.error('[Telegram Agent] Failed to greet new member:', err?.message || err);
-        }
+        await this.greetNewMember(msg.chat.id, newMember);
       }
       return;
     }
@@ -275,7 +322,7 @@ export class TelegramAgentService {
    * then drops a funny meme or banter to re-engage the community.
    */
   private startIdleChimeInMonitor(): void {
-    const idleMinutes = parseInt(process.env.IDLE_CHIME_MINUTES || '30', 10);
+    const idleMinutes = parseInt(process.env.IDLE_CHIME_MINUTES || '15', 10);
     const checkIntervalMs = 60 * 1000; // Check every 1 minute
 
     this.idleCheckInterval = setInterval(async () => {
