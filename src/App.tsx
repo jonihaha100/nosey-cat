@@ -3,6 +3,7 @@ import { TopMarquee } from './components/TopMarquee';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { LiveMetricsBar } from './components/LiveMetricsBar';
+import { LiveTrafficMonitor } from './components/LiveTrafficMonitor';
 import { SecurityProof } from './components/SecurityProof';
 import { SnootLoreSection } from './components/SnootLoreSection';
 import { LiveTrollbox } from './components/LiveTrollbox';
@@ -74,6 +75,9 @@ export const App: React.FC = () => {
 
         {/* Section 2: Real-Time Metrics & Tokenomics Bar */}
         <LiveMetricsBar />
+
+        {/* Section 2.5: Live Traffic & Community Health Telemetry */}
+        <LiveTrafficMonitor />
 
         {/* Section 3: The Snoot Lore & Origin Story */}
         <SnootLoreSection />

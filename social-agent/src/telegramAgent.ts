@@ -8,6 +8,7 @@ import TelegramBot from 'node-telegram-bot-api';
 import { brainState } from './brainConfig.js';
 import { generateCharacterReply, analyzeMessageSentiment, generateIdleChimeIn } from './geminiClient.js';
 import { registerAdminCommands } from './adminMonitor.js';
+import { startContentScheduler, contentEngineConfig } from './contentScheduler.js';
 
 const KEYWORD_TRIGGERS = [
   'nosey',
@@ -133,8 +134,9 @@ export class TelegramAgentService {
         await this.bot.setMyCommands([
           { command: 'start', description: 'Meow! Welcome & Interactive Links' },
           { command: 'status', description: 'Executive Business Monitor & Telemetry' },
+          { command: 'analytics', description: 'Live Traffic & Engagement Monitor' },
+          { command: 'tweet_now', description: '1-Click Viral Tweet for Phone' },
           { command: 'raid', description: 'Generate Community Twitter/X Raid Alarm' },
-          { command: 'tweet', description: 'Generate Viral Tweets for X' },
           { command: 'help', description: 'List all commands & documentation' },
         ]);
         console.log('[Telegram Agent] Registered official bot commands in Telegram UI.');
@@ -149,6 +151,9 @@ export class TelegramAgentService {
 
       // Start the Idle Chime-In heartbeat timer
       this.startIdleChimeInMonitor();
+
+      // Start the Autonomous Content & Marketing Engine
+      startContentScheduler(this.bot);
     } catch (error: any) {
       console.error('[Telegram Agent] Error starting bot polling:', error?.message || error);
     }
@@ -170,6 +175,11 @@ export class TelegramAgentService {
     const senderName = msg.from?.first_name || msg.from?.username || 'Anon';
     const chatId = msg.chat.id;
     const isPrivateChat = msg.chat.type === 'private';
+
+    // Automatically record the community group ID for automated broadcasts
+    if (msg.chat.type === 'group' || msg.chat.type === 'supergroup') {
+      contentEngineConfig.activeCommunityGroupId = chatId.toString();
+    }
 
     console.log(`[Telegram] 📩 Received from ${senderName} (${msg.chat.type}): "${text}"`);
 

@@ -7,6 +7,12 @@ import TelegramBot from 'node-telegram-bot-api';
 import { brainState, setBusinessPhase, setActiveDirective, BusinessPhase } from './brainConfig.js';
 import { fetchTokenMarketMetrics } from './dexScreenerClient.js';
 import { generateDailyTweets, generateAlphaThread, generateRaidTrigger, postTweetToX } from './xContentPlanner.js';
+import {
+  triggerAdminTweetDispatch,
+  triggerCommunityBroadcast,
+  getLiveProjectAnalytics,
+  contentEngineConfig,
+} from './contentScheduler.js';
 
 /**
  * Checks if the message sender is the authorized project admin
@@ -224,16 +230,107 @@ Type \`/post_tweet ${i + 1}\` to auto-post if X API is connected, or copy-paste 
     }
   });
 
-  // 6. /help command
+  // 6. /analytics command (Live Traffic & Engagement Monitoring)
+  bot.onText(/^\/analytics/i, async (msg) => {
+    if (!isAdminUser(msg)) {
+      bot.sendMessage(msg.chat.id, '⛔ Access denied. Restricted to Project Director.');
+      return;
+    }
+
+    const report = await getLiveProjectAnalytics();
+    const website = process.env.WEBSITE_URL || 'https://thenoseycat.vercel.app';
+    bot.sendMessage(msg.chat.id, report, {
+      parse_mode: 'Markdown',
+      reply_markup: {
+        inline_keyboard: [
+          [{ text: '🕹️ Open Live Website ↗', url: website }],
+          [{ text: '📢 Broadcast Hype Now', callback_data: 'force_broadcast' }],
+        ],
+      },
+    });
+  });
+
+  // 7. /tweet_now (Generate 1-Click Viral Tweet for X immediately)
+  bot.onText(/^\/tweet_now/i, async (msg) => {
+    if (!isAdminUser(msg)) {
+      bot.sendMessage(msg.chat.id, '⛔ Access denied.');
+      return;
+    }
+
+    bot.sendMessage(msg.chat.id, '⏳ Crafting a viral tweet with 1-Click Post button for your phone...');
+    await triggerAdminTweetDispatch(bot);
+  });
+
+  // 8. /broadcast_now (Send hype update to community group immediately)
+  bot.onText(/^\/broadcast_now/i, async (msg) => {
+    if (!isAdminUser(msg)) {
+      bot.sendMessage(msg.chat.id, '⛔ Access denied.');
+      return;
+    }
+
+    bot.sendMessage(msg.chat.id, '⏳ Dispatching community broadcast to Telegram group...');
+    const success = await triggerCommunityBroadcast(bot);
+    if (success) {
+      bot.sendMessage(msg.chat.id, '✅ **SUCCESS!** Community broadcast has been delivered to the group!');
+    } else {
+      bot.sendMessage(
+        msg.chat.id,
+        '⚠️ Failed: The bot has not detected the community group ID yet. Make sure the bot is an Admin in the group, or send a message in the group first!'
+      );
+    }
+  });
+
+  // 9. /auto_content [on|off]
+  bot.onText(/^\/auto_content(?:\s+(.+))?/i, (msg, match) => {
+    if (!isAdminUser(msg)) {
+      bot.sendMessage(msg.chat.id, '⛔ Access denied.');
+      return;
+    }
+
+    const mode = match?.[1]?.trim().toLowerCase();
+    if (mode === 'on') {
+      contentEngineConfig.autoBroadcastEnabled = true;
+      contentEngineConfig.autoTweetDispatchEnabled = true;
+      bot.sendMessage(msg.chat.id, '🟢 **AUTONOMOUS CONTENT ENGINE: ENABLED!**\n\nThe AI Agent will automatically hype the Telegram group and dispatch 1-Click Tweets to you periodically.');
+    } else if (mode === 'off') {
+      contentEngineConfig.autoBroadcastEnabled = false;
+      contentEngineConfig.autoTweetDispatchEnabled = false;
+      bot.sendMessage(msg.chat.id, '🔴 **AUTONOMOUS CONTENT ENGINE: PAUSED!**');
+    } else {
+      bot.sendMessage(
+        msg.chat.id,
+        `ℹ️ Status saat ini: ${contentEngineConfig.autoBroadcastEnabled ? '🟢 ON' : '🔴 OFF'}\n\nGunakan:\n• \`/auto_content on\` (Aktifkan otomatisasi)\n• \`/auto_content off\` (Jeda otomatisasi)`
+      );
+    }
+  });
+
+  // 10. Handle Inline Button Callbacks
+  bot.on('callback_query', async (query) => {
+    if (query.data === 'regen_tweet') {
+      await bot.answerCallbackQuery(query.id, { text: '🔄 Generating fresh tweet draft...' });
+      await triggerAdminTweetDispatch(bot);
+    } else if (query.data === 'force_broadcast') {
+      await bot.answerCallbackQuery(query.id, { text: '📢 Broadcasting to community group...' });
+      await triggerCommunityBroadcast(bot);
+    }
+  });
+
+  // 11. /help command
   bot.onText(/^\/help/i, (msg) => {
     const helpText = `
 👑 **NOSEY CAT EXECUTIVE COMMAND SUITE:**
 
-• \`/status\` — Live health summary, market sentiment, token telemetry, and agent uptime.
+📊 **Monitoring & Strategy:**
+• \`/status\` — Live health summary, market sentiment, token telemetry, and uptime.
+• \`/analytics\` — Detailed website traffic, boop activity, and community health tracker.
 • \`/set_phase [PHASE]\` — Change business phase: \`PRE_LAUNCH\`, \`LIVE_LAUNCH\`, or \`COMMUNITY_HOLD\`.
 • \`/set_directive [text]\` — Dynamically inject high-priority campaign instructions into the AI brain.
+
+🚀 **Automated Content & Marketing Engine:**
+• \`/tweet_now\` — Generate a viral tweet with a **1-Click Post to X** button sent to your phone!
+• \`/broadcast_now\` — Immediately fire a hype broadcast to the Telegram group.
+• \`/auto_content on|off\` — Toggle autonomous marketing cycle on or off.
 • \`/raid [target]\` — Generate a coordinated community raid message.
-• \`/tweet\` — Generate viral, high-conversion tweets for X (Twitter).
 • \`/help\` — This command reference.
     `.trim();
 
