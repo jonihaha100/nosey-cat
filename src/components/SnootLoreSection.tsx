@@ -12,7 +12,7 @@ export const SnootLoreSection: React.FC = () => {
           <div className="inline-flex items-center gap-2 bg-arcade-pink text-black border-2 border-black px-3 py-1 font-pixel text-xs shadow-pixel-sm font-bold">
             <Sparkles size={14} />
             <span>ORIGIN & LORE DOSSIER</span>
-            apa lagi yang        </div>
+          </div>
           <h2 className="font-pixel text-2xl sm:text-3xl md:text-4xl text-black">
             THE SNOOT CHRONICLES: WHY THE PINK NOSE?
           </h2>

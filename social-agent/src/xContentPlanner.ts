@@ -104,9 +104,11 @@ export async function generateDailyTweets(count: number = 3): Promise<string[]> 
   const ticker = process.env.TOKEN_TICKER || '$NOSEY';
 
   const defaultTemplates = [
-    `They said cats are lazy. Not ${ticker} 😼\n\n16-bit tuxedo cat guarding your Solana wallet 24/7.\n⚠️ It's a crime to visit without booping my pink snoot!\n\n🕹️ Boop & Play: ${website} 🐾🚀 #Solana #NOSEY`,
-    `Did you touch the cat's nose today? 👃\n\nLegend says booping ${ticker}'s pink snoot summons 1000x green candles on Pump.fun.\n\n0% Tax • LP Burned: ${website} ⚡️🚀`,
-    `Paper hands sell the dip, gigachads boop the snoot.\n\n${ticker} is a 16-bit arcade movement on Solana. 0% tax, no dev bs. Boop now:\n${website} 🐾🔥`,
+    `[SAGA: CH. 1 - THE AWAKENING] 🐾\nSick of 5-min dev rugs, a 16-bit tuxedo cat awakens on Solana to guard your wallet. Boop his glowing pink snoot:\n${website} 😼🚀`,
+    `[SAGA: CH. 2 - LASER EYES CHARGING] ⚡️\nEvery boop on our site powers up Nosey's 1,000,000W Chaos Lasers to vaporize jeets! Test your power:\n${website} 👃🔥`,
+    `[SAGA: CH. 3 - THE 50 DIAMOND PAWS] 💎\nNosey is recruiting 50 diamond paws in the secret Telegram lair before stealth launch. Gate closes soon: https://t.me/TheNoseyCat 🐾`,
+    `[SAGA: CH. 4 - SNIPER BOT TRAP] 🛡️\n0% tax. LP burned to the void. Sniper bots will find ZERO exit on our stealth drop. Protect your bags:\n${website} 😼🕯️`,
+    `[SAGA: CH. 5 - PUMP.FUN IGNITION] 🌕\nBonding curve loaded. Green candles detected by the pink snoot. Join the cult before blastoff:\n${website} 🚀✨`,
   ];
 
   if (!apiKey || apiKey.includes('your_gemini_api_key')) {
@@ -121,16 +123,24 @@ export async function generateDailyTweets(count: number = 3): Promise<string[]> 
     });
 
     const prompt = `
-Generate ${count} short, viral Twitter/X posts in natural crypto-native English for the Solana meme coin "${process.env.TOKEN_NAME || 'Nosey Cat'}" (${ticker}).
+Generate ${count} short, viral, episodic storytelling Twitter/X posts in natural crypto-native English for the Solana meme coin "${process.env.TOKEN_NAME || 'Nosey Cat'}" (${ticker}).
 Current business phase: ${brainState.currentPhase}
 Market telemetry: ${dexContext}
 Website link: ${website}
 
+SERIAL STORYLINE THEMES:
+Frame tweets as an unfolding serial lore saga leading to the stealth launch:
+- Chapter 1: The Alleyway Awakening (16-bit tuxedo cat vows to guard wallets from dead dev rugs)
+- Chapter 2: The Pink Snoot & 1000W Chaos Lasers (booping charges radar for green candles)
+- Chapter 3: Gathering the 50 Diamond Paws (secret Telegram bunker before stealth launch)
+- Chapter 4: Trapping the Sniper Bots (0% tax, LP burned to void, safe stealth drop)
+- Chapter 5: Pump.fun Ignition (countdown to bonding curve Valhalla)
+
 CRITICAL CONSTRAINTS - STRICT CHARACTER LIMIT:
 1. MAX 210 CHARACTERS PER TWEET (including emojis, spaces, and the website link ${website}). X strictly blocks posts over 280 characters!
-2. DO NOT include prefixes like "Draft 1:", "Tweet 1:", "1.", or quotes. Output ONLY the raw tweet text.
-3. Keep it punchy, funny, degen, highlighting the interactive pink snoot booper on the website.
-4. Emojis: 🐾, 👃, 🚀, ⚡, 😼, 🕯️.
+2. You MAY include episodic tags like "[CH. 1]", "[CH. 2]", "[NOSEY LORE]", but DO NOT include meta prefixes like "Draft 1:", "Tweet 1:". Output ONLY the raw tweet text.
+3. Keep it punchy, serial, degen, funny, and always urge them to boop on ${website}.
+4. Emojis: 🐾, 👃, 🚀, ⚡, 😼, 🕯️, 💎.
 5. Separate each tweet with "---TWEET---".
     `.trim();
 

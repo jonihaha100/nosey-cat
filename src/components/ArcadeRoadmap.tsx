@@ -162,20 +162,68 @@ export const ArcadeRoadmap: React.FC = () => {
       />
 
       <div className="max-w-6xl mx-auto relative z-10 space-y-12">
-        {/* Section Header */}
+        {/* Section Header with Community Question Spotlight */}
         <div className="text-center space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-arcade-yellow text-black border-2 border-black font-pixel text-xs sm:text-sm shadow-pixel-sm">
             <Gamepad2 className="w-4 h-4" />
-            <span>LEVEL PROGRESSION MAP</span>
+            <span>COMMUNITY QUESTION SPOTLIGHT</span>
           </div>
 
-          <h2 className="font-pixel text-2xl sm:text-3xl lg:text-4xl text-arcade-yellow tracking-wide drop-shadow-[2px_2px_0px_#000]">
-            THE $NOSEY ROADMAP
+          <div className="max-w-3xl mx-auto p-4 bg-arcade-black border-4 border-black shadow-pixel-lg">
+            <p className="font-pixel text-xs sm:text-sm text-arcade-pink leading-relaxed">
+              &ldquo;Have you got a roadmap I can have a look at?&rdquo;
+            </p>
+            <p className="font-retro text-base sm:text-lg text-gray-300 mt-2">
+              — Asked by early community believers. Here is our 100% transparent 4-stage investor & utility thesis that proves $NOSEY is built for sustainability, not 5-minute rugs.
+            </p>
+          </div>
+
+          <h2 className="font-pixel text-2xl sm:text-3xl lg:text-4xl text-arcade-yellow tracking-wide drop-shadow-[2px_2px_0px_#000] pt-2">
+            THE NOSEY CAT SAGA ROADMAP
           </h2>
 
           <p className="font-retro text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto">
-            From an interactive 16-bit snoot booper to the apex of Solana meme glory. Here is our 4-stage transparent battle plan.
+            A serialized narrative journey: from an alleyway street-cat on Solana with a glowing pink snoot, to an unstoppable 16-bit arcade movement.
           </p>
+        </div>
+
+        {/* Why Investors Believe: Value Comparison Matrix */}
+        <div className="border-4 border-black bg-arcade-black p-5 sm:p-6 shadow-pixel-lg">
+          <h3 className="font-pixel text-xs sm:text-sm text-arcade-yellow mb-4 text-center">
+            ⚡️ WHY INVESTORS CHOOSE $NOSEY VS 99% DEAD MEME COINS
+          </h3>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-pixel">
+            <div className="p-4 border-2 border-red-900 bg-red-950/40 space-y-2">
+              <span className="text-red-400 font-bold block border-b border-red-800 pb-1">
+                ❌ 99% PUMP.FUN COPYCATS
+              </span>
+              <p className="font-retro text-base text-gray-300 leading-snug">
+                • Static PNG, zero real software, dev abandons after 10 mins.
+              </p>
+              <p className="font-retro text-base text-gray-300 leading-snug">
+                • Hidden insider presales, silent dead telegrams, no narrative.
+              </p>
+              <p className="font-retro text-base text-gray-300 leading-snug">
+                • No future plans after bonding curve — pure exit liquidity trap.
+              </p>
+            </div>
+
+            <div className="p-4 border-2 border-green-800 bg-green-950/40 space-y-2">
+              <span className="text-arcade-green font-bold block border-b border-green-800 pb-1">
+                ✅ THE NOSEY CAT ADVANTAGE
+              </span>
+              <p className="font-retro text-base text-gray-200 leading-snug">
+                • Live 16-bit interactive arcade web software + Meme Studio.
+              </p>
+              <p className="font-retro text-base text-gray-200 leading-snug">
+                • 24/7 AI Autonomous Brain (@nesey_cat_bot) guarding the group.
+              </p>
+              <p className="font-retro text-base text-gray-200 leading-snug">
+                • 0% Tax, LP burned forever, Raydium migration, Telegram mini-games & CEX target.
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* 4-Stage Quest Grid */}
