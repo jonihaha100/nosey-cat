@@ -27,7 +27,7 @@ export const TOKEN_CONFIG: TokenConfig = {
   buyUrl: "https://pump.fun",
   dexScreenerUrl: "https://dexscreener.com",
   telegramUrl: "https://t.me/nesey_cat_bot",
-  twitterUrl: "https://x.com/noseycat_sol",
+  twitterUrl: "https://x.com/TheNoseyCat",
   tokenLockProofUrl: "https://streamflow.finance",
   defaultTokenomics: {
     totalSupply: "1,000,000,000",
