@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "agent:start": "cd social-agent && npx tsx src/index.ts",
+    "agent:dev": "cd social-agent && npx tsx watch src/index.ts"
   },
   "dependencies": {
     "lucide-react": "^0.475.0",
