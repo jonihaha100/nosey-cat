@@ -12,7 +12,7 @@ export const SnootLoreSection: React.FC = () => {
           <div className="inline-flex items-center gap-2 bg-arcade-pink text-black border-2 border-black px-3 py-1 font-pixel text-xs shadow-pixel-sm font-bold">
             <Sparkles size={14} />
             <span>ORIGIN & LORE DOSSIER</span>
-          </div>
+            apa lagi yang        </div>
           <h2 className="font-pixel text-2xl sm:text-3xl md:text-4xl text-black">
             THE SNOOT CHRONICLES: WHY THE PINK NOSE?
           </h2>
@@ -29,7 +29,7 @@ export const SnootLoreSection: React.FC = () => {
               <div className="inline-block bg-arcade-yellow border-2 border-black px-2 py-0.5 font-pixel text-[10px] font-bold mb-3">
                 ORIGINAL VIRAL ICON
               </div>
-              <div 
+              <div
                 onClick={() => playBoopSound()}
                 className="cursor-pointer border-4 border-black bg-black overflow-hidden aspect-square relative group"
                 title="Click to Boop!"

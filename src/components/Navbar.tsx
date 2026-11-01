@@ -72,6 +72,12 @@ export const Navbar: React.FC<NavbarProps> = ({
             SECURITY
           </a>
           <a 
+            href="#roadmap" 
+            className="px-1.5 xl:px-2 py-1 text-arcade-black hover:text-black hover:bg-arcade-yellow border-2 border-transparent hover:border-black hover:shadow-pixel-sm transition-all whitespace-nowrap flex-shrink-0"
+          >
+            ROADMAP
+          </a>
+          <a 
             href="#studio" 
             className="px-1.5 xl:px-2 py-1 text-arcade-black hover:text-black hover:bg-arcade-yellow border-2 border-transparent hover:border-black hover:shadow-pixel-sm transition-all whitespace-nowrap flex-shrink-0"
           >
@@ -174,6 +180,13 @@ export const Navbar: React.FC<NavbarProps> = ({
             className="p-2 border-2 border-black bg-white hover:bg-arcade-yellow text-black transition-colors"
           >
             🔒 SECURITY &amp; AUDIT
+          </a>
+          <a 
+            href="#roadmap" 
+            onClick={() => setMobileMenuOpen(false)}
+            className="p-2 border-2 border-black bg-white hover:bg-arcade-yellow text-black transition-colors"
+          >
+            🗺️ QUEST ROADMAP
           </a>
           <a 
             href="#studio" 

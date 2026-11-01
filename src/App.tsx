@@ -5,6 +5,7 @@ import { HeroSection } from './components/HeroSection';
 import { LiveMetricsBar } from './components/LiveMetricsBar';
 import { LiveTrafficMonitor } from './components/LiveTrafficMonitor';
 import { SecurityProof } from './components/SecurityProof';
+import { ArcadeRoadmap } from './components/ArcadeRoadmap';
 import { SnootLoreSection } from './components/SnootLoreSection';
 import { LiveTrollbox } from './components/LiveTrollbox';
 import { MemeStudio } from './components/MemeStudio';
@@ -84,6 +85,9 @@ export const App: React.FC = () => {
 
         {/* Section 4: Anti-Rug On-Chain Security Proofs */}
         <SecurityProof />
+
+        {/* Section 4.5: Master 4-Stage Arcade Roadmap */}
+        <ArcadeRoadmap />
 
         {/* Section 5: Anonymous Live Trollbox (Fans vs Haters Filter) */}
         <LiveTrollbox />
