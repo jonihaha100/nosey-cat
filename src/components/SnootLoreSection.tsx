@@ -46,7 +46,7 @@ export const SnootLoreSection: React.FC = () => {
 
               {/* Tagline Badge */}
               <div className="mt-4 bg-black text-yellow-300 border-2 border-black p-2.5 font-pixel text-xs leading-relaxed text-center">
-                &ldquo;TIDAK ASYIK MASUK WEBSITE TANPA MEGANG HIDUNG KUCING INI!&rdquo;
+                &ldquo;IT&apos;S A CRIME TO VISIT WITHOUT BOOPING NOSEY&apos;S PINK SNOOT!&rdquo;
               </div>
             </div>
           </div>

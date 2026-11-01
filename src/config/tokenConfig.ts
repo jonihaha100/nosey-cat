@@ -37,13 +37,13 @@ export const TOKEN_CONFIG: TokenConfig = {
   },
   marqueeMessages: [
     "🐾 $NOSEY: THE MOST CURIOUS & BOOPABLE TUXEDO CAT ON SOLANA!",
-    "⚠️ 'TIDAK ASYIK MASUK WEBSITE TANPA MEGANG HIDUNG KUCING INI!' — BOOP THE PINK NOSE NOW!",
+    "⚠️ 'IT'S A CRIME TO VISIT WITHOUT BOOPING NOSEY'S SNOOT!' — TAP THE PINK NOSE NOW!",
     "🔥 100% FAIR LAUNCH ON PUMP.FUN — LIQUIDITY BURNED FOREVER",
     "💎 ZERO TAX (0% BUY / 0% SELL) — 100% PROFIT TO NOSEY HOLDERS",
     "👉 BOOP NOSEY'S PINK SNOOT FOR MAXIMUM FORTUNE & GREEN CANDLES!"
   ],
   catSpeechLines: [
-    "Tidak asyik masuk website tanpa megang hidungku anon! Boop me! 🐾",
+    "It's a crime to visit without booping my pink snoot anon! Tap me! 🐾",
     "Too nosey to let you miss this pump! Ape into $NOSEY anon! 🚀",
     "Boop my pink nose for instant green candles! 🚀",
     "Dev can't rug, liquidity keys are burned into the void! 🔒",

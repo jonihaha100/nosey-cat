@@ -70,7 +70,7 @@ const INITIAL_MESSAGES: ChatMessage[] = [
     sender: 'SolanaChad',
     badge: 'FAN',
     sentiment: 'bull',
-    text: 'Tidak asyik masuk website kalo ga mijit hidung Nosey! It’s an unwritten crypto law anon! 🟢',
+    text: 'It’s a literal crime to visit without booping Nosey’s pink snoot! Unwritten crypto law anon! 🟢',
     timestamp: '11m ago',
     boopCount: 88,
   },

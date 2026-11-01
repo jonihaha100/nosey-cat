@@ -104,7 +104,7 @@ export const MascotInteractive: React.FC<MascotInteractiveProps> = ({
       {/* Golden Community Motto Alert */}
       <div className="mb-3 px-3 py-1.5 bg-arcade-yellow text-black border-2 border-black font-pixel text-[9px] sm:text-[10px] shadow-pixel-sm text-center flex items-center justify-center gap-1.5 max-w-sm sm:max-w-md animate-pixel-blink">
         <span>⚠️</span>
-        <span>&ldquo;TIDAK ASYIK MASUK WEBSITE TANPA MEGANG HIDUNG KUCING INI!&rdquo;</span>
+        <span>&ldquo;IT&apos;S A CRIME TO VISIT WITHOUT BOOPING NOSEY&apos;S SNOOT!&rdquo;</span>
         <span>🐾</span>
       </div>
 
