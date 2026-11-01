@@ -69,7 +69,7 @@ export function cleanAndEnforceTwitterLimit(rawText: string, website: string): s
   cleaned = cleaned.replace(/\bDraft\s*\d+:?\s*/gi, '').trim();
 
   // 3. Ensure website URL is included cleanly
-  if (!cleaned.includes('thenoseycat.vercel.app') && !cleaned.includes(website)) {
+  if (!cleaned.includes('nosey-cat.vercel.app') && !cleaned.includes(website)) {
     cleaned += `\n${website}`;
   }
 
@@ -100,7 +100,7 @@ export function cleanAndEnforceTwitterLimit(rawText: string, website: string): s
  */
 export async function generateDailyTweets(count: number = 3): Promise<string[]> {
   const apiKey = process.env.GEMINI_API_KEY;
-  const website = process.env.WEBSITE_URL || 'https://thenoseycat.vercel.app';
+  const website = process.env.WEBSITE_URL || 'https://nosey-cat.vercel.app';
   const ticker = process.env.TOKEN_TICKER || '$NOSEY';
 
   const defaultTemplates = [
@@ -152,7 +152,7 @@ CRITICAL CONSTRAINTS - STRICT CHARACTER LIMIT:
  * Generates an educational 4-part short thread explaining why $KEPO is rug-proof
  */
 export async function generateAlphaThread(): Promise<string[]> {
-  const website = process.env.WEBSITE_URL || 'https://jonihaha100.github.io/nosey-cat/';
+  const website = process.env.WEBSITE_URL || 'https://nosey-cat.vercel.app';
   const ticker = process.env.TOKEN_TICKER || '$NOSEY';
 
   return [
@@ -168,7 +168,7 @@ export async function generateAlphaThread(): Promise<string[]> {
  */
 export function generateRaidTrigger(targetAccountOrUrl: string = 'Solana Influencers / Pump.fun'): string {
   const ticker = process.env.TOKEN_TICKER || '$NOSEY';
-  const website = process.env.WEBSITE_URL || 'https://jonihaha100.github.io/nosey-cat/';
+  const website = process.env.WEBSITE_URL || 'https://nosey-cat.vercel.app';
 
   return `
 🚨🚨🚨 **SNOOT RAID ALARM ENGAGED!** 🚨🚨🚨

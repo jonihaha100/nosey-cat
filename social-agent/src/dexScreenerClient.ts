@@ -26,7 +26,7 @@ export async function fetchTokenMarketMetrics(tokenAddress?: string): Promise<To
       volume24h: '$0',
       liquidityUsd: 'Pending Launch',
       marketCapUsd: 'Pre-Market',
-      dexUrl: process.env.WEBSITE_URL || 'https://jonihaha100.github.io/nosey-cat/',
+      dexUrl: process.env.WEBSITE_URL || 'https://nosey-cat.vercel.app',
     };
   }
 

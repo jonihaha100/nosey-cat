@@ -125,7 +125,7 @@ export async function analyzeMessageSentiment(text: string): Promise<'bullish' |
  */
 export async function generateIdleChimeIn(): Promise<string> {
   const instance = getGeminiInstance();
-  const website = process.env.WEBSITE_URL || 'https://jonihaha100.github.io/nosey-cat/';
+  const website = process.env.WEBSITE_URL || 'https://nosey-cat.vercel.app';
   const ticker = process.env.TOKEN_TICKER || '$NOSEY';
 
   const defaultJokes = [
@@ -171,7 +171,7 @@ export async function generateIdleChimeIn(): Promise<string> {
  * Offline witty fallback in English in case GEMINI_API_KEY is not configured or network drops
  */
 function getOfflineFallbackReply(userMessage: string, senderName: string): string {
-  const website = process.env.WEBSITE_URL || 'https://jonihaha100.github.io/nosey-cat/';
+  const website = process.env.WEBSITE_URL || 'https://nosey-cat.vercel.app';
   const ca = process.env.SOLANA_TOKEN_CA || 'COMING_SOON_ON_PUMPFUN';
   const ticker = process.env.TOKEN_TICKER || '$NOSEY';
   const lower = userMessage.toLowerCase();

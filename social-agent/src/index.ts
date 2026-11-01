@@ -32,7 +32,7 @@ async function main() {
 
   console.log('🔍 System Diagnostics:');
   console.log(`• Default Phase     : ${brainState.currentPhase}`);
-  console.log(`• Website URL       : ${process.env.WEBSITE_URL || 'https://jonihaha100.github.io/nosey-cat/'}`);
+  console.log(`• Website URL       : ${process.env.WEBSITE_URL || 'https://nosey-cat.vercel.app'}`);
   console.log(`• Telegram Bot      : ${botToken && !botToken.includes('your_') ? '✅ Configured' : '⚠️ Missing (Add to .env)'}`);
   console.log(`• Gemini AI Key     : ${geminiKey && !geminiKey.includes('your_') ? '✅ Connected' : '⚠️ Missing (Will use offline fallback)'}`);
   console.log(`• Admin ID          : ${adminId && !adminId.includes('your_') ? `✅ Restricted (${adminId})` : '⚠️ Open (Anyone can run admin commands)'}`);

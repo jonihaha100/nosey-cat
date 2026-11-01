@@ -116,7 +116,7 @@ export class TelegramAgentService {
       registerAdminCommands(this.bot);
 
       // Configure Telegram Web App / Menu Button and Command hints
-      const website = process.env.WEBSITE_URL || 'https://jonihaha100.github.io/nosey-cat/';
+      const website = process.env.WEBSITE_URL || 'https://nosey-cat.vercel.app';
       try {
         await this.bot.setChatMenuButton({
           menu_button: {
@@ -217,7 +217,7 @@ export class TelegramAgentService {
 
       if (this.bot) {
         try {
-          const website = process.env.WEBSITE_URL || 'https://jonihaha100.github.io/nosey-cat/';
+          const website = process.env.WEBSITE_URL || 'https://nosey-cat.vercel.app';
           await this.bot.sendMessage(chatId, replyText, {
             reply_to_message_id: msg.message_id,
             reply_markup: {

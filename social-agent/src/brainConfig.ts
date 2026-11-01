@@ -67,7 +67,7 @@ export function buildSystemPrompt(dexContext?: string): string {
   const ticker = process.env.TOKEN_TICKER || '$NOSEY';
   const tickerAlt = process.env.TOKEN_TICKER_ALT || '$KEPO';
   const ca = process.env.SOLANA_TOKEN_CA || 'COMING_SOON_ON_PUMPFUN';
-  const website = process.env.WEBSITE_URL || 'https://jonihaha100.github.io/nosey-cat/';
+  const website = process.env.WEBSITE_URL || 'https://nosey-cat.vercel.app';
 
   let phaseInstructions = '';
   switch (brainState.currentPhase) {

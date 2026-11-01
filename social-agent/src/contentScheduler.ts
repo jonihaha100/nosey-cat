@@ -62,7 +62,7 @@ export async function triggerCommunityBroadcast(bot: TelegramBot, forcedChatId?:
     return false;
   }
 
-  const website = process.env.WEBSITE_URL || 'https://thenoseycat.vercel.app';
+  const website = process.env.WEBSITE_URL || 'https://nosey-cat.vercel.app';
   const ticker = process.env.TOKEN_TICKER || '$NOSEY';
 
   let broadcastMessage = '';
@@ -147,7 +147,7 @@ export async function triggerAdminTweetDispatch(bot: TelegramBot): Promise<boole
 
   try {
     const tweets = await generateDailyTweets(1);
-    const tweetText = tweets[0] || `They said cats are lazy. Not $NOSEY 😼\n\n16-bit tuxedo cat guarding your Solana wallet 24/7. Boop my pink snoot:\nhttps://thenoseycat.vercel.app 🐾🚀 #Solana #NOSEY`;
+    const tweetText = tweets[0] || `They said cats are lazy. Not $NOSEY 😼\n\n16-bit tuxedo cat guarding your Solana wallet 24/7. Boop my pink snoot:\nhttps://nosey-cat.vercel.app 🐾🚀 #Solana #NOSEY`;
 
     // Twitter Web Intent URL for 1-Click mobile posting
     const twitterIntentUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;

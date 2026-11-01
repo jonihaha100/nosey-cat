@@ -33,7 +33,7 @@ export function registerAdminCommands(bot: TelegramBot): void {
   // 0. /start command (Welcome message for everyone)
   bot.onText(/^\/start/i, async (msg) => {
     const senderName = msg.from?.first_name || 'Fren';
-    const website = process.env.WEBSITE_URL || 'https://jonihaha100.github.io/nosey-cat/';
+    const website = process.env.WEBSITE_URL || 'https://nosey-cat.vercel.app';
     const welcome = `
 🐾 **Meow! Welcome ${senderName}!** 😼✨
 I'm **Nosey Cat ($NOSEY)** — The most curious & boopable 16-bit tuxedo cat on Solana!
@@ -76,7 +76,7 @@ Try greeting me right now: ask *"When launch?"* or *"Is the contract safe?"* �
       return;
     }
 
-    const website = process.env.WEBSITE_URL || 'https://jonihaha100.github.io/nosey-cat/';
+    const website = process.env.WEBSITE_URL || 'https://nosey-cat.vercel.app';
     const uptimeSeconds = Math.floor((Date.now() - brainState.startTime) / 1000);
     const hours = Math.floor(uptimeSeconds / 3600);
     const minutes = Math.floor((uptimeSeconds % 3600) / 60);
@@ -246,7 +246,7 @@ ${tweetText}
     }
 
     const report = await getLiveProjectAnalytics();
-    const website = process.env.WEBSITE_URL || 'https://thenoseycat.vercel.app';
+    const website = process.env.WEBSITE_URL || 'https://nosey-cat.vercel.app';
     bot.sendMessage(msg.chat.id, report, {
       parse_mode: 'Markdown',
       reply_markup: {
@@ -342,7 +342,7 @@ ${tweetText}
 • \`/help\` — This command reference.
     `.trim();
 
-    const website = process.env.WEBSITE_URL || 'https://jonihaha100.github.io/nosey-cat/';
+    const website = process.env.WEBSITE_URL || 'https://nosey-cat.vercel.app';
     bot.sendMessage(msg.chat.id, helpText, {
       parse_mode: 'Markdown',
       reply_markup: {
