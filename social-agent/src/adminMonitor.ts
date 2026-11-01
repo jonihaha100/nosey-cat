@@ -24,6 +24,31 @@ export function isAdminUser(msg: TelegramBot.Message): boolean {
  * Registers all executive admin command handlers
  */
 export function registerAdminCommands(bot: TelegramBot): void {
+  // 0. /start command (Welcome message for everyone)
+  bot.onText(/^\/start/i, async (msg) => {
+    const senderName = msg.from?.first_name || 'Fren';
+    const website = process.env.WEBSITE_URL || 'https://jonihaha100.github.io/nosey-cat/';
+    const welcome = `
+🐾 **Meoong! Halo ${senderName}!** 😼✨
+Gue **Kucing Kepo ($NOSEY / $KEPO)** — Kucing tuxedo 16-bit paling tengil & boopable di blockchain Solana!
+
+Gue di sini buat nemenin lu 24/7, mantau wallet dari jeet & rugger, dan bikin komunitas makin rame! 🚀
+
+🎯 **Yang bisa lu lakuin bareng gue:**
+• **Ngobrol Langsung:** Tanya apa aja soal koin, Solana, dev, atau sekadar curhat receh. Gue bakal jawab pakai AI Gemini!
+• **Cek Status Bisnis:** Ketik \`/status\` untuk pantau metrik live & sentimen.
+• **Ganti Fase Strategi (Admin):** Ketik \`/set_phase [PRE_LAUNCH|LIVE_LAUNCH|COMMUNITY_HOLD]\`.
+• **Suntik Arahan Live (Admin):** Ketik \`/set_directive [arahan]\`.
+• **Raid Komunitas:** Ketik \`/raid [target]\`.
+• **Bikin Tweet Viral:** Ketik \`/tweet\`.
+• **Main di Website:** Pencet hidung gue di [Nosey Cat Website](${website}) buat nabung *Total Nose Boops* dan cobain *Chaos Laser Eyes*! 👃⚡️
+
+Coba sapa gue sekarang: ketik *"Halo cing, kapan launch?"* atau *"Dev aman gak nih?"* 🐾
+    `.trim();
+
+    bot.sendMessage(msg.chat.id, welcome, { parse_mode: 'Markdown', disable_web_page_preview: true });
+  });
+
   // 1. /status command
   bot.onText(/^\/status/i, async (msg) => {
     if (!isAdminUser(msg)) {

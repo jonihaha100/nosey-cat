@@ -10,6 +10,23 @@ import { generateCharacterReply, analyzeMessageSentiment, generateIdleChimeIn } 
 import { registerAdminCommands } from './adminMonitor.js';
 
 const KEYWORD_TRIGGERS = [
+  'cing',
+  'kucing',
+  'kepo',
+  'nosey',
+  'bot',
+  'halo',
+  'hallo',
+  'hai',
+  'hei',
+  'hey',
+  'p',
+  'tes',
+  'test',
+  'siapa',
+  'admin',
+  'dev',
+  'solana',
   'ca',
   'kontrak',
   'contract',
@@ -17,7 +34,6 @@ const KEYWORD_TRIGGERS = [
   'kapan',
   'launch',
   'rilis',
-  'dev',
   'beli',
   'buy',
   'cara beli',
@@ -29,10 +45,13 @@ const KEYWORD_TRIGGERS = [
   'meme',
   'chaos',
   'pump',
-  'kepo',
-  'kucing',
   'price',
   'harga',
+  'chart',
+  'bro',
+  'bang',
+  'woi',
+  'oi',
 ];
 
 interface ChatHistoryItem {
@@ -104,6 +123,9 @@ export class TelegramAgentService {
     const text = msg.text;
     const senderName = msg.from?.first_name || msg.from?.username || 'Anon';
     const chatId = msg.chat.id;
+    const isPrivateChat = msg.chat.type === 'private';
+
+    console.log(`[Telegram] 📩 Received from ${senderName} (${msg.chat.type}): "${text}"`);
 
     // Track sentiment asynchronously
     analyzeMessageSentiment(text);
@@ -119,20 +141,22 @@ export class TelegramAgentService {
     }
 
     // Determine if the bot should reply:
-    // 1. Direct mention: @BotUsername
-    // 2. Direct reply to bot's message
-    // 3. Or message contains critical trigger keywords (with probability check to prevent spam)
+    // 1. Direct message (Private 1-on-1 chat): ALWAYS reply!
+    // 2. Direct mention in group: @BotUsername
+    // 3. Direct reply to bot's message in group
+    // 4. Or message in group contains trigger keywords
     const lowerText = text.toLowerCase();
     const isMentioned = this.botUsername && lowerText.includes(`@${this.botUsername.toLowerCase()}`);
     const isReplyToMe = msg.reply_to_message?.from?.username?.toLowerCase() === this.botUsername.toLowerCase();
     const matchedTrigger = KEYWORD_TRIGGERS.some((keyword) => lowerText.includes(keyword));
 
-    if (isMentioned || isReplyToMe || matchedTrigger) {
+    if (isPrivateChat || isMentioned || isReplyToMe || matchedTrigger) {
       // Simulate natural typing delay (arcade cat thinking)
       if (this.bot) {
         await this.bot.sendChatAction(chatId, 'typing');
       }
 
+      console.log(`[Telegram] 🤖 Generating AI reply for ${senderName}...`);
       const replyText = await generateCharacterReply(text, senderName, this.recentChatHistory);
 
       if (this.bot) {
@@ -140,11 +164,13 @@ export class TelegramAgentService {
           await this.bot.sendMessage(chatId, replyText, {
             reply_to_message_id: msg.message_id,
           });
-          console.log(`[Telegram Agent] Replied to ${senderName}: "${replyText}"`);
+          console.log(`[Telegram] 🚀 Replied to ${senderName}: "${replyText}"`);
         } catch (sendErr: any) {
           console.warn('[Telegram Agent] Failed to send reply:', sendErr?.message || sendErr);
         }
       }
+    } else {
+      console.log(`[Telegram] ⏩ Skipped group chatter (no mention/keyword match)`);
     }
   }
 
