@@ -13,7 +13,7 @@ const ACCESSORIES: AccessoryOption[] = [
   { id: 'laser', name: 'Red Laser Eyes', icon: '⚡' },
   { id: 'crown', name: 'Degen Crown', icon: '👑' },
   { id: 'coffee', name: 'Hot Coffee', icon: '☕' },
-  { id: 'verified', name: '$NOSEY VERIFIED', icon: '🏷️' },
+  { id: 'verified', name: '$KEPO VERIFIED', icon: '🏷️' },
 ];
 
 interface TransformState {
@@ -34,7 +34,7 @@ const DEFAULT_GLASSES_TRANSFORM: TransformState = {
 export const MemeStudio: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [baseImageSrc, setBaseImageSrc] = useState<string>(getAssetUrl('/mascot-pixel.png'));
-  const [topText, setTopText] = useState<string>('BUY $NOSEY NOW');
+  const [topText, setTopText] = useState<string>('BUY $KEPO NOW');
   const [bottomText, setBottomText] = useState<string>('OR GET ZERO GAINS!');
   const [activeAccessories, setActiveAccessories] = useState<Record<string, boolean>>({
     glasses: true,
@@ -206,7 +206,7 @@ export const MemeStudio: React.FC = () => {
       ctx.textAlign = 'center';
       ctx.fillText('✔ VERIFIED', 67, 24);
       ctx.font = 'bold 10px "Press Start 2P", monospace';
-      ctx.fillText('$NOSEY DEGEN', 67, 38);
+      ctx.fillText('$KEPO DEGEN', 67, 38);
 
       ctx.restore();
     }
@@ -301,7 +301,7 @@ export const MemeStudio: React.FC = () => {
   // Reset to default
   const handleReset = () => {
     setBaseImageSrc(getAssetUrl('/mascot-pixel.png'));
-    setTopText('BUY $NOSEY NOW');
+    setTopText('BUY $KEPO NOW');
     setBottomText('OR GET ZERO GAINS!');
     setActiveAccessories({
       glasses: true,
@@ -632,7 +632,7 @@ export const MemeStudio: React.FC = () => {
               16:9 LANDSCAPE RETRO ARCADE BACKGROUNDS
             </h3>
             <p className="font-retro text-lg sm:text-xl text-gray-800 max-w-xl mx-auto">
-              Custom-crafted unique pixel art featuring Nosey Cat ($NOSEY). Free for holders to use on Pump.fun, Twitter/X, and Telegram!
+              Custom-crafted unique pixel art featuring Kepo Cat ($KEPO). Free for holders to use on Pump.fun, Twitter/X, and Telegram!
             </p>
           </div>
 
@@ -649,19 +649,19 @@ export const MemeStudio: React.FC = () => {
                 <div className="border-4 border-black overflow-hidden bg-black shadow-pixel-sm group relative aspect-video">
                   <img
                     src={getAssetUrl('/banners/nosey-moon-mission.png')}
-                    alt="Nosey Cat Moon Mission Banner"
+                    alt="Kepo Cat Moon Mission Banner"
                     className="w-full h-full object-cover pixelated group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
                 <p className="font-retro text-lg text-gray-800 leading-snug">
-                  Nosey Cat perched on the arcade launchpad watching green rocket candles blast toward a giant 16-bit moon with glowing <strong>$NOSEY BOOP THE SNOOT</strong> neon billboard.
+                  Kepo Cat perched on the arcade launchpad watching green rocket candles blast toward a giant 16-bit moon with glowing <strong>$KEPO BOOP THE SNOOT</strong> neon billboard.
                 </p>
               </div>
 
               <div className="flex gap-2 pt-2">
                 <a
                   href={getAssetUrl('/banners/nosey-moon-mission-1080p.png')}
-                  download="nosey-cat-moon-mission-banner-1080p.png"
+                  download="kepo-cat-moon-mission-banner-1080p.png"
                   className="flex-1 h-11 bg-arcade-green text-black border-4 border-black font-pixel text-xs flex items-center justify-center gap-2 shadow-pixel-sm hover:translate-x-0.5 hover:translate-y-0.5 active:translate-x-1 active:translate-y-1 font-bold"
                 >
                   <Download size={14} />
@@ -694,12 +694,12 @@ export const MemeStudio: React.FC = () => {
                 <div className="border-4 border-black overflow-hidden bg-black shadow-pixel-sm group relative aspect-video">
                   <img
                     src={getAssetUrl('/banners/nosey-degen-battle-station.png')}
-                    alt="Nosey Cat Degen Trading Battle Station Banner"
+                    alt="Kepo Cat Degen Trading Battle Station Banner"
                     className="w-full h-full object-cover pixelated group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
                 <p className="font-retro text-lg text-gray-800 leading-snug">
-                  Nosey Cat curiously peeking over stacked CRT monitors streaming live parabolic green Solana charts, pizza box, steaming coffee, and pink <strong>$NOSEY / 0% TAX</strong> neon signs.
+                  Kepo Cat curiously peeking over stacked CRT monitors streaming live parabolic green Solana charts, pizza box, steaming coffee, and pink <strong>$KEPO / 0% TAX</strong> neon signs.
                 </p>
               </div>
 

@@ -78,7 +78,7 @@ export const SnootLoreSection: React.FC = () => {
                   2. PROOF-OF-BOOP (PoB) CONSENSUS
                 </h3>
                 <p className="font-retro text-lg sm:text-xl text-gray-800 leading-relaxed">
-                  99% of meme coins are ghost towns where devs dump on silent Telegram groups. <strong>$NOSEY</strong> changes the game with our proprietary <strong>Proof-of-Boop (PoB)</strong> mechanism. Every visitor touches the nose, hearing the 8-bit chirp, stacking score points, and proving real human diamond-paw presence. No bot can fake the boop!
+                  99% of meme coins are ghost towns where devs dump on silent Telegram groups. <strong>$KEPO</strong> changes the game with our proprietary <strong>Proof-of-Boop (PoB)</strong> mechanism. Every visitor touches the nose, hearing the 8-bit chirp, stacking score points, and proving real human diamond-paw presence. No bot can fake the boop!
                 </p>
               </div>
             </div>
@@ -90,10 +90,10 @@ export const SnootLoreSection: React.FC = () => {
               </div>
               <div className="space-y-1.5">
                 <h3 className="font-pixel text-sm sm:text-base text-black">
-                  3. THE UNWRITTEN RULE OF $NOSEY
+                  3. THE UNWRITTEN RULE OF $KEPO
                 </h3>
                 <p className="font-retro text-lg sm:text-xl text-gray-800 leading-relaxed">
-                  Legend says that if you visit this site and close the tab without pressing Nosey&apos;s pink snoot, your next 3 crypto trades will get wicked out. But those who tap the nose receive instant green candle blessings. <em>Boop hard, ape in, and hold the line!</em> 🐾💎
+                  Legend says that if you visit this site and close the tab without pressing Kepo&apos;s pink snoot, your next 3 crypto trades will get wicked out. But those who tap the nose receive instant green candle blessings. <em>Boop hard, ape in, and hold the line!</em> 🐾💎
                 </p>
               </div>
             </div>

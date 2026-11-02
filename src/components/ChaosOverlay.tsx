@@ -89,7 +89,7 @@ export const ChaosOverlay: React.FC<ChaosOverlayProps> = ({ active }) => {
 
       {/* Retro Chaos Warning Ticker (Top) */}
       <div className="absolute top-20 sm:top-24 left-1/2 -translate-x-1/2 bg-red-600 text-yellow-200 border-4 border-black px-4 sm:px-6 py-2 font-pixel text-[10px] sm:text-xs shadow-pixel animate-arcade-shake whitespace-nowrap z-40 max-w-[95vw] overflow-hidden text-ellipsis">
-        🚨 EMERGENCY BROADCAST: $NOSEY HYPER-CHAOS UNLOCKED! 10x SNOOT MULTIPLIER ACTIVE! 🚨
+        🚨 EMERGENCY BROADCAST: $KEPO HYPER-CHAOS UNLOCKED! 10x SNOOT MULTIPLIER ACTIVE! 🚨
       </div>
 
       {/* Retro Bottom Degen Strip */}

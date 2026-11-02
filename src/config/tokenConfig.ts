@@ -19,8 +19,8 @@ export interface TokenConfig {
 }
 
 export const TOKEN_CONFIG: TokenConfig = {
-  name: "Nosey Cat",
-  ticker: "$NOSEY",
+  name: "Kepo Cat",
+  ticker: "$KEPO",
   chain: "solana",
   // Update to real contract address once launched on Pump.fun / Raydium
   contractAddress: "COMING_SOON_ON_PUMPFUN",
@@ -36,19 +36,19 @@ export const TOKEN_CONFIG: TokenConfig = {
     devSupply: "LOCKED 30 DAYS"
   },
   marqueeMessages: [
-    "🐾 $NOSEY: THE MOST CURIOUS & BOOPABLE TUXEDO CAT ON SOLANA!",
-    "⚠️ 'IT'S A CRIME TO VISIT WITHOUT BOOPING NOSEY'S SNOOT!' — TAP THE PINK NOSE NOW!",
+    "🐾 $KEPO: THE MOST CURIOUS & BOOPABLE TUXEDO CAT ON SOLANA!",
+    "⚠️ 'IT'S A CRIME TO VISIT WITHOUT BOOPING KEPO'S SNOOT!' — TAP THE PINK NOSE NOW!",
     "🔥 100% FAIR LAUNCH ON PUMP.FUN — LIQUIDITY BURNED FOREVER",
-    "💎 ZERO TAX (0% BUY / 0% SELL) — 100% PROFIT TO NOSEY HOLDERS",
-    "👉 BOOP NOSEY'S PINK SNOOT FOR MAXIMUM FORTUNE & GREEN CANDLES!"
+    "💎 ZERO TAX (0% BUY / 0% SELL) — 100% PROFIT TO KEPO HOLDERS",
+    "👉 BOOP KEPO'S PINK SNOOT FOR MAXIMUM FORTUNE & GREEN CANDLES!"
   ],
   catSpeechLines: [
     "It's a crime to visit without booping my pink snoot anon! Tap me! 🐾",
-    "Too nosey to let you miss this pump! Ape into $NOSEY anon! 🚀",
+    "Too kepo to let you miss this pump! Ape into $KEPO anon! 🚀",
     "Boop my pink nose for instant green candles! 🚀",
     "Dev can't rug, liquidity keys are burned into the void! 🔒",
-    "Curiosity didn't kill this cat, it made me rich! Hold $NOSEY! 💎",
-    "Ape into $NOSEY now before you FOMO at the top! 🔥"
+    "Curiosity didn't kill this cat, it made me rich! Hold $KEPO! 💎",
+    "Ape into $KEPO now before you FOMO at the top! 🔥"
   ]
 };
 

@@ -62,8 +62,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ chaosMode }) => {
           {/* Narrative / Lore */}
           <div className="bg-arcade-chalk border-4 border-black p-4 shadow-pixel max-w-xl">
             <p className="font-retro text-xl sm:text-2xl text-arcade-black leading-relaxed">
-              Not your lazy house cat sleeping all day! <strong>$NOSEY</strong> is the most curious and boopable tuxedo cat on Solana, watching your wallet 24/7. 
-              <strong> 0% buy/sell tax</strong>, liquidity burned into the void, and dev keys locked away forever. Boop Nosey's pink snoot, stack your bag, and send it straight to the moon! 🚀🐾
+              Not your lazy house cat sleeping all day! <strong>$KEPO</strong> is the most curious and boopable tuxedo cat on Solana, watching your wallet 24/7. 
+              <strong> 0% buy/sell tax</strong>, liquidity burned into the void, and dev keys locked away forever. Boop Kepo's pink snoot, stack your bag, and send it straight to the moon! 🚀🐾
             </p>
           </div>
 

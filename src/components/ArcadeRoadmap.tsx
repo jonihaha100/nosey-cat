@@ -174,12 +174,12 @@ export const ArcadeRoadmap: React.FC = () => {
               &ldquo;Have you got a roadmap I can have a look at?&rdquo;
             </p>
             <p className="font-retro text-base sm:text-lg text-gray-300 mt-2">
-              — Asked by early community believers. Here is our 100% transparent 4-stage investor & utility thesis that proves $NOSEY is built for sustainability, not 5-minute rugs.
+              — Asked by early community believers. Here is our 100% transparent 4-stage investor & utility thesis that proves $KEPO is built for sustainability, not 5-minute rugs.
             </p>
           </div>
 
           <h2 className="font-pixel text-2xl sm:text-3xl lg:text-4xl text-arcade-yellow tracking-wide drop-shadow-[2px_2px_0px_#000] pt-2">
-            THE NOSEY CAT SAGA ROADMAP
+            THE KEPO CAT SAGA ROADMAP
           </h2>
 
           <p className="font-retro text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto">
@@ -190,7 +190,7 @@ export const ArcadeRoadmap: React.FC = () => {
         {/* Why Investors Believe: Value Comparison Matrix */}
         <div className="border-4 border-black bg-arcade-black p-5 sm:p-6 shadow-pixel-lg">
           <h3 className="font-pixel text-xs sm:text-sm text-arcade-yellow mb-4 text-center">
-            ⚡️ WHY INVESTORS CHOOSE $NOSEY VS 99% DEAD MEME COINS
+            ⚡️ WHY INVESTORS CHOOSE $KEPO VS 99% DEAD MEME COINS
           </h3>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-pixel">

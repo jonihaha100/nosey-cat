@@ -16,10 +16,10 @@ export const HowToBuyAndChart: React.FC = () => {
             🕹️ ARCADE QUEST: 3 SIMPLE STEPS
           </div>
           <h2 className="font-pixel text-2xl sm:text-3xl md:text-4xl text-black">
-            HOW TO BUY $NOSEY ON SOLANA
+            HOW TO BUY $KEPO ON SOLANA
           </h2>
           <p className="font-retro text-xl sm:text-2xl text-gray-700 max-w-2xl mx-auto">
-            Complete the quest below to become an official $NOSEY diamond-paw holder!
+            Complete the quest below to become an official $KEPO diamond-paw holder!
           </p>
         </div>
 
@@ -77,10 +77,10 @@ export const HowToBuyAndChart: React.FC = () => {
                 <ArrowRightLeft size={24} className="text-black" />
               </div>
               <h3 className="font-pixel text-base text-black mb-2">
-                SWAP FOR $NOSEY
+                SWAP FOR $KEPO
               </h3>
               <p className="font-retro text-xl text-gray-800 leading-relaxed">
-                Open <strong>Pump.fun</strong> or <strong>Raydium</strong>, paste our official Contract Address (CA), and swap your SOL for $NOSEY!
+                Open <strong>Pump.fun</strong> or <strong>Raydium</strong>, paste our official Contract Address (CA), and swap your SOL for $KEPO!
               </p>
             </div>
             <div className="mt-6 pt-4 border-t-2 border-gray-300 font-pixel text-[10px] text-green-700 font-bold">

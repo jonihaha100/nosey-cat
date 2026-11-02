@@ -36,7 +36,7 @@ const INITIAL_MESSAGES: ChatMessage[] = [
     sender: 'NoseyBot 🤖',
     badge: 'BOT',
     sentiment: 'bull',
-    text: '@SaltyPaperhand Because you sold at the bottom anon! Cope harder while we send $NOSEY to Valhalla! 🔥',
+    text: '@SaltyPaperhand Because you sold at the bottom anon! Cope harder while we send $KEPO to Valhalla! 🔥',
     timestamp: '3m ago',
   },
   {
@@ -171,12 +171,12 @@ export const LiveTrollbox: React.FC = () => {
         const botRoasts = [
           `@${newMessage.sender} Someone give this anon some milk! Your FUD is only fueling our next green candle! 🍼🚀`,
           `@${newMessage.sender} Detecting high sodium levels! Boop the pink nose 10 times to cure your bear disease! 🐾`,
-          `@${newMessage.sender} Imagine fading $NOSEY when the snoot is this boopable... NGMI anon! 🤡`,
+          `@${newMessage.sender} Imagine fading $KEPO when the snoot is this boopable... NGMI anon! 🤡`,
         ];
         const randomRoast = botRoasts[Math.floor(Math.random() * botRoasts.length)];
         const botReply: ChatMessage = {
           id: 'bot_' + Date.now(),
-          sender: 'NoseyBot 🤖',
+          sender: 'KepoBot 🤖',
           badge: 'BOT',
           sentiment: 'bull',
           text: randomRoast,
@@ -191,12 +191,12 @@ export const LiveTrollbox: React.FC = () => {
         setTimeout(() => {
           const botCheers = [
             `@${newMessage.sender} BASED DIAMOND PAW! May your green candles reach outer space! 🐾💎`,
-            `@${newMessage.sender} Verified snoot booper spotted! Ape into $NOSEY and hold tight! 🔥`,
+            `@${newMessage.sender} Verified snoot booper spotted! Ape into $KEPO and hold tight! 🔥`,
           ];
           const randomCheer = botCheers[Math.floor(Math.random() * botCheers.length)];
           const botReply: ChatMessage = {
             id: 'bot_' + Date.now(),
-            sender: 'NoseyBot 🤖',
+            sender: 'KepoBot 🤖',
             badge: 'BOT',
             sentiment: 'bull',
             text: randomCheer,

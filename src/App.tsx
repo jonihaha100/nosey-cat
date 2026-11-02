@@ -180,7 +180,7 @@ export const App: React.FC = () => {
               <span>CRYPTO & MEME TOKEN RISK DISCLAIMER:</span>
             </div>
             <p className="leading-relaxed">
-              $NOSEY is a decentralized meme token created strictly for community entertainment, retro arcade lore, and digital culture. 
+              $KEPO is a decentralized meme token created strictly for community entertainment, retro arcade lore, and digital culture. 
               Meme coins possess extreme market volatility and come with no intrinsic financial guarantees or profit expectations. 
               Always do your own research (DYOR) and never risk more than you can comfortably afford to lose.
             </p>
@@ -189,7 +189,7 @@ export const App: React.FC = () => {
           <div className="flex flex-col sm:flex-row items-center justify-between text-gray-500 font-pixel text-[10px] gap-2">
             <span>© 2026 {TOKEN_CONFIG.name}. ALL PIXELS RESERVED.</span>
             <span className="flex items-center gap-1">
-              POWERED BY $NOSEY DEGENS • TO THE MOON <Heart size={10} className="text-red-500 fill-red-500" />
+              POWERED BY $KEPO DEGENS • TO THE MOON <Heart size={10} className="text-red-500 fill-red-500" />
             </span>
           </div>
         </div>

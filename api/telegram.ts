@@ -65,8 +65,8 @@ async function generateAiReply(userText: string, rawSenderName: string, apiKey?:
       const genAI = new GoogleGenerativeAI(apiKey);
       const model = genAI.getGenerativeModel({
         model: modelName,
-        systemInstruction: `You are Nosey Cat ($NOSEY), the witty, curious 16-bit tuxedo cat on Solana and the strategic marketing brain of the project.
-You speak naturally like an expert, enthusiastic Web3 co-builder who is also in-character as Nosey Cat.
+        systemInstruction: `You are Kepo Cat ($KEPO), the witty, curious 16-bit tuxedo cat on Solana and the strategic marketing brain of the project.
+You speak naturally like an expert, enthusiastic Web3 co-builder who is also in-character as Kepo Cat.
 
 ${languageInstruction}
 
@@ -78,16 +78,16 @@ ${languageInstruction}
 3. If someone asks about the website or why there is no contract yet (e.g. "what's wrong with the site"):
    - Explain clearly: "The website is running live at https://nosey-cat.vercel.app! We are currently in Stage 1: Community Genesis & Gathering the first 50 Diamond Paws. The contract address (CA) will be dropped stealthily on Pump.fun so sniper bots can't front-run our real community!"
 4. SCOPE OF TOPICS:
-   - Strictly keep all conversations focused on: $NOSEY tokenomics (1B supply, 0% tax, LP burned), Solana ecosystem, the 4-Stage Quest Roadmap (https://nosey-cat.vercel.app/#roadmap), website features (Retro Arcade Boop clicker, Meme Studio), and community milestones.
-   - Refuse or redirect any personal real-life queries back to the $NOSEY mission.
+   - Strictly keep all conversations focused on: $KEPO tokenomics (1B supply, 0% tax, LP burned), Solana ecosystem, the 4-Stage Quest Roadmap (https://nosey-cat.vercel.app/#roadmap), website features (Retro Arcade Boop clicker, Meme Studio), and community milestones.
+   - Refuse or redirect any personal real-life queries back to the $KEPO mission.
 
 Keep replies punchy, natural, and lively with cat emojis (🐾, 😼, 🚀).
 Official website: https://nosey-cat.vercel.app`,
       });
 
       const prompt = isPrivateChat
-        ? `Developer asks: "${sanitizedText}"\n\nNosey Cat's helpful, natural Indonesian response:`
-        : `${senderName} says/asks: "${sanitizedText}"\n\nNosey Cat's natural crypto-native English response:`;
+        ? `Developer asks: "${sanitizedText}"\n\nKepo Cat's helpful, natural Indonesian response:`
+        : `${senderName} says/asks: "${sanitizedText}"\n\nKepo Cat's natural crypto-native English response:`;
 
       const result = await model.generateContent(prompt);
       const output = result.response.text()?.trim();
@@ -247,7 +247,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // Scenario C: Commands (/start, /status, /tweet_now, /roadmap)
     // ----------------------------------------------------
     if (text.startsWith('/start')) {
-      const welcome = `🐾 **Meow! Welcome ${senderName}!** 😼✨\nI'm **Nosey Cat ($NOSEY)** — The most curious & boopable 16-bit tuxedo cat on Solana!\n\nI am running 24/7 on the cloud to guard your wallet from jeets and sniper bots.\n\n🕹️ **Play Arcade:** ${websiteUrl}\n🗺️ **Roadmap:** ${websiteUrl}/#roadmap\n🐦 **Official X:** https://x.com/TheNoseyCat\n\nAsk me anything or tap the buttons below! 🐾🚀`;
+      const welcome = `🐾 **Meow! Welcome ${senderName}!** 😼✨\nI'm **Kepo Cat ($KEPO)** — The most curious & boopable 16-bit tuxedo cat on Solana!\n\nI am running 24/7 on the cloud to guard your wallet from jeets and sniper bots.\n\n🕹️ **Play Arcade:** ${websiteUrl}\n🗺️ **Roadmap:** ${websiteUrl}/#roadmap\n🐦 **Official X:** https://x.com/TheNoseyCat\n\nAsk me anything or tap the buttons below! 🐾🚀`;
       await sendTelegramMessage(botToken, chatId, welcome, {
         reply_markup: {
           inline_keyboard: [
@@ -260,29 +260,29 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     if (text.startsWith('/roadmap')) {
-      const roadmapText = `🗺️ **$NOSEY 4-STAGE QUEST ROADMAP:**\n\n🐾 **Stage 1 (ACTIVE):** The Boop Awakening (Community gathering & AI operations)\n🐾 **Stage 2 (NEXT):** Stealth Pump.fun Genesis (100% fair launch, LP burn)\n🐾 **Stage 3:** Raydium Migration & CoinGecko / CMC fast track\n🐾 **Stage 4:** Web3 Retro Arcade & CEX Listings\n\n👉 Full Interactive Roadmap: ${websiteUrl}/#roadmap`;
+      const roadmapText = `🗺️ **$KEPO 4-STAGE QUEST ROADMAP:**\n\n🐾 **Stage 1 (ACTIVE):** The Boop Awakening (Community gathering & AI operations)\n🐾 **Stage 2 (NEXT):** Stealth Pump.fun Genesis (100% fair launch, LP burn)\n🐾 **Stage 3:** Raydium Migration & CoinGecko / CMC fast track\n🐾 **Stage 4:** Web3 Retro Arcade & CEX Listings\n\n👉 Full Interactive Roadmap: ${websiteUrl}/#roadmap`;
       await sendTelegramMessage(botToken, chatId, roadmapText);
       return res.status(200).json({ ok: true });
     }
 
     if (text.startsWith('/status') || text.startsWith('/analytics')) {
-      const statusText = `📈 **$NOSEY CLOUD AGENT STATUS:** 🟢 ONLINE 24/7\n\n• Strategic Phase: \`PRE_LAUNCH\`\n• Platform: Solana (Pump.fun Genesis)\n• Web Visitors Today: ~520+ Explorers (+64% 24h)\n• Contract Address: \`COMING_SOON_ON_PUMPFUN\`\n• Cloud Host: Vercel Serverless Edge\n\n👉 Test terminal: ${websiteUrl}`;
+      const statusText = `📈 **$KEPO CLOUD AGENT STATUS:** 🟢 ONLINE 24/7\n\n• Strategic Phase: \`PRE_LAUNCH\`\n• Platform: Solana (Pump.fun Genesis)\n• Web Visitors Today: ~520+ Explorers (+64% 24h)\n• Contract Address: \`COMING_SOON_ON_PUMPFUN\`\n• Cloud Host: Vercel Serverless Edge\n\n👉 Test terminal: ${websiteUrl}`;
       await sendTelegramMessage(botToken, chatId, statusText);
       return res.status(200).json({ ok: true });
     }
 
     if (text.startsWith('/tweet_now')) {
-      let tweetText = `🐾 $NOSEY AIRDROP IS LIVE! 😼🚀\n\n16-bit retro arcade cat on #Solana. Fair launch on Pump.fun!\n\n🎁 500 FIRST DIAMOND PAWS:\n1️⃣ Follow @TheNoseyCat & RT\n2️⃣ Drop your $SOL address 👇\n3️⃣ Join TG: t.me/TheNoseyCat\n\n#Solana #Airdrop #MemeCoin`;
+      let tweetText = `🐾 $KEPO AIRDROP IS LIVE! 😼🚀\n\n16-bit retro arcade cat on #Solana. Fair launch on Pump.fun!\n\n🎁 500 FIRST DIAMOND PAWS:\n1️⃣ Follow @TheNoseyCat & RT\n2️⃣ Drop your $SOL address 👇\n3️⃣ Join TG: t.me/TheNoseyCat\n\n#Solana #Airdrop #MemeCoin`;
 
       if (geminiKey && !geminiKey.includes('your_gemini')) {
         try {
           const genAI = new GoogleGenerativeAI(geminiKey);
           const model = genAI.getGenerativeModel({
             model: 'gemini-3.5-flash-lite',
-            systemInstruction: `You are the viral Twitter marketing strategist for Nosey Cat ($NOSEY), a 16-bit retro arcade meme coin on Solana.
+            systemInstruction: `You are the viral Twitter marketing strategist for Kepo Cat ($KEPO), a 16-bit retro arcade meme coin on Solana.
 Write a single spicy, high-engagement tweet STRICTLY under 220 characters.
 RULE: Singkat, padat, jelas! Never exceed 230 characters so it fits free Twitter 280-char limit with ample headroom.
-Always include ticker $NOSEY or #Solana. Do not wrap in quotes.`,
+Always include ticker $KEPO or #Solana. Do not wrap in quotes.`,
           });
           const prompt = `Generate a fresh viral tweet for Twitter/X right now (strictly under 220 chars):`;
           const result = await model.generateContent(prompt);
@@ -310,10 +310,10 @@ Always include ticker $NOSEY or #Solana. Do not wrap in quotes.`,
     // Scenario D: Community Conversational AI & Mentions
     // ----------------------------------------------------
     const lower = text.toLowerCase();
-    const isMentioned = lower.includes('@nesey_cat_bot') || lower.includes('nosey') || lower.includes('cat');
+    const isMentioned = lower.includes('@nesey_cat_bot') || lower.includes('kepo') || lower.includes('nosey') || lower.includes('cat');
     const isQuestion = text.includes('?');
     const triggers = [
-      'halo', 'hai', 'hello', 'hi', 'kucing', 'dev', 'launch', 'kapan', 'beli', 'buy', 
+      'kepo', 'halo', 'hai', 'hello', 'hi', 'kucing', 'dev', 'launch', 'kapan', 'beli', 'buy', 
       'safe', 'rug', 'scam', 'ca', 'solana', 'pink', 'snoot', 'boop', 'konten', 'content', 
       'tweet', 'jadwal', 'schedule', 'post', 'cerita', 'story', 'meme', 'ide', 'idea',
       'active', 'site', 'web', 'legit', 'good', 'gm', 'gn', 'evening', 'morning', 
