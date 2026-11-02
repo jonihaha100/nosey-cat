@@ -147,7 +147,7 @@ export const EcosystemHub: React.FC = () => {
                 <video
                   ref={videoRef}
                   src={getAssetUrl('/videos/kepo-story-animation.mp4')}
-                  poster={getAssetUrl('/banners/kepo-cat-landscape-genesis.jpg')}
+                  poster={getAssetUrl('/banners/kepo-cyberpunk-alley-master.jpg')}
                   controls
                   playsInline
                   className="w-full aspect-[9/16] object-contain"

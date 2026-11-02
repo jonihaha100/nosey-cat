@@ -130,3 +130,4 @@ with wave.open(sfx_wav_path, 'wb') as wf:
     wf.writeframes(frames)
 
 print(f"Generated {sfx_wav_path} (duration: {TOTAL_SECONDS}s)")
+
