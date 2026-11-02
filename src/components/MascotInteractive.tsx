@@ -73,7 +73,7 @@ export const MascotInteractive: React.FC<MascotInteractiveProps> = ({
   }, [copiedCA, chaosMode]);
 
   // Boop click handler (10x power in Chaos Mode)
-  const handleMascotClick = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMascotClick = (e?: React.MouseEvent<HTMLElement>) => {
     const isChaos = chaosMode;
     if (isChaos) {
       playLaserSound();
@@ -99,8 +99,8 @@ export const MascotInteractive: React.FC<MascotInteractiveProps> = ({
 
     // Add floating particles
     const rect = containerRef.current?.getBoundingClientRect();
-    const clickX = rect ? e.clientX - rect.left : 150;
-    const clickY = rect ? e.clientY - rect.top : 150;
+    const clickX = e && rect ? e.clientX - rect.left : 160;
+    const clickY = e && rect ? e.clientY - rect.top : 120;
 
     const particlePool = isChaos
       ? ['🔥 +10 BOOP!', '⚡️ SNOOT OVERDRIVE!', '🚀 LFG!', '💎 MOON!']
@@ -343,8 +343,22 @@ export const MascotInteractive: React.FC<MascotInteractiveProps> = ({
         ))}
       </div>
 
-      {/* Nose Boop Score Counter - Ample mt-20 sm:mt-24 clearance so cat frame rotation never clips letter T */}
-      <div className={`mt-20 sm:mt-24 relative z-10 border-4 border-black px-6 sm:px-8 py-3 font-pixel text-xs sm:text-sm leading-normal shadow-pixel text-center inline-flex items-center justify-center gap-2 overflow-visible ${
+      {/* Big Direct 1-Tap Boop Button for Mobile & Desktop */}
+      <button
+        type="button"
+        onClick={handleMascotClick}
+        className={`mt-14 sm:mt-16 relative z-10 px-6 sm:px-8 py-2.5 sm:py-3 font-pixel text-xs sm:text-sm border-4 border-black shadow-pixel hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none active:translate-x-1 active:translate-y-1 active:shadow-none transition-all flex items-center justify-center gap-2 cursor-pointer ${
+          chaosMode
+            ? 'bg-red-600 text-yellow-300 ring-2 ring-yellow-400 animate-arcade-shake font-bold'
+            : 'bg-arcade-pink text-black hover:bg-pink-300 font-bold'
+        }`}
+      >
+        <span>🐾</span>
+        <span>{chaosMode ? '⚡️ 10x SUPER SNOOT BOOP! ⚡️' : 'TAP TO BOOP PINK SNOOT! 🐾'}</span>
+      </button>
+
+      {/* Nose Boop Score Counter */}
+      <div className={`mt-3 relative z-10 border-4 border-black px-6 sm:px-8 py-2.5 font-pixel text-xs sm:text-sm leading-normal shadow-pixel text-center inline-flex items-center justify-center gap-2 overflow-visible ${
         chaosMode ? 'bg-red-600 text-yellow-300 animate-arcade-shake' : 'bg-black text-arcade-yellow'
       }`}>
         <span className="tracking-wide">TOTAL NOSE BOOPS:</span>

@@ -15,6 +15,7 @@ import { CRTOverlay } from './components/CRTOverlay';
 import { TOKEN_CONFIG } from './config/tokenConfig';
 import { getAssetUrl } from './utils/assets';
 import { 
+  playBoopSound,
   playPowerUpSound, 
   playLaserSound,
   getAudioMuteStatus, 
@@ -33,6 +34,8 @@ export const App: React.FC = () => {
     if (nextState) {
       playLaserSound();
       playPowerUpSound();
+    } else {
+      playBoopSound();
     }
   };
 

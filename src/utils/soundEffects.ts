@@ -1,22 +1,38 @@
-// 8-Bit Web Audio API Synthesizer (Zero External Dependencies)
+// 8-Bit Web Audio API Synthesizer (Zero External Dependencies, High-Volume, Resilient)
 
 let audioCtx: AudioContext | null = null;
 let isMuted: boolean = false;
 
-// Audio Context Singleton with lazy unlock on user gesture
-const getAudioContext = (): AudioContext | null => {
+// Audio Context Singleton with aggressive unlock on first user gesture
+export const getAudioContext = (): AudioContext | null => {
   if (typeof window === 'undefined') return null;
   if (!audioCtx) {
-    const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+    const AudioContextClass =
+      window.AudioContext ||
+      (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
     if (AudioContextClass) {
       audioCtx = new AudioContextClass();
     }
   }
   if (audioCtx && audioCtx.state === 'suspended') {
-    audioCtx.resume();
+    audioCtx.resume().catch(() => {});
   }
   return audioCtx;
 };
+
+// Auto-unlock Web Audio on ANY user interaction (standard mobile browser compliance)
+if (typeof window !== 'undefined') {
+  const unlockEvents = ['click', 'touchstart', 'touchend', 'pointerdown', 'keydown'];
+  const unlockAudio = () => {
+    const ctx = getAudioContext();
+    if (ctx && ctx.state === 'suspended') {
+      ctx.resume().catch(() => {});
+    }
+  };
+  unlockEvents.forEach((evt) => {
+    window.addEventListener(evt, unlockAudio, { passive: true });
+  });
+}
 
 export const getAudioMuteStatus = (): boolean => isMuted;
 
@@ -29,86 +45,114 @@ export const toggleAudioMute = (): boolean => {
   return isMuted;
 };
 
-/**
- * High-pitched bleep / meow-chirp sound for clicking the cat's nose (Boop)
- */
-export const playBoopSound = (): void => {
+// Safe audio executor that guarantees AudioContext is running before scheduling nodes
+function playTone(builderFn: (ctx: AudioContext, startTime: number) => void) {
   if (isMuted) return;
+  if (typeof window === 'undefined') return;
+
   const ctx = getAudioContext();
   if (!ctx) return;
 
-  try {
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-
-    osc.type = 'square';
-    
-    // Quick rising pitch chirp (480Hz -> 960Hz)
-    const now = ctx.currentTime;
-    osc.frequency.setValueAtTime(480, now);
-    osc.frequency.exponentialRampToValueAtTime(1020, now + 0.08);
-
-    // Envelope
-    gain.gain.setValueAtTime(0.18, now);
-    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.12);
-
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-
-    osc.start(now);
-    osc.stop(now + 0.12);
-  } catch (err) {
-    console.warn('Audio playback error:', err);
+  if (ctx.state === 'suspended') {
+    ctx.resume().then(() => {
+      try {
+        builderFn(ctx, ctx.currentTime);
+      } catch (err) {
+        console.warn('Audio tone scheduling error:', err);
+      }
+    }).catch(() => {});
+  } else {
+    try {
+      builderFn(ctx, ctx.currentTime);
+    } catch (err) {
+      console.warn('Audio tone scheduling error:', err);
+    }
   }
+}
+
+/**
+ * High-pitched bleep / meow-chirp sound for clicking the cat's nose (Boop)
+ * Dual-layer: bright sine chirp + triangle harmonic pop + mobile haptic vibration
+ */
+export const playBoopSound = (): void => {
+  // Mobile tactile feedback
+  if (typeof navigator !== 'undefined' && navigator.vibrate) {
+    try { navigator.vibrate(35); } catch {}
+  }
+
+  playTone((ctx, now) => {
+    // Primary rising chirp (540Hz -> 1380Hz)
+    const osc1 = ctx.createOscillator();
+    const gain1 = ctx.createGain();
+
+    osc1.type = 'sine';
+    osc1.frequency.setValueAtTime(540, now);
+    osc1.frequency.exponentialRampToValueAtTime(1380, now + 0.09);
+
+    gain1.gain.setValueAtTime(0.4, now);
+    gain1.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+
+    osc1.connect(gain1);
+    gain1.connect(ctx.destination);
+    osc1.start(now);
+    osc1.stop(now + 0.15);
+
+    // Secondary retro arcade pop harmonic
+    const osc2 = ctx.createOscillator();
+    const gain2 = ctx.createGain();
+
+    osc2.type = 'triangle';
+    osc2.frequency.setValueAtTime(880, now);
+    osc2.frequency.exponentialRampToValueAtTime(1760, now + 0.08);
+
+    gain2.gain.setValueAtTime(0.28, now);
+    gain2.gain.exponentialRampToValueAtTime(0.01, now + 0.12);
+
+    osc2.connect(gain2);
+    gain2.connect(ctx.destination);
+    osc2.start(now);
+    osc2.stop(now + 0.12);
+  });
 };
 
 /**
  * Classic 8-bit arcade coin sound (rising B5: ~988Hz to E6: ~1319Hz)
  */
 export const playCoinSound = (): void => {
-  if (isMuted) return;
-  const ctx = getAudioContext();
-  if (!ctx) return;
+  if (typeof navigator !== 'undefined' && navigator.vibrate) {
+    try { navigator.vibrate(25); } catch {}
+  }
 
-  try {
-    const now = ctx.currentTime;
+  playTone((ctx, now) => {
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
 
     osc.type = 'square';
-
-    // Note 1: B5 (~987.77 Hz)
     osc.frequency.setValueAtTime(987.77, now);
-    // Note 2: E6 (~1318.51 Hz) after 0.07s
-    osc.frequency.setValueAtTime(1318.51, now + 0.07);
+    osc.frequency.setValueAtTime(1318.51, now + 0.08);
 
-    gain.gain.setValueAtTime(0.2, now);
-    gain.gain.setValueAtTime(0.2, now + 0.07);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+    gain.gain.setValueAtTime(0.35, now);
+    gain.gain.setValueAtTime(0.35, now + 0.08);
+    gain.gain.exponentialRampToValueAtTime(0.005, now + 0.38);
 
     osc.connect(gain);
     gain.connect(ctx.destination);
-
     osc.start(now);
-    osc.stop(now + 0.35);
-  } catch (err) {
-    console.warn('Audio playback error:', err);
-  }
+    osc.stop(now + 0.38);
+  });
 };
 
 /**
  * 8-Bit rapid ascending power-up arpeggio for CHAOS MODE
  */
 export const playPowerUpSound = (): void => {
-  if (isMuted) return;
-  const ctx = getAudioContext();
-  if (!ctx) return;
+  if (typeof navigator !== 'undefined' && navigator.vibrate) {
+    try { navigator.vibrate([20, 20, 20]); } catch {}
+  }
 
-  try {
-    const now = ctx.currentTime;
-    // Frequencies: C5, E5, G5, B5, C6, E6, G6
+  playTone((ctx, now) => {
     const freqs = [523.25, 659.25, 783.99, 987.77, 1046.50, 1318.51, 1567.98];
-    const stepDuration = 0.045;
+    const stepDuration = 0.05;
 
     freqs.forEach((f, idx) => {
       const osc = ctx.createOscillator();
@@ -118,8 +162,8 @@ export const playPowerUpSound = (): void => {
       osc.type = 'square';
       osc.frequency.setValueAtTime(f, noteTime);
 
-      gain.gain.setValueAtTime(0.15, noteTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, noteTime + stepDuration * 1.5);
+      gain.gain.setValueAtTime(0.3, noteTime);
+      gain.gain.exponentialRampToValueAtTime(0.005, noteTime + stepDuration * 1.5);
 
       osc.connect(gain);
       gain.connect(ctx.destination);
@@ -127,67 +171,55 @@ export const playPowerUpSound = (): void => {
       osc.start(noteTime);
       osc.stop(noteTime + stepDuration * 1.5);
     });
-  } catch (err) {
-    console.warn('Audio playback error:', err);
-  }
+  });
 };
 
 /**
  * 8-Bit error / cancel sound
  */
 export const playBuzzerSound = (): void => {
-  if (isMuted) return;
-  const ctx = getAudioContext();
-  if (!ctx) return;
-
-  try {
-    const now = ctx.currentTime;
+  playTone((ctx, now) => {
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
 
     osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(150, now);
-    osc.frequency.setValueAtTime(110, now + 0.08);
+    osc.frequency.setValueAtTime(160, now);
+    osc.frequency.setValueAtTime(120, now + 0.08);
 
-    gain.gain.setValueAtTime(0.2, now);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+    gain.gain.setValueAtTime(0.3, now);
+    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.22);
 
     osc.connect(gain);
     gain.connect(ctx.destination);
-
     osc.start(now);
-    osc.stop(now + 0.2);
-  } catch (err) {
-    console.warn('Audio playback error:', err);
-  }
+    osc.stop(now + 0.22);
+  });
 };
 
 /**
  * 8-Bit Sci-Fi Laser Beam Zap (High energy rapid frequency sweep)
  */
 export const playLaserSound = (): void => {
-  if (isMuted) return;
-  const ctx = getAudioContext();
-  if (!ctx) return;
+  if (typeof navigator !== 'undefined' && navigator.vibrate) {
+    try { navigator.vibrate([30, 20, 45]); } catch {}
+  }
 
-  try {
-    const now = ctx.currentTime;
-    // Primary laser oscillator (rapid downward chirp)
+  playTone((ctx, now) => {
+    // Primary laser oscillator (rapid downward chirp 2800Hz -> 130Hz)
     const osc1 = ctx.createOscillator();
     const gain1 = ctx.createGain();
 
     osc1.type = 'sawtooth';
-    osc1.frequency.setValueAtTime(2400, now);
-    osc1.frequency.exponentialRampToValueAtTime(140, now + 0.18);
+    osc1.frequency.setValueAtTime(2800, now);
+    osc1.frequency.exponentialRampToValueAtTime(130, now + 0.2);
 
-    gain1.gain.setValueAtTime(0.22, now);
-    gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
+    gain1.gain.setValueAtTime(0.38, now);
+    gain1.gain.exponentialRampToValueAtTime(0.005, now + 0.2);
 
     osc1.connect(gain1);
     gain1.connect(ctx.destination);
-
     osc1.start(now);
-    osc1.stop(now + 0.18);
+    osc1.stop(now + 0.2);
 
     // Sub-bass thump for laser impact
     const osc2 = ctx.createOscillator();
@@ -195,19 +227,14 @@ export const playLaserSound = (): void => {
 
     osc2.type = 'square';
     osc2.frequency.setValueAtTime(180, now);
-    osc2.frequency.exponentialRampToValueAtTime(40, now + 0.22);
+    osc2.frequency.exponentialRampToValueAtTime(40, now + 0.25);
 
-    gain2.gain.setValueAtTime(0.2, now);
-    gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+    gain2.gain.setValueAtTime(0.3, now);
+    gain2.gain.exponentialRampToValueAtTime(0.005, now + 0.25);
 
     osc2.connect(gain2);
     gain2.connect(ctx.destination);
-
     osc2.start(now);
-    osc2.stop(now + 0.22);
-  } catch (err) {
-    console.warn('Audio playback error:', err);
-  }
+    osc2.stop(now + 0.25);
+  });
 };
-
-

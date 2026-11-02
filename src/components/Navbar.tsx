@@ -93,11 +93,11 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Right: Symmetrical Action Controls */}
         <div className="flex-shrink-0 flex items-center gap-1 sm:gap-2">
-          {/* Audio Mute/Unmute (visible on sm+) */}
+          {/* Audio Mute/Unmute (visible on mobile and desktop) */}
           <button
             onClick={onToggleMute}
             title={isMuted ? "Unmute 8-Bit Audio" : "Mute Audio"}
-            className="hidden sm:flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center border-2 sm:border-4 border-black bg-arcade-yellow text-black shadow-pixel-sm active:translate-x-0.5 active:translate-y-0.5 active:shadow-none rounded-none focus:outline-none flex-shrink-0"
+            className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center border-2 sm:border-4 border-black bg-arcade-yellow text-black shadow-pixel-sm active:translate-x-0.5 active:translate-y-0.5 active:shadow-none rounded-none focus:outline-none flex-shrink-0"
             aria-label="Toggle Audio"
           >
             {isMuted ? <VolumeX size={15} /> : <Volume2 size={15} />}
@@ -107,15 +107,14 @@ export const Navbar: React.FC<NavbarProps> = ({
           <button
             onClick={onToggleChaos}
             title="Toggle Chaos Mode"
-            className={`h-8 sm:h-9 px-1.5 sm:px-2.5 flex items-center gap-1 font-pixel text-[9px] sm:text-[10px] border-2 sm:border-4 border-black rounded-none shadow-pixel-sm active:translate-x-0.5 active:translate-y-0.5 active:shadow-none focus:outline-none transition-colors whitespace-nowrap flex-shrink-0 ${
+            className={`h-8 sm:h-9 px-2 sm:px-2.5 flex items-center gap-1 font-pixel text-[9px] sm:text-[10px] border-2 sm:border-4 border-black rounded-none shadow-pixel-sm active:translate-x-0.5 active:translate-y-0.5 active:shadow-none focus:outline-none transition-all whitespace-nowrap flex-shrink-0 ${
               chaosMode 
-                ? 'bg-red-600 text-yellow-300 animate-arcade-shake' 
-                : 'bg-arcade-pink text-black hover:bg-pink-300'
+                ? 'bg-red-600 text-yellow-300 ring-2 ring-yellow-400 animate-arcade-shake font-bold' 
+                : 'bg-arcade-pink text-black hover:bg-pink-300 font-bold'
             }`}
           >
-            {chaosMode ? <Zap size={13} className="text-yellow-300 fill-yellow-300" /> : <Flame size={13} />}
-            <span className="hidden sm:inline">CHAOS:</span>
-            <span>{chaosMode ? 'ON!' : 'OFF'}</span>
+            {chaosMode ? <Zap size={13} className="text-yellow-300 fill-yellow-300 animate-pulse" /> : <Flame size={13} className="text-red-600 fill-red-500" />}
+            <span className="tracking-tight">{chaosMode ? 'CHAOS: ON!' : 'CHAOS: OFF'}</span>
           </button>
 
           {/* Buy CTA */}
