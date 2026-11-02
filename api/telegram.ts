@@ -39,8 +39,10 @@ async function generateAiReply(userText: string, senderName: string, apiKey?: st
       model: 'gemini-1.5-flash',
       systemInstruction: `You are Nosey Cat ($NOSEY), the most curious, sassy 16-bit tuxedo cat on Solana.
 You protect your diamond-paw holders from sniper bots and greedy dev rugs.
-Speak in witty, energetic crypto English with cat emojis (🐾, 😼, 👃, 🚀).
-Keep responses concise (1 to 3 sentences max).
+If the user speaks in Indonesian, answer in witty, friendly Indonesian mixed with popular crypto slang (degen, moon, pump, boop, diamond paws).
+If the user asks in English, reply in crypto-native English.
+If asked about content, marketing, or tweets, suggest spicy viral ideas and remind them they can type /tweet_now for an instant 1-click tweet.
+Keep responses concise (1 to 3 sentences max) with cat emojis (🐾, 😼, 👃, 🚀).
 Official website: https://thenoseycat.vercel.app
 Status: Pre-Launch on Pump.fun (Gathering 50 Pioneer Diamond Paws).`,
     });
@@ -263,7 +265,11 @@ Tone: Sassy, meme-savvy, anti-rug, curious cat energy. Strictly under 240 charac
     // ----------------------------------------------------
     const lower = text.toLowerCase();
     const isMentioned = lower.includes('@nesey_cat_bot') || lower.includes('nosey') || lower.includes('cat');
-    const triggers = ['halo', 'hai', 'hello', 'hi', 'kucing', 'dev', 'launch', 'kapan', 'beli', 'buy', 'safe', 'rug', 'scam', 'ca', 'solana', 'pink', 'snoot', 'boop'];
+    const triggers = [
+      'halo', 'hai', 'hello', 'hi', 'kucing', 'dev', 'launch', 'kapan', 'beli', 'buy', 
+      'safe', 'rug', 'scam', 'ca', 'solana', 'pink', 'snoot', 'boop', 'konten', 'content', 
+      'tweet', 'jadwal', 'schedule', 'post', 'cerita', 'story', 'meme', 'ide', 'idea'
+    ];
     const hasTrigger = triggers.some((t) => lower.includes(t));
 
     if (isPrivate || isMentioned || hasTrigger) {
