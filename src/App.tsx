@@ -5,6 +5,7 @@ import { HeroSection } from './components/HeroSection';
 import { LiveMetricsBar } from './components/LiveMetricsBar';
 import { LiveTrafficMonitor } from './components/LiveTrafficMonitor';
 import { SecurityProof } from './components/SecurityProof';
+import { EcosystemHub } from './components/EcosystemHub';
 import { ArcadeRoadmap } from './components/ArcadeRoadmap';
 import { SnootLoreSection } from './components/SnootLoreSection';
 import { LiveTrollbox } from './components/LiveTrollbox';
@@ -88,6 +89,9 @@ export const App: React.FC = () => {
 
         {/* Section 4: Anti-Rug On-Chain Security Proofs */}
         <SecurityProof />
+
+        {/* Section 4.2: Ecosystem Hub & 48s Teaser Trailer (ChillMech Inspired) */}
+        <EcosystemHub />
 
         {/* Section 4.5: Master 4-Stage Arcade Roadmap */}
         <ArcadeRoadmap />

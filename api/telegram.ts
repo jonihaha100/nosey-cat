@@ -93,7 +93,11 @@ async function handleDevContentRequest(
     `Normies are sleeping, but $KEPO is up 24/7 watching the charts. ☕️🐾\n\nNo presale, no insider rugs. Pure retro arcade community on Solana.\n\nJoin the 16-bit resistance: https://nosey-cat.vercel.app 🚀💎 #Solana`,
   ];
 
-  let tweetText = FALLBACK_TWEETS[Math.floor(Math.random() * FALLBACK_TWEETS.length)];
+  const isVideoRequest = (userPrompt || '').toLowerCase().includes('video') || (userPrompt || '').toLowerCase().includes('trailer');
+
+  let tweetText = isVideoRequest
+    ? `Curiosity didn't kill this cat — it sent him to the moon on Solana! 😼🚀\n\n16-bit retro arcade gaming + zero tax fair launch on Pump.fun.\n\nWatch our 48s Genesis Teaser Trailer:\nhttps://nosey-cat.vercel.app\n#Solana #KEPO`
+    : FALLBACK_TWEETS[Math.floor(Math.random() * FALLBACK_TWEETS.length)];
 
   if (geminiKey && !geminiKey.includes('your_gemini')) {
     try {
@@ -428,6 +432,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       lower.includes('content') ||
       lower.includes('tweet') ||
       lower.includes('post') ||
+      lower.includes('video') ||
+      lower.includes('trailer') ||
       lower.includes('updat') || // matches update, updat, updat3, updates
       lower.includes('gambar') ||
       lower.includes('banner') ||
