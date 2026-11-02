@@ -636,7 +636,7 @@ export const MemeStudio: React.FC = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Banner 1: Moon Mission */}
             <div className="bg-arcade-chalk border-4 border-black p-5 shadow-pixel-lg flex flex-col justify-between space-y-4">
               <div className="space-y-3">
@@ -706,7 +706,7 @@ export const MemeStudio: React.FC = () => {
               <div className="flex gap-2 pt-2">
                 <a
                   href={getAssetUrl('/banners/nosey-degen-battle-station-1080p.png')}
-                  download="nosey-cat-degen-battle-station-banner-1080p.png"
+                  download="kepo-cat-degen-battle-station-banner-1080p.png"
                   className="flex-1 h-11 bg-arcade-green text-black border-4 border-black font-pixel text-xs flex items-center justify-center gap-2 shadow-pixel-sm hover:translate-x-0.5 hover:translate-y-0.5 active:translate-x-1 active:translate-y-1 font-bold"
                 >
                   <Download size={14} />
@@ -716,6 +716,51 @@ export const MemeStudio: React.FC = () => {
                   type="button"
                   onClick={() => {
                     setBaseImageSrc(getAssetUrl('/banners/nosey-degen-battle-station.png'));
+                    setActiveAccessories({ glasses: false, verified: true });
+                    window.scrollTo({ top: document.getElementById('studio')?.offsetTop, behavior: 'smooth' });
+                  }}
+                  className="px-3 h-11 bg-white hover:bg-gray-100 text-black border-4 border-black font-pixel text-[10px] flex items-center justify-center gap-1 shadow-pixel-sm"
+                  title="Load into Meme Studio"
+                >
+                  <span>EDIT IN STUDIO</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Banner 3: Kepo Cyberpunk Genesis Command */}
+            <div className="bg-arcade-chalk border-4 border-black p-5 shadow-pixel-lg flex flex-col justify-between space-y-4">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="bg-arcade-green text-black border-2 border-black font-pixel text-[10px] px-2 py-0.5 font-bold">
+                    ⚡️ BANNER #3: $KEPO GENESIS
+                  </span>
+                  <span className="font-pixel text-[9px] text-gray-600">1920x1080 HD</span>
+                </div>
+                <div className="border-4 border-black overflow-hidden bg-black shadow-pixel-sm group relative aspect-video">
+                  <img
+                    src={getAssetUrl('/banners/kepo-cat-landscape-genesis.jpg')}
+                    alt="Kepo Cat Cyberpunk Genesis Command Center Banner"
+                    className="w-full h-full object-cover pixelated group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+                <p className="font-retro text-lg text-gray-800 leading-snug">
+                  Kepo Cat atop the neon cyberpunk arcade rooftop command center, overlooking neon city skies with parabolic green Solana candles and giant 16-bit moon.
+                </p>
+              </div>
+
+              <div className="flex gap-2 pt-2">
+                <a
+                  href={getAssetUrl('/banners/kepo-cat-landscape-genesis.jpg')}
+                  download="kepo-cat-landscape-genesis-1080p.jpg"
+                  className="flex-1 h-11 bg-arcade-green text-black border-4 border-black font-pixel text-xs flex items-center justify-center gap-2 shadow-pixel-sm hover:translate-x-0.5 hover:translate-y-0.5 active:translate-x-1 active:translate-y-1 font-bold"
+                >
+                  <Download size={14} />
+                  <span>DOWNLOAD BANNER</span>
+                </a>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setBaseImageSrc(getAssetUrl('/banners/kepo-cat-landscape-genesis.jpg'));
                     setActiveAccessories({ glasses: false, verified: true });
                     window.scrollTo({ top: document.getElementById('studio')?.offsetTop, behavior: 'smooth' });
                   }}
