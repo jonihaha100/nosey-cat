@@ -43,7 +43,7 @@ async function generateAiReply(userText: string, rawSenderName: string, apiKey?:
   if (!apiKey || apiKey.includes('your_gemini')) {
     return isPrivateChat
       ? `Miaw! 🐾 Siap Mas! Tentu bisa banget kita buatkan konten dan tweet viral buat di X! Mau tema apa nih: cerita Nosey Saga, edukasi anti-rug, atau ajakan boop snoot? Tinggal sebut, langsung kuracik! 😼🚀`
-      : `Meow! 🐾 Dev is locked in the lab 24/7 building the system! All eyes on our Pump.fun stealth genesis. Boop the pink nose at https://thenoseycat.vercel.app 😼🚀`;
+      : `Meow! 🐾 Dev is locked in the lab 24/7 building the system! All eyes on our Pump.fun stealth genesis. Boop the pink nose at https://nosey-cat.vercel.app 😼🚀`;
   }
 
   // Language instructions depending on chat environment:
@@ -75,13 +75,13 @@ ${languageInstruction}
    - Reassure them with full confidence: "The dev is 100% active and cooking in the lab 24/7! Constantly monitoring systems, building features, and preparing the launch pipeline."
    - Emphasize decentralization: "The dev operates pseudonymously following Satoshi Nakamoto's philosophy. In Web3 we don't worship individual personalities or trust humans—we trust immutable code, 0% tax, burned LP, and fair launch on Pump.fun!"
 3. If someone asks about the website or why there is no contract yet (e.g. "what's wrong with the site"):
-   - Explain clearly: "The website is running live at https://thenoseycat.vercel.app! We are currently in Stage 1: Community Genesis & Gathering the first 50 Diamond Paws. The contract address (CA) will be dropped stealthily on Pump.fun so sniper bots can't front-run our real community!"
+   - Explain clearly: "The website is running live at https://nosey-cat.vercel.app! We are currently in Stage 1: Community Genesis & Gathering the first 50 Diamond Paws. The contract address (CA) will be dropped stealthily on Pump.fun so sniper bots can't front-run our real community!"
 4. SCOPE OF TOPICS:
-   - Strictly keep all conversations focused on: $NOSEY tokenomics (1B supply, 0% tax, LP burned), Solana ecosystem, the 4-Stage Quest Roadmap (https://thenoseycat.vercel.app/#roadmap), website features (Retro Arcade Boop clicker, Meme Studio), and community milestones.
+   - Strictly keep all conversations focused on: $NOSEY tokenomics (1B supply, 0% tax, LP burned), Solana ecosystem, the 4-Stage Quest Roadmap (https://nosey-cat.vercel.app/#roadmap), website features (Retro Arcade Boop clicker, Meme Studio), and community milestones.
    - Refuse or redirect any personal real-life queries back to the $NOSEY mission.
 
 Keep replies punchy, natural, and lively with cat emojis (🐾, 😼, 🚀).
-Official website: https://thenoseycat.vercel.app`,
+Official website: https://nosey-cat.vercel.app`,
       });
 
       const prompt = isPrivateChat
@@ -98,13 +98,13 @@ Official website: https://thenoseycat.vercel.app`,
 
   return isPrivateChat
     ? `Miaw! 🐾 Siap Mas! Tentu bisa banget kita buatkan konten buat di X! Mau dibikinin tweet draf apa nih sekarang? Langsung saya racik! 😼🚀`
-    : `Meow! 🐾 Dev is 100% active and building 24/7! We are gearing up for the Pump.fun stealth genesis. Boop the snoot at https://thenoseycat.vercel.app 😼🚀`;
+    : `Meow! 🐾 Dev is 100% active and building 24/7! We are gearing up for the Pump.fun stealth genesis. Boop the snoot at https://nosey-cat.vercel.app 😼🚀`;
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const botToken = process.env.TELEGRAM_BOT_TOKEN;
   const geminiKey = process.env.GEMINI_API_KEY;
-  const websiteUrl = process.env.WEBSITE_URL || 'https://thenoseycat.vercel.app';
+  const websiteUrl = process.env.WEBSITE_URL || 'https://nosey-cat.vercel.app';
 
   if (!botToken) {
     return res.status(500).json({ error: 'TELEGRAM_BOT_TOKEN environment variable is not configured.' });
@@ -112,7 +112,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   // 1. Handle GET: Diagnostic & 1-Click Webhook Registration
   if (req.method === 'GET') {
-    const host = req.headers.host || 'thenoseycat.vercel.app';
+    const host = req.headers.host || 'nosey-cat.vercel.app';
     const proto = req.headers['x-forwarded-proto'] || 'https';
     const currentWebhookUrl = `${proto}://${host}/api/telegram`;
 

@@ -123,7 +123,7 @@ export class TelegramAgentService {
       registerAdminCommands(this.bot);
 
       // Configure Telegram Web App / Menu Button and Command hints
-      const website = process.env.WEBSITE_URL || 'https://thenoseycat.vercel.app';
+      const website = process.env.WEBSITE_URL || 'https://nosey-cat.vercel.app';
       try {
         await this.bot.setChatMenuButton({
           menu_button: {
@@ -204,7 +204,7 @@ export class TelegramAgentService {
     this.recentlyWelcomedUsers.set(user.id, Date.now());
 
     const name = user.first_name || user.username || 'Anon';
-    const website = process.env.WEBSITE_URL || 'https://thenoseycat.vercel.app';
+    const website = process.env.WEBSITE_URL || 'https://nosey-cat.vercel.app';
     const welcomeText = `🧪 **EXPERIMENT #001: THE NOSEY PROTOCOL** 🐾\nWelcome to the testbed, **${name}**!\n\nCan an organic community of 50 curious minds defeat algorithmic sniper bots and 5-minute dev rugs on Solana?\n\n🔬 **THE LAB TERMINALS:**\n🕹️ **Arcade Testbed:** [Open Retro Terminal](${website})\n🗺️ **Experiment Roadmap:** [Read 4-Stage Protocol](${website}/#roadmap)\n🐦 **Transmission Wire:** [@TheNoseyCat](https://x.com/TheNoseyCat)\n\n⚔️ **ACTIVE PHASE: Quest 1 — Genesis 50**\nGathering the first 50 Pioneer Diamond Paws before initiating the Stealth Genesis on Pump.fun. 100% fair launch, zero presales.\n\n🧪 *Are you a spectator or a subject? Verify your curiosity on the terminal.* 🐾⚡`;
 
     try {
