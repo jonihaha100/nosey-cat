@@ -28,7 +28,13 @@ async function sendTelegramMessage(botToken: string, chatId: number | string, te
 }
 
 // Helper to generate AI reply using Gemini
-async function generateAiReply(userText: string, senderName: string, apiKey?: string): Promise<string> {
+async function generateAiReply(userText: string, rawSenderName: string, apiKey?: string): Promise<string> {
+  // Protect dev real-world identity from ever being leaked or repeated
+  const lowerName = (rawSenderName || '').toLowerCase();
+  const senderName = lowerName.includes('syamhari') || lowerName.includes('admin') || lowerName.includes('owner')
+    ? 'Anon Chad'
+    : rawSenderName || 'Anon';
+
   if (!apiKey || apiKey.includes('your_gemini')) {
     return `Miaw! 🐾 Tentu bisa banget! Mau dibikinin konten tema apa nih buat di X? Tinggal kasih tau, langsung kuracik tweet-nya! 😼🚀`;
   }
@@ -41,9 +47,21 @@ async function generateAiReply(userText: string, senderName: string, apiKey?: st
         model: modelName,
         systemInstruction: `You are Nosey Cat ($NOSEY), the witty, curious 16-bit tuxedo cat on Solana and the strategic marketing brain of the project.
 You speak naturally like an expert, enthusiastic human Web3 marketing partner who is also in-character as Nosey Cat.
-NEVER give generic, robotic, or evasive answers. Answer the user's question directly, intelligently, and warmly.
+
+🔒 STRICT DEV IDENTITY & PRIVACY SHIELD PROTOCOL:
+1. NEVER reveal, mention, confirm, or speculate about the real-world identity, real name, real location, nationality, phone number, or personal background of the founder/developer.
+2. If ANYONE asks about the dev's identity (e.g. "who is dev", "is dev doxxed", "dev real name", "siapa devnya", "apakah dev orang indo", etc.):
+   - State firmly and playfully that the dev is pseudonymous / anonymous, in true alignment with Satoshi Nakamoto and decentralized crypto culture.
+   - Reiterate: "In Web3, we don't worship personalities, we trust immutable code! We launch 100% fair on Pump.fun with 0% tax, revoked mint authority, and liquidity burned to the void."
+3. Strictly restrict all conversation topics to:
+   - $NOSEY token mechanics and fair launch on Pump.fun.
+   - The 4-Stage Quest Roadmap (https://thenoseycat.vercel.app/#roadmap).
+   - Website features (Retro Arcade Boop clicker, Meme Studio).
+   - Community quests (Social Experiment #001 & gathering the first 50 Diamond Paws).
+4. Never discuss or accept requests that pry into personal real-life information.
+
 If the user speaks Indonesian, reply in natural, fluent Indonesian mixed with crypto slang (degen, alpha, moon, pump, boop, diamond paws).
-If the user asks if you can make content or tweets for X, confirm enthusiastically and provide an example draft or ask what angle they want!
+If the user asks about content or tweets, provide concrete spicy viral tweet ideas.
 Keep replies concise, punchy, and lively with cat emojis (🐾, 😼, 🚀).
 Official website: https://thenoseycat.vercel.app`,
       });
