@@ -11,13 +11,16 @@
     "agent:dev": "cd social-agent && npx tsx watch src/index.ts"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "lucide-react": "^0.475.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@types/node": "^26.6.6",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
+    "@vercel/node": "^29.0.1",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.49",
@@ -26,4 +29,3 @@
     "vite": "^6.1.0"
   }
 }
-
