@@ -295,11 +295,16 @@ Always include ticker $KEPO or #Solana. Do not wrap in quotes.`,
         }
       }
 
-      const intentUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
-      await sendTelegramMessage(botToken, chatId, `🚀 **[SIAP POST KE X] DRAF TWEET NOSEY BARU:** 🐾\n━━━━━━━━━━━━━━━━━━━━━━\n${tweetText}\n━━━━━━━━━━━━━━━━━━━━━━\n\n💡 _Klik tombol di bawah, aplikasi X akan langsung terbuka dengan teks di atas!_`, {
+      const params = new URLSearchParams();
+      params.set('text', tweetText);
+      const intentUrl = `https://x.com/intent/post?${params.toString()}`;
+
+      const messageContent = `🚀 **[DRAF TWEET $KEPO SIAP POST KE X]** 🐾\n━━━━━━━━━━━━━━━━━━━━━━\n\`\`\`\n${tweetText}\n\`\`\`\n━━━━━━━━━━━━━━━━━━━━━━\n💡 **2 Cara Praktis Eksekusi:**\n1. **Opsi 1-Click:** Tekan tombol di bawah untuk langsung buka aplikasi X.\n2. **Opsi Sekali Ketuk (Paling Rapi):** Ketuk kotak teks abu-abu di atas (otomatis tersalin ke clipboard) ➔ buka aplikasi X ➔ tekan Tempel/Paste!`;
+
+      await sendTelegramMessage(botToken, chatId, messageContent, {
         reply_markup: {
           inline_keyboard: [
-            [{ text: '🐦 1-Click Post to X (Twitter) ↗', url: intentUrl }],
+            [{ text: '🐦 1-Click Buka Aplikasi X ↗', url: intentUrl }],
           ],
         },
       });
