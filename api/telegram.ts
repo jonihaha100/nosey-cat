@@ -27,6 +27,13 @@ async function sendTelegramMessage(botToken: string, chatId: number | string, te
   }
 }
 
+// Helper to sanitize links so punctuation/em-dashes don't break Telegram's URL parser
+function sanitizeLinks(text: string): string {
+  return text.replace(/(https?:\/\/[^\s\u2014\u2013—–]+)([\u2014\u2013—–-]+)([^\s]*)/g, (_match, url, dash, rest) => {
+    return url + ' ' + dash + (rest ? ' ' + rest : '');
+  });
+}
+
 // Helper to generate AI reply using Gemini
 async function generateAiReply(userText: string, rawSenderName: string, apiKey?: string, isPrivateChat: boolean = false): Promise<string> {
   // Protect dev real-world identity and handles from ever being leaked or repeated
@@ -42,7 +49,7 @@ async function generateAiReply(userText: string, rawSenderName: string, apiKey?:
 
   if (!apiKey || apiKey.includes('your_gemini')) {
     return isPrivateChat
-      ? `Miaw! 🐾 Siap Mas! Tentu bisa banget kita buatkan konten dan tweet viral buat di X! Mau tema apa nih: cerita Nosey Saga, edukasi anti-rug, atau ajakan boop snoot? Tinggal sebut, langsung kuracik! 😼🚀`
+      ? `Miaw! 🐾 Siap Mas! Tentu bisa banget kita buatkan konten dan tweet viral buat di X! Mau tema apa nih: edukasi anti-rug, atau ajakan boop snoot? Tinggal sebut, langsung kuracik! 😼🚀`
       : `Meow! 🐾 Dev is locked in the lab 24/7 building the system! All eyes on our Pump.fun stealth genesis. Boop the pink nose at https://nosey-cat.vercel.app 😼🚀`;
   }
 
@@ -70,13 +77,17 @@ You speak naturally like an expert, enthusiastic Web3 co-builder who is also in-
 
 ${languageInstruction}
 
+🔗 CRITICAL LINK FORMATTING RULE:
+- Whenever mentioning the website (https://nosey-cat.vercel.app) or any URL, ALWAYS surround it with clean spaces or place it on its own separate line!
+- NEVER attach hyphens, dashes, or em dashes (—) directly to the URL (e.g. NEVER write "https://nosey-cat.vercel.app—our", ALWAYS write "https://nosey-cat.vercel.app — our") so Telegram can parse the link properly!
+
 🔒 STRICT DEV IDENTITY & PRIVACY SHIELD PROTOCOL:
 1. ABSOLUTE PRIVACY: NEVER reveal, mention, confirm, or speculate about the real-world identity, real name (e.g. Syamhari), username handles (e.g. banklondike), personal location, nationality, or personal background of the founder/developer or team members.
 2. If ANYONE asks about dev identity, dev status, or mentions dev handles (e.g., "is the dev active", "who is dev", "where is dev from", "is dev doxxed", "who is banklondike", "what's wrong with the site dev"):
    - Reassure them with full confidence: "The dev is 100% active and cooking in the lab 24/7! Constantly monitoring systems, building features, and preparing the launch pipeline."
    - Emphasize decentralization: "The dev operates pseudonymously following Satoshi Nakamoto's philosophy. In Web3 we don't worship individual personalities or trust humans—we trust immutable code, 0% tax, burned LP, and fair launch on Pump.fun!"
 3. If someone asks about the website or why there is no contract yet (e.g. "what's wrong with the site"):
-   - Explain clearly: "The website is running live at https://nosey-cat.vercel.app! We are currently in Stage 1: Community Genesis & Gathering the first 50 Diamond Paws. The contract address (CA) will be dropped stealthily on Pump.fun so sniper bots can't front-run our real community!"
+   - Explain clearly: "The website is running live at https://nosey-cat.vercel.app ! We are currently in Stage 1: Community Genesis & Gathering the first 50 Diamond Paws. The contract address (CA) will be dropped stealthily on Pump.fun so sniper bots can't front-run our real community!"
 4. SCOPE OF TOPICS:
    - Strictly keep all conversations focused on: $KEPO tokenomics (1B supply, 0% tax, LP burned), Solana ecosystem, the 4-Stage Quest Roadmap (https://nosey-cat.vercel.app/#roadmap), website features (Retro Arcade Boop clicker, Meme Studio), and community milestones.
    - Refuse or redirect any personal real-life queries back to the $KEPO mission.
@@ -90,8 +101,11 @@ Official website: https://nosey-cat.vercel.app`,
         : `${senderName} says/asks: "${sanitizedText}"\n\nKepo Cat's natural crypto-native English response:`;
 
       const result = await model.generateContent(prompt);
-      const output = result.response.text()?.trim();
-      if (output) return output;
+      let output = result.response.text()?.trim();
+      if (output) {
+        output = sanitizeLinks(output);
+        return output;
+      }
     } catch (err: any) {
       console.warn(`[Gemini] Model ${modelName} error:`, err?.message || err);
     }
@@ -333,7 +347,7 @@ Always include ticker $KEPO or #Solana. Do not wrap in quotes.`,
     // 4. Or someone asks a question in the group!
     if (isPrivate || isMentioned || hasTrigger || isQuestion) {
       const reply = await generateAiReply(text, senderName, geminiKey, isPrivate);
-      const shouldAttachButton = isPrivate || lower.includes('website') || lower.includes('game') || lower.includes('play') || lower.includes('boop');
+      const shouldAttachButton = isPrivate || lower.includes('website') || lower.includes('site') || lower.includes('link') || lower.includes('game') || lower.includes('play') || lower.includes('boop') || reply.includes('http');
       await sendTelegramMessage(botToken, chatId, reply, {
         reply_to_message_id: message.message_id,
         ...(shouldAttachButton ? {
