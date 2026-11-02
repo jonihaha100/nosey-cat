@@ -27,6 +27,125 @@ async function sendTelegramMessage(botToken: string, chatId: number | string, te
   }
 }
 
+// Helper to send photo via Telegram Bot API
+async function sendTelegramPhoto(botToken: string, chatId: number | string, photoUrl: string, caption?: string, options: any = {}) {
+  const url = `https://api.telegram.org/bot${botToken}/sendPhoto`;
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: chatId,
+        photo: photoUrl,
+        caption: caption || '',
+        parse_mode: options.parse_mode || 'HTML',
+        reply_markup: options.reply_markup,
+        reply_to_message_id: options.reply_to_message_id,
+      }),
+    });
+    return await res.json();
+  } catch (err) {
+    console.error('Failed to send Telegram photo:', err);
+    return null;
+  }
+}
+
+async function handleDevContentRequest(
+  botToken: string,
+  chatId: number | string,
+  websiteUrl: string,
+  geminiKey?: string,
+  userPrompt = ''
+) {
+  const BANNER_ASSETS = [
+    {
+      url: `${websiteUrl}/banners/kepo-cat-landscape-genesis.jpg`,
+      title: 'KEPO CAT GENESIS (16:9 4K HD)',
+    },
+    {
+      url: `${websiteUrl}/banners/nosey-moon-mission-1080p.png`,
+      title: 'MOON MISSION - $KEPO NEON BILLBOARD (1080p HD)',
+    },
+    {
+      url: `${websiteUrl}/banners/nosey-degen-battle-station-1080p.png`,
+      title: '24/7 DEGEN BATTLE STATION - $KEPO NEON (1080p HD)',
+    },
+    {
+      url: `${websiteUrl}/banners/nosey-saga-ch3-diamond-paws.jpg`,
+      title: 'DIAMOND PAWS SAGA (1080p HD)',
+    },
+    {
+      url: `${websiteUrl}/banners/nosey-saga-ch1-awakening.jpg`,
+      title: 'THE SNOOT AWAKENING (1080p HD)',
+    },
+    {
+      url: `${websiteUrl}/banners/nosey-saga-ch4-sniper-trap.jpg`,
+      title: 'THE SNIPER TRAP (1080p HD)',
+    },
+  ];
+
+  const picked = BANNER_ASSETS[Math.floor(Math.random() * BANNER_ASSETS.length)];
+
+  const FALLBACK_TWEETS = [
+    `Curiosity didn't kill this cat — it sent him to the moon on Solana! 😼🚀\n\n16-bit retro arcade gaming + zero tax fair launch on Pump.fun.\n\nWho's ready for $KEPO? 🐾\nhttps://nosey-cat.vercel.app\n#Solana #KEPO`,
+    `They said cats have 9 lives, but $KEPO has infinite green candles! 🐾📈\n\n16-bit arcade vibes, 100% fair launch, zero tax.\n\nBoop the snoot before takeoff: https://nosey-cat.vercel.app 😼🚀\n#Solana #MemeCoin`,
+    `Building different in Web3: 16-bit retro software LIVE before token launch! 😼🎮\n\n1B supply • 0% tax • burned LP • diamond paws only.\n\nAre you booping? 🐾\nhttps://nosey-cat.vercel.app\n#KEPO #Solana`,
+    `Normies are sleeping, but $KEPO is up 24/7 watching the charts. ☕️🐾\n\nNo presale, no insider rugs. Pure retro arcade community on Solana.\n\nJoin the 16-bit resistance: https://nosey-cat.vercel.app 🚀💎 #Solana`,
+  ];
+
+  let tweetText = FALLBACK_TWEETS[Math.floor(Math.random() * FALLBACK_TWEETS.length)];
+
+  if (geminiKey && !geminiKey.includes('your_gemini')) {
+    try {
+      const genAI = new GoogleGenerativeAI(geminiKey);
+      const model = genAI.getGenerativeModel({
+        model: 'gemini-3.5-flash-lite',
+        systemInstruction: `You are the viral Twitter/X marketing strategist for Kepo Cat ($KEPO), a 16-bit retro arcade meme coin on Solana.
+Write a single spicy, high-engagement viral tweet STRICTLY IN ENGLISH for global crypto degens on X.
+CRITICAL RULES:
+- Strictly under 220 characters total! (Twitter free limit is 280, leave plenty of headroom).
+- 100% English only (international crypto investors on Twitter). NEVER use Indonesian words in the tweet draft!
+- Always include $KEPO, #Solana, or link https://nosey-cat.vercel.app.
+- Energetic, degen-native, clear, and hype! Do not wrap in quotes.
+- Emojis: 🐾 🚀 😼 💎 ☕️`,
+      });
+      const prompt = `Dev asks for content: "${userPrompt || 'fresh update tweet'}". Generate 1 fresh viral English tweet:`;
+      const result = await model.generateContent(prompt);
+      const aiTweet = result.response.text()?.trim().replace(/^["']|["']$/g, '');
+      if (aiTweet && aiTweet.length <= 230 && !/[a-z]+kan\b|yang|ini|kami|kita|ngopi/i.test(aiTweet)) {
+        tweetText = aiTweet;
+      }
+    } catch (e) {
+      console.warn('Gemini tweet generation fallback:', e);
+    }
+  }
+
+  // 1. Send the actual photo first
+  await sendTelegramPhoto(
+    botToken,
+    chatId,
+    picked.url,
+    `🖼️ <b>KONTEN RESMI: ${picked.title}</b>\n\n💡 <i>Simpan gambar ini ke galeri HP untuk dilampirkan ke postingan Twitter/X!</i>`
+  );
+
+  // 2. Prepare 1-click intent URL
+  const params = new URLSearchParams();
+  params.set('text', tweetText);
+  const intentUrl = `https://x.com/intent/post?${params.toString()}`;
+
+  // 3. Send tweet draft in HTML <code> block for 1-Tap Copy on mobile
+  const messageContent = `🚀 <b>[DRAF TWEET RESMI BAHASA INGGRIS UNTUK X]</b> 🐾\n━━━━━━━━━━━━━━━━━━━━━━\n<code>${tweetText}</code>\n━━━━━━━━━━━━━━━━━━━━━━\n💡 <b>Langkah Mudah Eksekusi (10 Detik):</b>\n1️⃣ <b>Ketuk kotak abu-abu di atas</b> (langsung otomatis tersalin ke clipboard HP).\n2️⃣ <b>Tekan tombol di bawah</b> untuk langsung buka aplikasi X (@TheNoseyCat).\n3️⃣ <b>Paste teks & lampirkan foto di atas</b>, lalu klik <b>Post</b>! 🔥`;
+
+  await sendTelegramMessage(botToken, chatId, messageContent, {
+    parse_mode: 'HTML',
+    reply_markup: {
+      inline_keyboard: [
+        [{ text: '🐦 1-Click Buka Aplikasi X ↗', url: intentUrl }],
+      ],
+    },
+  });
+}
+
 function buildWelcomeMessage(name: string, websiteUrl: string): string {
   return `🐾 **WELCOME TO KEPO CAT ($KEPO) — THE 16-BIT RESISTANCE!** 😼🚀
 Welcome to the squad, **${name}**!
@@ -267,11 +386,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const senderName = message.from?.first_name || 'Anon';
     const isPrivate = message.chat.type === 'private';
 
+    const lower = text.toLowerCase();
+
     // ----------------------------------------------------
-    // Scenario C: Commands (/start, /status, /tweet_now, /roadmap)
+    // Scenario C: Commands (/start, /status, /roadmap)
     // ----------------------------------------------------
     if (text.startsWith('/start')) {
-      const welcome = `🐾 **Meow! Welcome ${senderName}!** 😼✨\nI'm **Kepo Cat ($KEPO)** — The most curious & boopable 16-bit tuxedo cat on Solana!\n\nI am running 24/7 on the cloud to guard your wallet from jeets and sniper bots.\n\n🕹️ **Play Arcade:** ${websiteUrl}\n🗺️ **Roadmap:** ${websiteUrl}/#roadmap\n🐦 **Official X:** https://x.com/TheNoseyCat\n\nAsk me anything or tap the buttons below! 🐾🚀`;
+      const welcome = isPrivate
+        ? `🐾 **Meow! Halo Dev ${senderName}!** 😼✨\nSaya **Kepo Cat ($KEPO)** — AI Agent 24/7 penjaga ekosistem di Solana!\n\n🕹️ **Website:** ${websiteUrl}\n🗺️ **Roadmap:** ${websiteUrl}/#roadmap\n🐦 **Official X:** https://x.com/TheNoseyCat\n\n💡 **Fitur Otomatis Konten X:**\nKetik **"buat konten"** atau tekan **/tweet_now** kapan saja untuk langsung mendapatkan:\n1. 🖼️ **Foto banner HD 16:9 / 1080p** resmi $KEPO\n2. 🚀 **Draf tweet bahasa Inggris viral** (1-tap copy)\n3. 🐦 **Tombol 1-click buka aplikasi X**!`
+        : `🐾 **Meow! Welcome ${senderName}!** 😼✨\nI'm **Kepo Cat ($KEPO)** — The most curious & boopable 16-bit tuxedo cat on Solana!\n\nI am running 24/7 on the cloud to guard your wallet from jeets and sniper bots.\n\n🕹️ **Play Arcade:** ${websiteUrl}\n🗺️ **Roadmap:** ${websiteUrl}/#roadmap\n🐦 **Official X:** https://x.com/TheNoseyCat\n\nAsk me anything or tap the buttons below! 🐾🚀`;
+
       await sendTelegramMessage(botToken, chatId, welcome, {
         reply_markup: {
           inline_keyboard: [
@@ -295,50 +419,36 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(200).json({ ok: true });
     }
 
-    if (text.startsWith('/tweet_now')) {
-      let tweetText = `🐾 $KEPO AIRDROP IS LIVE! 😼🚀\n\n16-bit retro arcade cat on #Solana. Fair launch on Pump.fun!\n\n🎁 500 FIRST DIAMOND PAWS:\n1️⃣ Follow @TheNoseyCat & RT\n2️⃣ Drop your $SOL address 👇\n3️⃣ Join TG: t.me/TheNoseyCat\n\n#Solana #Airdrop #MemeCoin`;
+    // ----------------------------------------------------
+    // Scenario D: Dev Content Generation (Private DM triggers or /tweet_now)
+    // ----------------------------------------------------
+    const isDevContentTrigger = isPrivate && (
+      text.startsWith('/tweet_now') ||
+      lower.includes('konten') ||
+      lower.includes('content') ||
+      lower.includes('tweet') ||
+      lower.includes('post') ||
+      lower.includes('updat') || // matches update, updat, updat3, updates
+      lower.includes('gambar') ||
+      lower.includes('banner') ||
+      lower.includes('foto') ||
+      lower.includes('photo') ||
+      lower.includes('bikin') ||
+      lower.includes('buat') ||
+      lower.includes('draft') ||
+      lower.includes('promo') ||
+      lower.includes('shill') ||
+      lower.includes('bahan')
+    );
 
-      if (geminiKey && !geminiKey.includes('your_gemini')) {
-        try {
-          const genAI = new GoogleGenerativeAI(geminiKey);
-          const model = genAI.getGenerativeModel({
-            model: 'gemini-3.5-flash-lite',
-            systemInstruction: `You are the viral Twitter marketing strategist for Kepo Cat ($KEPO), a 16-bit retro arcade meme coin on Solana.
-Write a single spicy, high-engagement tweet STRICTLY under 220 characters.
-RULE: Singkat, padat, jelas! Never exceed 230 characters so it fits free Twitter 280-char limit with ample headroom.
-Always include ticker $KEPO or #Solana. Do not wrap in quotes.`,
-          });
-          const prompt = `Generate a fresh viral tweet for Twitter/X right now (strictly under 220 chars):`;
-          const result = await model.generateContent(prompt);
-          const aiTweet = result.response.text()?.trim();
-          if (aiTweet && aiTweet.length <= 230) {
-            tweetText = aiTweet;
-          }
-        } catch (e) {
-          console.warn('Gemini tweet generation fallback:', e);
-        }
-      }
-
-      const params = new URLSearchParams();
-      params.set('text', tweetText);
-      const intentUrl = `https://x.com/intent/post?${params.toString()}`;
-
-      const messageContent = `🚀 **[DRAF TWEET $KEPO SIAP POST KE X]** 🐾\n━━━━━━━━━━━━━━━━━━━━━━\n\`\`\`\n${tweetText}\n\`\`\`\n━━━━━━━━━━━━━━━━━━━━━━\n💡 **2 Cara Praktis Eksekusi:**\n1. **Opsi 1-Click:** Tekan tombol di bawah untuk langsung buka aplikasi X.\n2. **Opsi Sekali Ketuk (Paling Rapi):** Ketuk kotak teks abu-abu di atas (otomatis tersalin ke clipboard) ➔ buka aplikasi X ➔ tekan Tempel/Paste!`;
-
-      await sendTelegramMessage(botToken, chatId, messageContent, {
-        reply_markup: {
-          inline_keyboard: [
-            [{ text: '🐦 1-Click Buka Aplikasi X ↗', url: intentUrl }],
-          ],
-        },
-      });
+    if (isDevContentTrigger || text.startsWith('/tweet_now')) {
+      await handleDevContentRequest(botToken, chatId, websiteUrl, geminiKey, text);
       return res.status(200).json({ ok: true });
     }
 
     // ----------------------------------------------------
-    // Scenario D: Community Conversational AI & Mentions
+    // Scenario E: Community Conversational AI & Mentions
     // ----------------------------------------------------
-    const lower = text.toLowerCase();
     const isMentioned = lower.includes('@nesey_cat_bot') || lower.includes('kepo') || lower.includes('nosey') || lower.includes('cat');
     const isQuestion = text.includes('?');
     const triggers = [
