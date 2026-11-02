@@ -30,7 +30,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <div className="w-9 h-9 sm:w-11 sm:h-11 border-2 sm:border-4 border-black bg-arcade-grass shadow-pixel-sm overflow-hidden flex-shrink-0 group-hover:translate-x-0.5 group-hover:translate-y-0.5 group-hover:shadow-none transition-all">
               <img 
                 src={getAssetUrl('/mascot-pixel.png')} 
-                alt="Nosey Cat Mascot" 
+                alt="Kepo Cat Mascot" 
                 className="w-full h-full object-cover pixelated" 
               />
             </div>

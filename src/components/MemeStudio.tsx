@@ -187,7 +187,7 @@ export const MemeStudio: React.FC = () => {
       ctx.fillRect(403, 335, 6, 8);
     }
 
-    // 5. "$NOSEY VERIFIED" Badge Stamp (🏷️)
+    // 5. "$KEPO VERIFIED" Badge Stamp (🏷️)
     if (activeAccessories.verified) {
       ctx.save();
       ctx.translate(350, 430);

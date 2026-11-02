@@ -33,7 +33,7 @@ const INITIAL_MESSAGES: ChatMessage[] = [
   },
   {
     id: 'm3',
-    sender: 'NoseyBot 🤖',
+    sender: 'KepoBot 🤖',
     badge: 'BOT',
     sentiment: 'bull',
     text: '@SaltyPaperhand Because you sold at the bottom anon! Cope harder while we send $KEPO to Valhalla! 🔥',
@@ -59,7 +59,7 @@ const INITIAL_MESSAGES: ChatMessage[] = [
   },
   {
     id: 'm6',
-    sender: 'NoseyBot 🤖',
+    sender: 'KepoBot 🤖',
     badge: 'BOT',
     sentiment: 'bull',
     text: '@FUD_Dispenser Because our nose is interactive and actually detects liquidity! Show me another cat with Proof-of-Boop technology! 🐾',
@@ -70,7 +70,7 @@ const INITIAL_MESSAGES: ChatMessage[] = [
     sender: 'SolanaChad',
     badge: 'FAN',
     sentiment: 'bull',
-    text: 'It’s a literal crime to visit without booping Nosey’s pink snoot! Unwritten crypto law anon! 🟢',
+    text: 'It’s a literal crime to visit without booping Kepo’s pink snoot! Unwritten crypto law anon! 🟢',
     timestamp: '11m ago',
     boopCount: 88,
   },
@@ -83,7 +83,7 @@ const RANDOM_NAMES = [
   'PinkNoseMaxi',
   'JeetCrusher',
   'SolanaPurr',
-  'NoseyDegen_777',
+  'KepoDegen_777',
   'CandleSniffer',
   'PumpCommander',
   'ChadBooper_99',
@@ -408,7 +408,7 @@ export const LiveTrollbox: React.FC = () => {
                 placeholder={
                   selectedSentiment === 'bull'
                     ? "Drop your bullish shoutout anon! (e.g., 'Boop the snoot for 100x gains!')..."
-                    : "Drop your FUD or hate comment anon (prepare to get roasted by NoseyBot)..."
+                    : "Drop your FUD or hate comment anon (prepare to get roasted by KepoBot)..."
                 }
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}

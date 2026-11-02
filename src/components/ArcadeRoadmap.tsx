@@ -127,7 +127,7 @@ export const ArcadeRoadmap: React.FC = () => {
       badgeColor: 'bg-purple-600 text-yellow-300',
       items: [
         {
-          title: '"Nosey Runner" 16-Bit Mini-Game',
+          title: '"Kepo Runner" 16-Bit Mini-Game',
           description: 'Playable arcade endless runner directly inside Telegram WebApp & browser.',
           done: false,
         },
@@ -211,7 +211,7 @@ export const ArcadeRoadmap: React.FC = () => {
 
             <div className="p-4 border-2 border-green-800 bg-green-950/40 space-y-2">
               <span className="text-arcade-green font-bold block border-b border-green-800 pb-1">
-                ✅ THE NOSEY CAT ADVANTAGE
+                ✅ THE KEPO CAT ADVANTAGE
               </span>
               <p className="font-retro text-base text-gray-200 leading-snug">
                 • Live 16-bit interactive arcade web software + Meme Studio.

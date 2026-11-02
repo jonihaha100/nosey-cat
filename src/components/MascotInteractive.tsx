@@ -132,7 +132,7 @@ export const MascotInteractive: React.FC<MascotInteractiveProps> = ({
         <span>
           {chaosMode 
             ? "“CRITICAL ALERT: SNOOT LASERS ENGAGED! 10x BOOP POWER ACTIVE!”" 
-            : "“IT'S A CRIME TO VISIT WITHOUT BOOPING NOSEY'S SNOOT!”"}
+            : "“IT'S A CRIME TO VISIT WITHOUT BOOPING KEPO'S SNOOT!”"}
         </span>
         <span>{chaosMode ? '💥' : '🐾'}</span>
       </div>
@@ -175,7 +175,7 @@ export const MascotInteractive: React.FC<MascotInteractiveProps> = ({
         >
           <img 
             src={getAssetUrl('/mascot-pixel.png')} 
-            alt="Nosey Cat Mascot Pixel" 
+            alt="Kepo Cat Mascot Pixel" 
             className="w-full h-full object-cover pixelated select-none pointer-events-none" 
           />
 

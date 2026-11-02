@@ -36,7 +36,7 @@ export const SnootLoreSection: React.FC = () => {
               >
                 <img
                   src={getAssetUrl('/mascot-pixel.png')}
-                  alt="Nosey Cat Authentic Icon"
+                  alt="Kepo Cat Authentic Icon"
                   className="w-full h-full object-cover pixelated group-hover:scale-105 transition-transform"
                 />
                 <div className="absolute top-2 right-2 bg-pink-500 text-white font-pixel text-[9px] px-2 py-1 border border-white shadow-pixel-sm animate-pixel-blink">
@@ -46,7 +46,7 @@ export const SnootLoreSection: React.FC = () => {
 
               {/* Tagline Badge */}
               <div className="mt-4 bg-black text-yellow-300 border-2 border-black p-2.5 font-pixel text-xs leading-relaxed text-center">
-                &ldquo;IT&apos;S A CRIME TO VISIT WITHOUT BOOPING NOSEY&apos;S PINK SNOOT!&rdquo;
+                &ldquo;IT&apos;S A CRIME TO VISIT WITHOUT BOOPING KEPO&apos;S PINK SNOOT!&rdquo;
               </div>
             </div>
           </div>
@@ -63,7 +63,7 @@ export const SnootLoreSection: React.FC = () => {
                   1. WHY THE PINK NOSE? (THE SNOOT PHENOMENON)
                 </h3>
                 <p className="font-retro text-lg sm:text-xl text-gray-800 leading-relaxed">
-                  Look closely at our mascot photo: While normal cats look away, <strong>Nosey Cat</strong> tilts his head at a curious -20° angle and thrusts his glowing bubblegum-pink nose directly into your face. In internet folklore, cats with bright pink snoots are known as <em>&quot;The Sniffers of Green Candles&quot;</em> — detecting pump signals long before Raydium algorithms!
+                  Look closely at our mascot photo: While normal cats look away, <strong>Kepo Cat</strong> tilts his head at a curious -20° angle and thrusts his glowing bubblegum-pink nose directly into your face. In internet folklore, cats with bright pink snoots are known as <em>&quot;The Sniffers of Green Candles&quot;</em> — detecting pump signals long before Raydium algorithms!
                 </p>
               </div>
             </div>
