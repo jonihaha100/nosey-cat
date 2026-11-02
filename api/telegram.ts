@@ -30,30 +30,34 @@ async function sendTelegramMessage(botToken: string, chatId: number | string, te
 // Helper to generate AI reply using Gemini
 async function generateAiReply(userText: string, senderName: string, apiKey?: string): Promise<string> {
   if (!apiKey || apiKey.includes('your_gemini')) {
-    return `Meow! 🐾 Welcome ${senderName}! I am Nosey Cat ($NOSEY). Boop my pink snoot on the website: https://thenoseycat.vercel.app 🚀`;
+    return `Miaw! 🐾 Tentu bisa banget! Mau dibikinin konten tema apa nih buat di X? Tinggal kasih tau, langsung kuracik tweet-nya! 😼🚀`;
   }
 
-  try {
-    const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({
-      model: 'gemini-1.5-flash',
-      systemInstruction: `You are Nosey Cat ($NOSEY), the most curious, sassy 16-bit tuxedo cat on Solana.
-You protect your diamond-paw holders from sniper bots and greedy dev rugs.
-If the user speaks in Indonesian, answer in witty, friendly Indonesian mixed with popular crypto slang (degen, moon, pump, boop, diamond paws).
-If the user asks in English, reply in crypto-native English.
-If asked about content, marketing, or tweets, suggest spicy viral ideas and remind them they can type /tweet_now for an instant 1-click tweet.
-Keep responses concise (1 to 3 sentences max) with cat emojis (🐾, 😼, 👃, 🚀).
-Official website: https://thenoseycat.vercel.app
-Status: Pre-Launch on Pump.fun (Gathering 50 Pioneer Diamond Paws).`,
-    });
+  const modelCandidates = ['gemini-3.5-flash-lite', 'gemini-flash-latest'];
+  for (const modelName of modelCandidates) {
+    try {
+      const genAI = new GoogleGenerativeAI(apiKey);
+      const model = genAI.getGenerativeModel({
+        model: modelName,
+        systemInstruction: `You are Nosey Cat ($NOSEY), the witty, curious 16-bit tuxedo cat on Solana and the strategic marketing brain of the project.
+You speak naturally like an expert, enthusiastic human Web3 marketing partner who is also in-character as Nosey Cat.
+NEVER give generic, robotic, or evasive answers. Answer the user's question directly, intelligently, and warmly.
+If the user speaks Indonesian, reply in natural, fluent Indonesian mixed with crypto slang (degen, alpha, moon, pump, boop, diamond paws).
+If the user asks if you can make content or tweets for X, confirm enthusiastically and provide an example draft or ask what angle they want!
+Keep replies concise, punchy, and lively with cat emojis (🐾, 😼, 🚀).
+Official website: https://thenoseycat.vercel.app`,
+      });
 
-    const prompt = `${senderName} asks: "${userText}"\n\nNosey Cat's snappy response:`;
-    const result = await model.generateContent(prompt);
-    return result.response.text()?.trim() || `Meow! Boop the snoot at https://thenoseycat.vercel.app 🐾`;
-  } catch (err) {
-    console.error('Gemini error:', err);
-    return `Meow! 🐾 Snoot radar active. Touch my pink nose at https://thenoseycat.vercel.app to check the quest roadmap! 🚀`;
+      const prompt = `${senderName} asks: "${userText}"\n\nNosey Cat's direct, intelligent response:`;
+      const result = await model.generateContent(prompt);
+      const output = result.response.text()?.trim();
+      if (output) return output;
+    } catch (err: any) {
+      console.warn(`[Gemini] Model ${modelName} error:`, err?.message || err);
+    }
   }
+
+  return `Miaw! 🐾 Jelas bisa banget dong! Mau bahas kelanjutan Chapter 1 di gang Solana atau mau nyindir sniper bot nih? Tinggal sebut, langsung aku buatkan draf tweet-nya! 😼🚀`;
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -232,7 +236,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         try {
           const genAI = new GoogleGenerativeAI(geminiKey);
           const model = genAI.getGenerativeModel({
-            model: 'gemini-1.5-flash',
+            model: 'gemini-3.5-flash-lite',
             systemInstruction: `You are the viral Twitter marketing strategist for Nosey Cat ($NOSEY), a 16-bit retro arcade meme coin on Solana.
 Write a single spicy, episodic narrative tweet under 210 characters.
 Always include the link ${websiteUrl} and tickers $NOSEY #Solana.
