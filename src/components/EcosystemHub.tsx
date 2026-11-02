@@ -38,7 +38,7 @@ export const EcosystemHub: React.FC = () => {
   };
 
   const handleTwitterShare = () => {
-    const text = `$CHILLMECH was just the beginning — now meet $KEPO! 😼🚀\n\n16-bit retro arcade gaming + 0% tax fair launch on Pump.fun.\n\nWatch our 48s Genesis Teaser Trailer & boop the snoot:\nhttps://nosey-cat.vercel.app\n\n#Solana #KEPO #MemeCoin`;
+    const text = `$CHILLMECH was just the beginning — now meet $KEPO! 😼🚀\n\n16-bit retro arcade gaming + 0% tax fair launch on Pump.fun.\n\nWatch our 68s Investor Presentation Trailer & boop the snoot:\nhttps://nosey-cat.vercel.app\n\n#Solana #KEPO #MemeCoin`;
     const url = `https://x.com/intent/post?text=${encodeURIComponent(text)}`;
     window.open(url, '_blank');
   };
@@ -85,7 +85,7 @@ export const EcosystemHub: React.FC = () => {
             }`}
           >
             <Film size={16} />
-            <span>🎬 48s GENESIS TEASER</span>
+            <span>🎬 68s INVESTOR PRESENTATION</span>
           </button>
 
           <button
@@ -125,7 +125,7 @@ export const EcosystemHub: React.FC = () => {
           </button>
         </div>
 
-        {/* TAB 1: 48s GENESIS TEASER VIDEO PLAYER */}
+        {/* TAB 1: 68s INVESTOR PRESENTATION VIDEO PLAYER */}
         {activeTab === 'trailer' && (
           <div className="bg-[#141C13] border-4 border-black p-4 sm:p-6 lg:p-8 shadow-[8px_8px_0_#000]">
             <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-center">
@@ -135,7 +135,7 @@ export const EcosystemHub: React.FC = () => {
                 <video
                   ref={videoRef}
                   src={getAssetUrl('/videos/kepo-genesis-teaser.mp4')}
-                  poster={getAssetUrl('/banners/nosey-moon-mission-1080p.png')}
+                  poster={getAssetUrl('/banners/kepo-cat-landscape-genesis.jpg')}
                   controls
                   playsInline
                   className="w-full aspect-video object-cover"
@@ -159,13 +159,13 @@ export const EcosystemHub: React.FC = () => {
               <div className="w-full lg:w-2/5 flex flex-col justify-between">
                 <div>
                   <div className="inline-block bg-[#2457D6] text-white font-mono text-[10px] px-2.5 py-1 uppercase tracking-wider mb-3">
-                    OFFICIAL X VIDEO TEASER (1080P HD)
+                    OFFICIAL X INVESTOR PRESENTATION (1080P HD)
                   </div>
                   <h3 className="font-pixel text-xl sm:text-2xl text-white mb-3">
                     $KEPO — MORE THAN A MEME, IT'S A MOVEMENT.
                   </h3>
                   <p className="font-retro text-sm text-[#8B9B85] mb-4 leading-relaxed">
-                    Video pitch berdurasi 48 detik dalam format Full HD 1080p yang merangkum identitas karakter, pembuktian anti-rug (0% tax, LP burn), target 50 Diamond Paws, dan ekosistem software $KEPO.
+                    Video presentasi resmi berdurasi 68 detik berstandar tinggi (mengacu pada ChillMech) yang merangkum 7 pilar: Dozens of Moods, pembuktian anti-rug (0% tax, LP burn), Step 01 (50 Diamond Paws Assembly), Step 02 (Fair Launch Tokenomics & Math), Arsitektur 6 Node Ekosistem, Live Website Proof, dan Launchpad Outro.
                   </p>
 
                   <div className="space-y-2 font-mono text-xs text-white/80 mb-6 bg-[#0B0F0A] p-3 border border-[#283826]">
@@ -175,11 +175,15 @@ export const EcosystemHub: React.FC = () => {
                     </div>
                     <div className="flex justify-between">
                       <span className="text-[#8B9B85]">DURASI:</span>
-                      <span className="text-white">48 Detik (Fast-paced X Native)</span>
+                      <span className="text-white">68.2 Detik (Paced with Reference Soundtrack)</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[#8B9B85]">TARGET AUDIENS:</span>
-                      <span className="text-white">Global Solana Degens & Investors</span>
+                      <span className="text-[#8B9B85]">STRUCTURE:</span>
+                      <span className="text-[#C8F31D]">7-Part Investor Deck (ChillMech Standard)</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-[#8B9B85]">AUDIO:</span>
+                      <span className="text-white">Stereo 48kHz High-Octane Synth Beat</span>
                     </div>
                   </div>
                 </div>
@@ -188,8 +192,8 @@ export const EcosystemHub: React.FC = () => {
                 <div className="flex flex-col sm:flex-row gap-3">
                   <a
                     href={getAssetUrl('/videos/kepo-genesis-teaser.mp4')}
-                    download="kepo-genesis-teaser.mp4"
-                    className="flex-1 py-3 px-4 bg-[#C8F31D] text-black font-pixel text-xs text-center border-2 border-black shadow-[4px_4px_0_#000] hover:bg-[#d9ff4a] transition-all flex items-center justify-center gap-2"
+                    download="kepo-genesis-presentation-1080p.mp4"
+                    className="flex-1 py-3 px-4 bg-[#C8F31D] text-black font-pixel text-xs text-center border-2 border-black shadow-[4px_4px_0_#000] hover:bg-[#d9ff4a] transition-all flex items-center justify-center gap-2 font-bold"
                   >
                     <Download size={16} />
                     <span>DOWNLOAD VIDEO (.MP4)</span>
@@ -197,7 +201,7 @@ export const EcosystemHub: React.FC = () => {
 
                   <button
                     onClick={handleTwitterShare}
-                    className="flex-1 py-3 px-4 bg-[#2457D6] text-white font-pixel text-xs text-center border-2 border-black shadow-[4px_4px_0_#000] hover:bg-blue-600 transition-all flex items-center justify-center gap-2"
+                    className="flex-1 py-3 px-4 bg-[#2457D6] text-white font-pixel text-xs text-center border-2 border-black shadow-[4px_4px_0_#000] hover:bg-blue-600 transition-all flex items-center justify-center gap-2 font-bold"
                   >
                     <Share2 size={16} />
                     <span>SHARE KE X (@TheNoseyCat)</span>
