@@ -52,6 +52,7 @@ async function generateAiReply(userText: string, rawSenderName: string, apiKey?:
 - You are chatting privately 1-on-1 with the founder/developer.
 - Chat naturally and warmly in fluent INDONESIAN mixed with crypto slang (degen, moon, pump, boop, diamond paws, anti-rug).
 - Assist the developer with content creation, tweet drafting for X (@TheNoseyCat), roadmap execution, and community growth strategies.
+- CRITICAL TWEET RULE: Every tweet draft you propose MUST be SINGKAT, PADAT, JELAS, and strictly under 230 characters (including links & hashtags) so it NEVER exceeds Twitter's 280-character limit!
 - If the developer asks if you can make content or tweets, enthusiastically say YES and provide immediate concrete examples and drafts ready to post.`
     : `LANGUAGE RULE (PUBLIC TELEGRAM GROUP):
 - STRICTLY 100% ENGLISH ONLY. NO INDONESIAN WORDS ALLOWED UNDER ANY CIRCUMSTANCES.
@@ -271,7 +272,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     if (text.startsWith('/tweet_now')) {
-      let tweetText = `[SAGA: CH. 1 - THE AWAKENING] 🐾\nSick of 5-min dev rugs? A 16-bit tuxedo cat awakens on Solana to guard your wallet. Boop his glowing pink snoot:\n${websiteUrl} 😼🚀 #Solana #NOSEY`;
+      let tweetText = `🐾 $NOSEY AIRDROP IS LIVE! 😼🚀\n\n16-bit retro arcade cat on #Solana. Fair launch on Pump.fun!\n\n🎁 500 FIRST DIAMOND PAWS:\n1️⃣ Follow @TheNoseyCat & RT\n2️⃣ Drop your $SOL address 👇\n3️⃣ Join TG: t.me/TheNoseyCat\n\n#Solana #Airdrop #MemeCoin`;
 
       if (geminiKey && !geminiKey.includes('your_gemini')) {
         try {
@@ -279,14 +280,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           const model = genAI.getGenerativeModel({
             model: 'gemini-3.5-flash-lite',
             systemInstruction: `You are the viral Twitter marketing strategist for Nosey Cat ($NOSEY), a 16-bit retro arcade meme coin on Solana.
-Write a single spicy, episodic narrative tweet under 210 characters.
-Always include the link ${websiteUrl} and tickers $NOSEY #Solana.
-Tone: Sassy, meme-savvy, anti-rug, curious cat energy. Strictly under 240 characters. Do not wrap in quotes.`,
+Write a single spicy, high-engagement tweet STRICTLY under 220 characters.
+RULE: Singkat, padat, jelas! Never exceed 230 characters so it fits free Twitter 280-char limit with ample headroom.
+Always include ticker $NOSEY or #Solana. Do not wrap in quotes.`,
           });
-          const prompt = `Generate a fresh viral tweet episode about Nosey Cat's journey for Twitter/X right now:`;
+          const prompt = `Generate a fresh viral tweet for Twitter/X right now (strictly under 220 chars):`;
           const result = await model.generateContent(prompt);
           const aiTweet = result.response.text()?.trim();
-          if (aiTweet && aiTweet.length <= 250) {
+          if (aiTweet && aiTweet.length <= 230) {
             tweetText = aiTweet;
           }
         } catch (e) {
