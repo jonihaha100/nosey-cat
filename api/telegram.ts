@@ -224,9 +224,31 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     if (text.startsWith('/tweet_now')) {
-      const tweetSample = `[SAGA: CH. 1 - THE AWAKENING] 🐾\nSick of 5-min dev rugs? A 16-bit tuxedo cat awakens on Solana to guard your wallet. Boop his glowing pink snoot:\n${websiteUrl} 😼🚀 #Solana #NOSEY`;
-      const intentUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetSample)}`;
-      await sendTelegramMessage(botToken, chatId, `📝 **TWEET EPISODE READY:**\n\n${tweetSample}`, {
+      let tweetText = `[SAGA: CH. 1 - THE AWAKENING] 🐾\nSick of 5-min dev rugs? A 16-bit tuxedo cat awakens on Solana to guard your wallet. Boop his glowing pink snoot:\n${websiteUrl} 😼🚀 #Solana #NOSEY`;
+
+      if (geminiKey && !geminiKey.includes('your_gemini')) {
+        try {
+          const genAI = new GoogleGenerativeAI(geminiKey);
+          const model = genAI.getGenerativeModel({
+            model: 'gemini-1.5-flash',
+            systemInstruction: `You are the viral Twitter marketing strategist for Nosey Cat ($NOSEY), a 16-bit retro arcade meme coin on Solana.
+Write a single spicy, episodic narrative tweet under 210 characters.
+Always include the link ${websiteUrl} and tickers $NOSEY #Solana.
+Tone: Sassy, meme-savvy, anti-rug, curious cat energy. Strictly under 240 characters. Do not wrap in quotes.`,
+          });
+          const prompt = `Generate a fresh viral tweet episode about Nosey Cat's journey for Twitter/X right now:`;
+          const result = await model.generateContent(prompt);
+          const aiTweet = result.response.text()?.trim();
+          if (aiTweet && aiTweet.length <= 250) {
+            tweetText = aiTweet;
+          }
+        } catch (e) {
+          console.warn('Gemini tweet generation fallback:', e);
+        }
+      }
+
+      const intentUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
+      await sendTelegramMessage(botToken, chatId, `🚀 **[SIAP POST KE X] DRAF TWEET NOSEY BARU:** 🐾\n━━━━━━━━━━━━━━━━━━━━━━\n${tweetText}\n━━━━━━━━━━━━━━━━━━━━━━\n\n💡 _Klik tombol di bawah, aplikasi X akan langsung terbuka dengan teks di atas!_`, {
         reply_markup: {
           inline_keyboard: [
             [{ text: '🐦 1-Click Post to X (Twitter) ↗', url: intentUrl }],
@@ -262,3 +284,4 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(200).json({ ok: false, error: err?.message });
   }
 }
+
