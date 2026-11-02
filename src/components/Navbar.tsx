@@ -8,6 +8,7 @@ interface NavbarProps {
   onToggleChaos: () => void;
   isMuted: boolean;
   onToggleMute: () => void;
+  onOpenPromoStudio?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -15,6 +16,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onToggleChaos,
   isMuted,
   onToggleMute,
+  onOpenPromoStudio,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
 
@@ -95,6 +97,14 @@ export const Navbar: React.FC<NavbarProps> = ({
           >
             HOW TO BUY
           </a>
+          {onOpenPromoStudio && (
+            <button
+              onClick={onOpenPromoStudio}
+              className="px-2 py-1 bg-[#C8F31D] text-black border-2 border-black font-pixel shadow-pixel-sm hover:translate-x-0.5 hover:translate-y-0.5 active:translate-x-1 active:translate-y-1 transition-all whitespace-nowrap flex-shrink-0 font-bold flex items-center gap-1"
+            >
+              <span>🎬 STUDIO PROMO</span>
+            </button>
+          )}
         </nav>
 
         {/* Right: Symmetrical Action Controls */}
@@ -214,6 +224,18 @@ export const Navbar: React.FC<NavbarProps> = ({
           >
             🚀 HOW TO BUY
           </a>
+          {onOpenPromoStudio && (
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                onOpenPromoStudio();
+              }}
+              className="p-2 border-2 border-black bg-[#C8F31D] text-black font-bold text-left flex items-center justify-between"
+            >
+              <span>🎬 STUDIO VIDEO PROMO (RECORD .WEBM)</span>
+              <span className="text-[10px] bg-black text-[#C8F31D] px-1.5 py-0.5">20s</span>
+            </button>
+          )}
         </div>
       )}
     </header>

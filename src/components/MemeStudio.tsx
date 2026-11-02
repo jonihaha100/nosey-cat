@@ -353,6 +353,18 @@ export const MemeStudio: React.FC = () => {
               <button
                 type="button"
                 onClick={() => {
+                  setBaseImageSrc(getAssetUrl('/banners/kepo-cyberpunk-alley-master.jpg'));
+                  setActiveAccessories({ glasses: false, verified: true });
+                }}
+                className={`px-2 py-1 font-pixel text-[9px] border-2 border-black transition-all ${
+                  baseImageSrc === getAssetUrl('/banners/kepo-cyberpunk-alley-master.jpg') ? 'bg-arcade-yellow shadow-pixel-sm' : 'bg-white hover:bg-gray-100'
+                }`}
+              >
+                ☕ BASECAMP
+              </button>
+              <button
+                type="button"
+                onClick={() => {
                   setBaseImageSrc(getAssetUrl('/mascot-pixel.png'));
                   setActiveAccessories({ glasses: true, verified: true });
                 }}
@@ -636,7 +648,52 @@ export const MemeStudio: React.FC = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Banner 0: Master Cyberpunk Basecamp Alley */}
+            <div className="bg-arcade-chalk border-4 border-black p-5 shadow-pixel-lg flex flex-col justify-between space-y-4">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="bg-[#C8F31D] text-black border-2 border-black font-pixel text-[10px] px-2 py-0.5 font-bold">
+                    ☕️ BASECAMP ALLEY
+                  </span>
+                  <span className="font-pixel text-[9px] text-gray-600">CRT CHART</span>
+                </div>
+                <div className="border-4 border-black overflow-hidden bg-black shadow-pixel-sm group relative aspect-video">
+                  <img
+                    src={getAssetUrl('/banners/kepo-cyberpunk-alley-master.jpg')}
+                    alt="Kepo Cat Basecamp Cyberpunk Alley Banner"
+                    className="w-full h-full object-cover pixelated group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+                <p className="font-retro text-lg text-gray-800 leading-snug">
+                  Si kucing degen duduk di krat Solana gang cyberpunk, ngopi santai sambil mantau chart lilin hijau di monitor CRT 16-bit.
+                </p>
+              </div>
+
+              <div className="flex gap-2 pt-2">
+                <a
+                  href={getAssetUrl('/banners/kepo-cyberpunk-alley-master.jpg')}
+                  download="kepo-cyberpunk-alley-master.jpg"
+                  className="flex-1 h-11 bg-arcade-green text-black border-4 border-black font-pixel text-xs flex items-center justify-center gap-2 shadow-pixel-sm hover:translate-x-0.5 hover:translate-y-0.5 active:translate-x-1 active:translate-y-1 font-bold"
+                >
+                  <Download size={14} />
+                  <span>DOWNLOAD</span>
+                </a>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setBaseImageSrc(getAssetUrl('/banners/kepo-cyberpunk-alley-master.jpg'));
+                    setActiveAccessories({ glasses: false, verified: true });
+                    window.scrollTo({ top: document.getElementById('studio')?.offsetTop, behavior: 'smooth' });
+                  }}
+                  className="px-3 h-11 bg-white hover:bg-gray-100 text-black border-4 border-black font-pixel text-[10px] flex items-center justify-center gap-1 shadow-pixel-sm"
+                  title="Load into Meme Studio"
+                >
+                  <span>EDIT</span>
+                </button>
+              </div>
+            </div>
+
             {/* Banner 1: Moon Mission */}
             <div className="bg-arcade-chalk border-4 border-black p-5 shadow-pixel-lg flex flex-col justify-between space-y-4">
               <div className="space-y-3">

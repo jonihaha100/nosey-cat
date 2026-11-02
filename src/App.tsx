@@ -13,6 +13,7 @@ import { MemeStudio } from './components/MemeStudio';
 import { HowToBuyAndChart } from './components/HowToBuyAndChart';
 import { ChaosOverlay } from './components/ChaosOverlay';
 import { CRTOverlay } from './components/CRTOverlay';
+import { PromoTrailerStudio } from './components/PromoTrailerStudio';
 import { TOKEN_CONFIG } from './config/tokenConfig';
 import { getAssetUrl } from './utils/assets';
 import { 
@@ -27,6 +28,7 @@ import { ArrowUp, Heart, ShieldAlert } from 'lucide-react';
 export const App: React.FC = () => {
   const [chaosMode, setChaosMode] = useState<boolean>(false);
   const [isMuted, setIsMuted] = useState<boolean>(() => getAudioMuteStatus());
+  const [promoStudioOpen, setPromoStudioOpen] = useState<boolean>(false);
 
   // Toggle CHAOS MODE with 8-bit sound and disco effect
   const handleToggleChaos = () => {
@@ -71,6 +73,13 @@ export const App: React.FC = () => {
         onToggleChaos={handleToggleChaos}
         isMuted={isMuted}
         onToggleMute={handleToggleMute}
+        onOpenPromoStudio={() => setPromoStudioOpen(true)}
+      />
+
+      {/* Automated Promo Video Studio Modal */}
+      <PromoTrailerStudio
+        isOpen={promoStudioOpen}
+        onClose={() => setPromoStudioOpen(false)}
       />
 
       {/* Main Content Area */}
@@ -91,7 +100,7 @@ export const App: React.FC = () => {
         <SecurityProof />
 
         {/* Section 4.2: Ecosystem Hub & 48s Teaser Trailer (ChillMech Inspired) */}
-        <EcosystemHub />
+        <EcosystemHub onOpenPromoStudio={() => setPromoStudioOpen(true)} />
 
         {/* Section 4.5: Master 4-Stage Arcade Roadmap */}
         <ArcadeRoadmap />

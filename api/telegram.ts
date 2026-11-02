@@ -50,6 +50,104 @@ async function sendTelegramPhoto(botToken: string, chatId: number | string, phot
   }
 }
 
+interface VisualTheme {
+  id: string;
+  filename: string;
+  title: string;
+  desc: string;
+  keywords: string[];
+  sampleIndonesian: string;
+  sampleEnglish: string;
+}
+
+const VISUAL_THEMES: VisualTheme[] = [
+  {
+    id: 'basecamp',
+    filename: 'kepo-cyberpunk-alley-master.jpg',
+    title: 'KEPO CYBERPUNK BASECAMP (16-Bit Neon Alley & CRT Live Chart)',
+    desc: 'Si kucing degen duduk santai di atas krat Solana di gang cyberpunk, ngopi sambil mantau chart lilin hijau di monitor CRT 16-bit.',
+    keywords: ['basecamp', 'ngopi', 'kopi', 'coffee', 'chart', 'pantau', 'monitor', 'cozy', 'santai', 'malam', 'night', 'alley', 'gang', 'ramen', 'arcade', 'updat', 'stay'],
+    sampleIndonesian: 'Lagi di basecamp ngopi sambil mantau chart $KEPO. ☕🐾 Diamond paws kita emang paling keras, anti-rug club! Stay cozy, big moves coming soon. 🚀💎 #KEPO #Solana',
+    sampleEnglish: 'Late night at the $KEPO basecamp sipping coffee & watching green candles on the CRT monitor. ☕🐾 Diamond paws don\'t flinch. Anti-rug club on #Solana! 🚀💎',
+  },
+  {
+    id: 'moon',
+    filename: 'nosey-moon-mission-1080p.png',
+    title: 'MOON MISSION (Parabolic Green Candles & Neon Billboard 1080p)',
+    desc: 'Roket lilin hijau raksasa meluncur menembus atmosfer menuju bulan 16-bit dengan billboard neon $KEPO.',
+    keywords: ['moon', 'bulan', 'rocket', 'roket', 'pump', 'terbang', 'hijau', 'parabolic', 'ath', 'takeoff', 'bullish'],
+    sampleIndonesian: 'Curiosity didn\'t kill this cat — malah bikin roket ke bulan! 😼🚀 Lilin hijau tebal meluncur di Solana. Siap-siap lepas landas bareng $KEPO! 🐾🌕 #KEPO #Solana',
+    sampleEnglish: 'Curiosity didn\'t kill this cat — it sent him straight to the moon on Solana! 😼🚀 Infinite green candles loading. Fair launch on Pump.fun! 🐾🌕 #KEPO',
+  },
+  {
+    id: 'diamond',
+    filename: 'nosey-saga-ch3-diamond-paws.jpg',
+    title: 'DIAMOND PAWS SAGA (Anti-Rug Shield & 0% Tax 1080p)',
+    desc: 'Cakar berlian menangkis FUD dan dump dengan perisai anti-rug Solana, 0% tax, dan likuiditas dibakar permanen.',
+    keywords: ['diamond', 'cakar', 'berlian', 'paws', 'rug', 'anti-rug', 'safe', 'aman', 'tax', 'pajak', 'hold', 'hodl', 'shield', 'perisai', 'burn', 'jeet'],
+    sampleIndonesian: 'Gak ada kamus dev kabur atau kena rug pull di sini! 🛡️🐾 0% tax, likuiditas dibakar permanen, diamond paws pegang kendali! 💎🐱 $KEPO #Solana',
+    sampleEnglish: 'Paper hands panic, diamond paws accumulate. 💎🐾 0% Tax, 100% LP burned forever, zero insider presales. Built safe for real crypto degens on #Solana! 🛡️🚀',
+  },
+  {
+    id: 'battle_station',
+    filename: 'nosey-degen-battle-station-1080p.png',
+    title: '24/7 DEGEN BATTLE STATION (Dev Lab Grind & Real Utility 1080p)',
+    desc: 'Terminal arcade multi-layar tempat dev meracik software retro 24/7 sebelum peluncuran token.',
+    keywords: ['lab', 'dev', 'build', 'coding', 'station', 'masak', 'cook', '24/7', 'battle', 'terminal', 'kerja', 'developer', 'software'],
+    sampleIndonesian: 'Dev gak tidur, masak fitur 24/7 di lab retro! 🕹️💻 Software 16-bit udah live sebelum koin rilis. Siapa yang siap boop si kucing? 🐾🔥 #KEPO #Solana',
+    sampleEnglish: 'Dev locked in the lab 24/7 cooking 16-bit retro software before token launch! 🕹️💻 Real utility first, zero hype slop. Boop the snoot: https://nosey-cat.vercel.app 🐾🔥 #Solana',
+  },
+  {
+    id: 'genesis',
+    filename: 'kepo-cat-landscape-genesis.jpg',
+    title: 'KEPO CAT GENESIS (16:9 4K HD Fair Launch Pump.fun)',
+    desc: 'Mascot kucing bertopeng degen dengan hidung pink -20° tilt yang siap mengguncang Pump.fun.',
+    keywords: ['genesis', 'boop', 'snoot', 'fair launch', 'pump.fun', 'launch', 'kepo', 'awal', 'rilis', 'kucing', 'hidung', 'pink', 'nose'],
+    sampleIndonesian: 'Si kucing degen berhidung pink siap mengguncang Solana! 🐾🌸 1 Miliar suplai, 0% tax, 100% fair launch di Pump.fun. Sudah boop idungnya hari ini? 😼🚀 #KEPO',
+    sampleEnglish: 'Meet $KEPO: The most curious & boopable 16-bit tuxedo cat on Solana! 🐾🌸 1B Supply, 0% Tax, 100% Fair Launch on Pump.fun. Are you booping? 😼🚀',
+  },
+  {
+    id: 'sniper_trap',
+    filename: 'nosey-saga-ch4-sniper-trap.jpg',
+    title: 'THE SNIPER TRAP (Anti-Bot Radar & Stealth Defense 1080p)',
+    desc: 'Radar deteksi anti-bot 16-bit melumpuhkan sniper bot agar komunitas mendapatkan fair price.',
+    keywords: ['sniper', 'bot', 'trap', 'frontrun', 'jebakan', 'radar', 'defense', 'keamanan', 'stealth'],
+    sampleIndonesian: 'Sniper bot gak bakal dapet jatah murah! 🛑⚡ Radar $KEPO aktif 24 jam sapu bersih bot front-runner. Fair launch murni buat komunitas! 🐾🦾 #KEPO',
+    sampleEnglish: 'Sniper bots get vaporized on sight! 🛑⚡ $KEPO anti-bot stealth genesis ensures 100% fair launch for real community diamond paws. Zero front-running! 🐾🦾',
+  },
+  {
+    id: 'laser_chaos',
+    filename: 'animations/nosey-laser-boop.gif',
+    title: 'CHAOS OVERDRIVE (1000W Laser Eye Snoot Boop Animated GIF)',
+    desc: 'Mode overdrive 1000W laser merah menyapu layar saat tombol Chaos diaktifkan.',
+    keywords: ['laser', 'chaos', 'overdrive', 'mata laser', 'raid', 'meme', 'studio', 'animasi', 'gif'],
+    sampleIndonesian: 'CHAOS MODE DIAKTIFKAN! ⚡😼 Mata laser 1000W menyala, jeets auto lari kocar-kacir! Bikin meme lu sekarang di Meme Studio kita! 🐾🔥 #KEPO #Solana',
+    sampleEnglish: 'CHAOS MODE ACTIVATED! ⚡😼 1000W laser eyes vaporizing FUD across Solana! Cook your custom meme in our 16-bit studio: https://nosey-cat.vercel.app 🐾🔥',
+  },
+];
+
+function pickMatchingVisualTheme(prompt: string, aiGeneratedText = ''): VisualTheme {
+  const combined = `${prompt} ${aiGeneratedText}`.toLowerCase();
+
+  let bestTheme = VISUAL_THEMES[0]; // Default to basecamp alley (photo_2026-11-02 09.55.04.jpg)
+  let highestScore = -1;
+
+  for (const theme of VISUAL_THEMES) {
+    let score = 0;
+    for (const kw of theme.keywords) {
+      if (combined.includes(kw)) {
+        score += 2;
+      }
+    }
+    if (score > highestScore) {
+      highestScore = score;
+      bestTheme = theme;
+    }
+  }
+
+  return bestTheme;
+}
+
 async function handleDevContentRequest(
   botToken: string,
   chatId: number | string,
@@ -57,88 +155,71 @@ async function handleDevContentRequest(
   geminiKey?: string,
   userPrompt = ''
 ) {
-  const BANNER_ASSETS = [
-    {
-      url: `${websiteUrl}/banners/kepo-cat-landscape-genesis.jpg`,
-      title: 'KEPO CAT GENESIS (16:9 4K HD)',
-    },
-    {
-      url: `${websiteUrl}/banners/nosey-moon-mission-1080p.png`,
-      title: 'MOON MISSION - $KEPO NEON BILLBOARD (1080p HD)',
-    },
-    {
-      url: `${websiteUrl}/banners/nosey-degen-battle-station-1080p.png`,
-      title: '24/7 DEGEN BATTLE STATION - $KEPO NEON (1080p HD)',
-    },
-    {
-      url: `${websiteUrl}/banners/nosey-saga-ch3-diamond-paws.jpg`,
-      title: 'DIAMOND PAWS SAGA (1080p HD)',
-    },
-    {
-      url: `${websiteUrl}/banners/nosey-saga-ch1-awakening.jpg`,
-      title: 'THE SNOOT AWAKENING (1080p HD)',
-    },
-    {
-      url: `${websiteUrl}/banners/nosey-saga-ch4-sniper-trap.jpg`,
-      title: 'THE SNIPER TRAP (1080p HD)',
-    },
-  ];
-
-  const picked = BANNER_ASSETS[Math.floor(Math.random() * BANNER_ASSETS.length)];
-
-  const FALLBACK_TWEETS = [
-    `Curiosity didn't kill this cat — it sent him to the moon on Solana! 😼🚀\n\n16-bit retro arcade gaming + zero tax fair launch on Pump.fun.\n\nWho's ready for $KEPO? 🐾\nhttps://nosey-cat.vercel.app\n#Solana #KEPO`,
-    `They said cats have 9 lives, but $KEPO has infinite green candles! 🐾📈\n\n16-bit arcade vibes, 100% fair launch, zero tax.\n\nBoop the snoot before takeoff: https://nosey-cat.vercel.app 😼🚀\n#Solana #MemeCoin`,
-    `Building different in Web3: 16-bit retro software LIVE before token launch! 😼🎮\n\n1B supply • 0% tax • burned LP • diamond paws only.\n\nAre you booping? 🐾\nhttps://nosey-cat.vercel.app\n#KEPO #Solana`,
-    `Normies are sleeping, but $KEPO is up 24/7 watching the charts. ☕️🐾\n\nNo presale, no insider rugs. Pure retro arcade community on Solana.\n\nJoin the 16-bit resistance: https://nosey-cat.vercel.app 🚀💎 #Solana`,
-  ];
-
   const isVideoRequest = (userPrompt || '').toLowerCase().includes('video') || (userPrompt || '').toLowerCase().includes('trailer');
 
-  let tweetText = isVideoRequest
-    ? `Curiosity didn't kill this cat — it sent him to the moon on Solana! 😼🚀\n\n16-bit retro arcade gaming + zero tax fair launch on Pump.fun.\n\nWatch our 48s Genesis Teaser Trailer:\nhttps://nosey-cat.vercel.app\n#Solana #KEPO`
-    : FALLBACK_TWEETS[Math.floor(Math.random() * FALLBACK_TWEETS.length)];
+  // Initial theme matching based on prompt
+  let theme = pickMatchingVisualTheme(userPrompt);
 
-  if (geminiKey && !geminiKey.includes('your_gemini')) {
+  let indonesianTweet = theme.sampleIndonesian;
+  let englishTweet = theme.sampleEnglish;
+
+  if (isVideoRequest) {
+    indonesianTweet = `Curiosity didn't kill this cat — malah kirim dia ke bulan di Solana! 😼🚀\n\nNonton video animasi 16-bit asli & 68s Investor Presentation kami:\n${websiteUrl}\n#Solana #KEPO`;
+    englishTweet = `Curiosity didn't kill this cat — it sent him to the moon on Solana! 😼🚀\n\n16-bit retro arcade gaming + zero tax fair launch on Pump.fun.\n\nWatch our Genesis Presentation:\n${websiteUrl}\n#Solana #KEPO`;
+  } else if (geminiKey && !geminiKey.includes('your_gemini')) {
     try {
       const genAI = new GoogleGenerativeAI(geminiKey);
       const model = genAI.getGenerativeModel({
         model: 'gemini-3.5-flash-lite',
-        systemInstruction: `You are the viral Twitter/X marketing strategist for Kepo Cat ($KEPO), a 16-bit retro arcade meme coin on Solana.
-Write a single spicy, high-engagement viral tweet STRICTLY IN ENGLISH for global crypto degens on X.
-CRITICAL RULES:
-- Strictly under 220 characters total! (Twitter free limit is 280, leave plenty of headroom).
-- 100% English only (international crypto investors on Twitter). NEVER use Indonesian words in the tweet draft!
-- Always include $KEPO, #Solana, or link https://nosey-cat.vercel.app.
-- Energetic, degen-native, clear, and hype! Do not wrap in quotes.
-- Emojis: 🐾 🚀 😼 💎 ☕️`,
+        systemInstruction: `You are the viral social media strategist for Kepo Cat ($KEPO), a 16-bit retro arcade meme coin on Solana.
+When given a user prompt, output a JSON object with two fields:
+1. "indonesian": A snappy, bullish tweet in Indonesian (under 220 chars) perfect for local Telegram/Twitter crypto degens. Include $KEPO and #Solana.
+2. "english": A high-energy viral tweet in 100% English (under 220 chars) for international degens on X. Include $KEPO and #Solana.
+CRITICAL: Both tweets must STRICTLY be under 230 characters! Include emojis: ☕🐾 🚀💎 😼`,
       });
-      const prompt = `Dev asks for content: "${userPrompt || 'fresh update tweet'}". Generate 1 fresh viral English tweet:`;
-      const result = await model.generateContent(prompt);
-      const aiTweet = result.response.text()?.trim().replace(/^["']|["']$/g, '');
-      if (aiTweet && aiTweet.length <= 230 && !/[a-z]+kan\b|yang|ini|kami|kita|ngopi/i.test(aiTweet)) {
-        tweetText = aiTweet;
+
+      const aiPrompt = `Topic or user request: "${userPrompt || 'Update santai di basecamp ngopi sambil pantau chart live'}".
+Output strictly valid JSON in format: {"indonesian": "...", "english": "..."}`;
+
+      const result = await model.generateContent(aiPrompt);
+      const rawText = result.response.text()?.trim() || '';
+      const jsonMatch = rawText.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        const parsed = JSON.parse(jsonMatch[0]);
+        if (parsed.indonesian && parsed.indonesian.length <= 250) {
+          indonesianTweet = parsed.indonesian.replace(/^["']|["']$/g, '');
+        }
+        if (parsed.english && parsed.english.length <= 250) {
+          englishTweet = parsed.english.replace(/^["']|["']$/g, '');
+        }
       }
     } catch (e) {
       console.warn('Gemini tweet generation fallback:', e);
     }
   }
 
-  // 1. Send the actual photo first
+  // Refine visual theme matching using the newly generated tweets
+  theme = pickMatchingVisualTheme(userPrompt, `${indonesianTweet} ${englishTweet}`);
+
+  const photoUrl = theme.filename.startsWith('animations/')
+    ? `${websiteUrl}/${theme.filename}`
+    : `${websiteUrl}/banners/${theme.filename}`;
+
+  // 1. Send the matching photo first
   await sendTelegramPhoto(
     botToken,
     chatId,
-    picked.url,
-    `🖼️ <b>KONTEN RESMI: ${picked.title}</b>\n\n💡 <i>Simpan gambar ini ke galeri HP untuk dilampirkan ke postingan Twitter/X!</i>`
+    photoUrl,
+    `🖼️ <b>KONTEN RESMI: ${theme.title}</b>\n\n📌 <i>${theme.desc}</i>\n\n💡 <b>Saran:</b> Simpan foto di atas ke galeri HP untuk dilampirkan ke postingan Twitter/X atau Telegram agar investor langsung paham! 🔥`
   );
 
-  // 2. Prepare 1-click intent URL
+  // 2. Prepare 1-click intent URL for English tweet
   const params = new URLSearchParams();
-  params.set('text', tweetText);
+  params.set('text', englishTweet);
   const intentUrl = `https://x.com/intent/post?${params.toString()}`;
 
-  // 3. Send tweet draft in HTML <code> block for 1-Tap Copy on mobile
-  const messageContent = `🚀 <b>[DRAF TWEET RESMI BAHASA INGGRIS UNTUK X]</b> 🐾\n━━━━━━━━━━━━━━━━━━━━━━\n<code>${tweetText}</code>\n━━━━━━━━━━━━━━━━━━━━━━\n💡 <b>Langkah Mudah Eksekusi (10 Detik):</b>\n1️⃣ <b>Ketuk kotak abu-abu di atas</b> (langsung otomatis tersalin ke clipboard HP).\n2️⃣ <b>Tekan tombol di bawah</b> untuk langsung buka aplikasi X (@TheNoseyCat).\n3️⃣ <b>Paste teks & lampirkan foto di atas</b>, lalu klik <b>Post</b>! 🔥`;
+  // 3. Send tweet drafts in HTML <code> blocks for 1-Tap Copy on mobile
+  const messageContent = `🐾 <b>[DRAF KONTEN RESMI $KEPO SIAP POSTING]</b> 😼\n━━━━━━━━━━━━━━━━━━━━━━\n🇮🇩 <b>1. Versi Bahasa Indonesia (Telegram / Grup):</b>\n<code>${indonesianTweet}</code>\n\n🇬🇧 <b>2. Versi Bahasa Inggris (Twitter/X @TheNoseyCat):</b>\n<code>${englishTweet}</code>\n━━━━━━━━━━━━━━━━━━━━━━\n💡 <b>Langkah Cepat Eksekusi (10 Detik):</b>\n1️⃣ <b>Ketuk kotak abu-abu di atas</b> (langsung otomatis tersalin ke clipboard HP).\n2️⃣ <b>Tekan tombol di bawah</b> untuk langsung buka aplikasi X.\n3️⃣ <b>Paste teks & lampirkan gambar di atas</b>, lalu klik <b>Post</b>! 🚀`;
 
   await sendTelegramMessage(botToken, chatId, messageContent, {
     parse_mode: 'HTML',
@@ -424,9 +505,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     // ----------------------------------------------------
-    // Scenario D: Dev Content Generation (Private DM triggers or /tweet_now)
+    // Scenario D: Dev Content Generation (Private DM triggers, /tweet_now, or group content requests)
     // ----------------------------------------------------
-    const isDevContentTrigger = isPrivate && (
+    const hasContentKeywords = 
       text.startsWith('/tweet_now') ||
       lower.includes('konten') ||
       lower.includes('content') ||
@@ -444,10 +525,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       lower.includes('draft') ||
       lower.includes('promo') ||
       lower.includes('shill') ||
-      lower.includes('bahan')
-    );
+      lower.includes('bahan');
 
-    if (isDevContentTrigger || text.startsWith('/tweet_now')) {
+    const isMentioned = lower.includes('@nesey_cat_bot') || lower.includes('kepo') || lower.includes('nosey') || lower.includes('cat');
+    const isReplyingToBot = message.reply_to_message?.from?.id === 9025436082;
+
+    const isDevContentTrigger = 
+      (isPrivate && hasContentKeywords) || 
+      text.startsWith('/tweet_now') || 
+      ((isMentioned || isReplyingToBot) && hasContentKeywords);
+
+    if (isDevContentTrigger) {
       await handleDevContentRequest(botToken, chatId, websiteUrl, geminiKey, text);
       return res.status(200).json({ ok: true });
     }
@@ -455,7 +543,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // ----------------------------------------------------
     // Scenario E: Community Conversational AI & Mentions
     // ----------------------------------------------------
-    const isMentioned = lower.includes('@nesey_cat_bot') || lower.includes('kepo') || lower.includes('nosey') || lower.includes('cat');
     const isQuestion = text.includes('?');
     const triggers = [
       'kepo', 'halo', 'hai', 'hello', 'hi', 'kucing', 'dev', 'launch', 'kapan', 'beli', 'buy', 
@@ -465,9 +552,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       'guys', 'chads', 'anyone', 'admin', 'update', 'status', 'token'
     ];
     const hasTrigger = triggers.some((t) => lower.includes(t));
-
-    // Check if replying directly to bot
-    const isReplyingToBot = message.reply_to_message?.from?.id === 9025436082;
 
     // Handle shut up / stop politely and briefly like a real homie
     if (isReplyingToBot && (lower.includes('shut up') || lower.includes('stfu') || lower.includes('stop') || lower.includes('quiet'))) {
@@ -497,6 +581,25 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             inline_keyboard: [
               [{ text: '🕹️ Play Kepo Arcade Website 🐾', url: websiteUrl }],
             ],
+          },
+        } : {}),
+      });
+
+      // DUAL SAFETY: If the AI reply contains a tweet draft, send the matching photo too!
+      if (reply.includes('draft tweet') || reply.includes('tweet:') || reply.includes('#KEPO') || reply.includes('#Solana') || reply.includes('ngopi') || reply.includes('basecamp')) {
+        const theme = pickMatchingVisualTheme(text, reply);
+        const photoUrl = theme.filename.startsWith('animations/')
+          ? `${websiteUrl}/${theme.filename}`
+          : `${websiteUrl}/banners/${theme.filename}`;
+
+        await sendTelegramPhoto(
+          botToken,
+          chatId,
+          photoUrl,
+          `🖼️ <b>KONTEN RESMI: ${theme.title}</b>\n\n📌 <i>Visual ini cocok dan menggambarkan bahasan draf tweet di atas! Simpan ke galeri untuk diposting ke X / Telegram!</i>`
+        );
+      }
+    }
           },
         } : {}),
       });

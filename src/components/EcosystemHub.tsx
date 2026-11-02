@@ -12,15 +12,20 @@ interface MoodItem {
 }
 
 const MOODS: MoodItem[] = [
-  { id: '1', name: 'CHILL CAT', tag: 'DEFAULT SNOOT', img: '/mascot-pixel.png', desc: 'Relaxed, humble, curious 16-bit tuxedo cat watching the charts.' },
-  { id: '2', name: 'THUG LIFE', tag: 'DEGEN SHADES', img: '/banners/kepo-cat-landscape-genesis.jpg', desc: 'Equipped with black pixel shades, anti-fud attitude.' },
-  { id: '3', name: 'LASER EYES', tag: '1,000,000 WATTS', img: '/animations/nosey-laser-boop.gif', desc: 'Vaporizing sniper bots and jeets with pure Solana alpha beams.' },
-  { id: '4', name: 'MOON MISSION', tag: 'ROCKET TO MOON', img: '/banners/nosey-moon-mission.png', desc: 'Watching green parabolic candles blast toward the 16-bit moon.' },
-  { id: '5', name: 'DEGEN STATION', tag: '24/7 LAB GRIND', img: '/banners/nosey-degen-battle-station.png', desc: 'Surrounded by CRT monitors, pizza, and zero-tax Solana charts.' },
-  { id: '6', name: 'DIAMOND PAWS', tag: 'ANTI-JEET SHIELD', img: '/banners/nosey-saga-ch3-diamond-paws.jpg', desc: 'Unshakable conviction. The first 50 Diamond Paws Genesis.' },
+  { id: '1', name: 'BASECAMP CHILL', tag: 'CRT LIVE CHART', img: '/banners/kepo-cyberpunk-alley-master.jpg', desc: 'Ngopi santai di gang cyberpunk Solana sambil mantau chart lilin hijau di monitor CRT 16-bit.' },
+  { id: '2', name: 'CHILL CAT', tag: 'DEFAULT SNOOT', img: '/mascot-pixel.png', desc: 'Relaxed, humble, curious 16-bit tuxedo cat watching the charts.' },
+  { id: '3', name: 'THUG LIFE', tag: 'DEGEN SHADES', img: '/banners/kepo-cat-landscape-genesis.jpg', desc: 'Equipped with black pixel shades, anti-fud attitude.' },
+  { id: '4', name: 'LASER EYES', tag: '1,000,000 WATTS', img: '/animations/nosey-laser-boop.gif', desc: 'Vaporizing sniper bots and jeets with pure Solana alpha beams.' },
+  { id: '5', name: 'MOON MISSION', tag: 'ROCKET TO MOON', img: '/banners/nosey-moon-mission.png', desc: 'Watching green parabolic candles blast toward the 16-bit moon.' },
+  { id: '6', name: 'DEGEN STATION', tag: '24/7 LAB GRIND', img: '/banners/nosey-degen-battle-station.png', desc: 'Surrounded by CRT monitors, pizza, and zero-tax Solana charts.' },
+  { id: '7', name: 'DIAMOND PAWS', tag: 'ANTI-JEET SHIELD', img: '/banners/nosey-saga-ch3-diamond-paws.jpg', desc: 'Unshakable conviction. The first 50 Diamond Paws Genesis.' },
 ];
 
-export const EcosystemHub: React.FC = () => {
+interface EcosystemHubProps {
+  onOpenPromoStudio?: () => void;
+}
+
+export const EcosystemHub: React.FC<EcosystemHubProps> = ({ onOpenPromoStudio }) => {
   const [activeTab, setActiveTab] = useState<'story' | 'trailer' | 'ecosystem' | 'target' | 'moods'>('story');
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -200,7 +205,7 @@ export const EcosystemHub: React.FC = () => {
                 </div>
 
                 {/* 1-Click Action Buttons */}
-                <div className="flex flex-col sm:flex-row gap-3">
+                <div className="flex flex-col sm:flex-row gap-3 mb-2">
                   <a
                     href={getAssetUrl('/videos/kepo-story-animation.mp4')}
                     download="kepo-story-animation.mp4"
@@ -218,6 +223,15 @@ export const EcosystemHub: React.FC = () => {
                     <span>SHARE KE X (@TheNoseyCat)</span>
                   </button>
                 </div>
+
+                {onOpenPromoStudio && (
+                  <button
+                    onClick={onOpenPromoStudio}
+                    className="w-full py-2.5 px-4 bg-[#FF4040] hover:bg-red-500 text-white font-pixel text-xs text-center border-2 border-black shadow-[4px_4px_0_#000] transition-all flex items-center justify-center gap-2 font-bold"
+                  >
+                    <span>🎬 BUKA AUTOMATED VIDEO STUDIO (REKAM WEBM LANGSUNG DARI BROWSER)</span>
+                  </button>
+                )}
               </div>
 
             </div>
