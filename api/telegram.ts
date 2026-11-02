@@ -27,7 +27,26 @@ async function sendTelegramMessage(botToken: string, chatId: number | string, te
   }
 }
 
-// Helper to sanitize links so punctuation/em-dashes don't break Telegram's URL parser
+function buildWelcomeMessage(name: string, websiteUrl: string): string {
+  return `🐾 **WELCOME TO KEPO CAT ($KEPO) — THE 16-BIT RESISTANCE!** 😼🚀
+Welcome to the squad, **${name}**!
+
+They told you *"Curiosity killed the cat"* — but on Solana, **curiosity sent this cat straight to the moon!** 🌕✨
+
+💡 **WHY $KEPO IS BUILT DIFFERENT:**
+🎮 **Real 16-Bit Software First:** Live arcade boop terminal, sound FX & Meme Studio active before launch.
+💎 **100% Fair Launch Blueprint:** 1B Supply, 0% Tax, 100% LP burned forever on Pump.fun, zero insider presales.
+⚔️ **Phase 1 Active (Genesis 50):** Assembling 50 Diamond Paws before initiating stealth fair launch so sniper bots can't front-run our community!
+
+🕹️ **Play Arcade Terminal:** ${websiteUrl}
+🗺️ **4-Stage Quest Roadmap:** ${websiteUrl}/#roadmap
+🐦 **Official X:** https://x.com/TheNoseyCat
+
+🚨 **DEV PRIVACY & ANTI-SCAM NOTICE:**
+• The Dev will **NEVER** DM you first!
+• Anyone messaging you in private DMs claiming to be the Dev or asking for funds is a SCAMMER.
+• For all questions, chat with our 24/7 AI mascot **@nesey_cat_bot** right here in the public group! 🐾`;
+}
 function sanitizeLinks(text: string): string {
   return text.replace(/(https?:\/\/[^\s\u2014\u2013—–]+)([\u2014\u2013—–-]+)([^\s]*)/g, (_match, url, dash, rest) => {
     return url + ' ' + dash + (rest ? ' ' + rest : '');
@@ -192,14 +211,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         if (!last || Date.now() - last > 180000) {
           welcomedCache.set(user.id, Date.now());
           const name = user.first_name || user.username || 'Anon';
-          const welcomeText = `🧪 **EXPERIMENT #001: THE NOSEY PROTOCOL** 🐾\nWelcome to the testbed, **${name}**!\n\nCan an organic community of 50 curious minds defeat algorithmic sniper bots and 5-minute dev rugs on Solana?\n\n🔬 **THE LAB TERMINALS:**\n🕹️ **Arcade Testbed:** [Open Retro Terminal](${websiteUrl})\n🗺️ **Experiment Roadmap:** [Read 4-Stage Protocol](${websiteUrl}/#roadmap)\n🐦 **Transmission Wire:** [@TheNoseyCat](https://x.com/TheNoseyCat)\n\n⚔️ **ACTIVE PHASE: Quest 1 — Genesis 50**\nGathering the first 50 Pioneer Diamond Paws before initiating the Stealth Genesis on Pump.fun. 100% fair launch, zero presales.\n\n🧪 *Are you a spectator or a subject? Verify your curiosity on the terminal.* 🐾⚡`;
+          const welcomeText = buildWelcomeMessage(name, websiteUrl);
 
           await sendTelegramMessage(botToken, chatId, welcomeText, {
             reply_markup: {
               inline_keyboard: [
                 [
-                  { text: '🕹️ Enter Testbed Terminal', url: websiteUrl },
-                  { text: '🗺️ Experiment Roadmap', url: `${websiteUrl}/#roadmap` },
+                  { text: '🕹️ Play 16-Bit Arcade 🐾', url: websiteUrl },
+                  { text: '🗺️ 4-Stage Roadmap', url: `${websiteUrl}/#roadmap` },
                 ],
                 [
                   { text: '🐦 Follow Signal on X', url: 'https://x.com/TheNoseyCat' },
@@ -230,14 +249,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         welcomedCache.set(user.id, Date.now());
 
         const name = user.first_name || user.username || 'Anon';
-        const welcomeText = `🧪 **EXPERIMENT #001: THE NOSEY PROTOCOL** 🐾\nWelcome to the testbed, **${name}**!\n\nCan an organic community of 50 curious minds defeat algorithmic sniper bots and 5-minute dev rugs on Solana?\n\n🔬 **THE LAB TERMINALS:**\n🕹️ **Arcade Testbed:** [Open Retro Terminal](${websiteUrl})\n🗺️ **Experiment Roadmap:** [Read 4-Stage Protocol](${websiteUrl}/#roadmap)\n🐦 **Transmission Wire:** [@TheNoseyCat](https://x.com/TheNoseyCat)\n\n⚔️ **ACTIVE PHASE: Quest 1 — Genesis 50**\nGathering the first 50 Pioneer Diamond Paws before initiating the Stealth Genesis on Pump.fun. 100% fair launch, zero presales.\n\n🧪 *Are you a spectator or a subject? Verify your curiosity on the terminal.* 🐾⚡`;
+        const welcomeText = buildWelcomeMessage(name, websiteUrl);
 
         await sendTelegramMessage(botToken, chatId, welcomeText, {
           reply_markup: {
             inline_keyboard: [
               [
-                { text: '🕹️ Enter Testbed Terminal', url: websiteUrl },
-                { text: '🗺️ Experiment Roadmap', url: `${websiteUrl}/#roadmap` },
+                { text: '🕹️ Play 16-Bit Arcade 🐾', url: websiteUrl },
+                { text: '🗺️ 4-Stage Roadmap', url: `${websiteUrl}/#roadmap` },
               ],
               [
                 { text: '🐦 Follow Signal on X', url: 'https://x.com/TheNoseyCat' },
