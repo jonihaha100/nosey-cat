@@ -22,6 +22,7 @@ const MOODS: MoodItem[] = [
 
 export const EcosystemHub: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'trailer' | 'ecosystem' | 'target' | 'moods'>('trailer');
+  const [videoFormat, setVideoFormat] = useState<'vertical' | 'landscape'>('vertical');
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
@@ -38,7 +39,7 @@ export const EcosystemHub: React.FC = () => {
   };
 
   const handleTwitterShare = () => {
-    const text = `$CHILLMECH was just the beginning — now meet $KEPO! 😼🚀\n\n16-bit retro arcade gaming + 0% tax fair launch on Pump.fun.\n\nWatch our 68s Investor Presentation Trailer & boop the snoot:\nhttps://nosey-cat.vercel.app\n\n#Solana #KEPO #MemeCoin`;
+    const text = `Most meme coins give you a JPEG and a prayer. $KEPO gives you a real 16-bit arcade ecosystem on Solana! 🐾🚀\n\n🕹️ Live Retro Arcade\n🤖 24/7 AI Agent\n🔥 1B Supply, 0% Tax, 100% Burned LP\n\nWatch our high-impact vertical short:\nhttps://nosey-cat.vercel.app\n\n#Solana #KEPO #MemeCoin`;
     const url = `https://x.com/intent/post?text=${encodeURIComponent(text)}`;
     window.open(url, '_blank');
   };
@@ -125,20 +126,51 @@ export const EcosystemHub: React.FC = () => {
           </button>
         </div>
 
-        {/* TAB 1: 68s INVESTOR PRESENTATION VIDEO PLAYER */}
+        {/* TAB 1: INVESTOR PRESENTATION & VERTICAL SHORT VIDEO PLAYER */}
         {activeTab === 'trailer' && (
           <div className="bg-[#141C13] border-4 border-black p-4 sm:p-6 lg:p-8 shadow-[8px_8px_0_#000]">
+            
+            {/* Format Switcher Header */}
+            <div className="flex flex-wrap items-center justify-between gap-3 mb-6 bg-[#0B0F0A] p-3 border-2 border-[#283826]">
+              <div className="flex items-center gap-2">
+                <span className="font-pixel text-xs text-[#C8F31D]">SELECT VIDEO CUT:</span>
+              </div>
+              <div className="flex gap-2 font-pixel text-xs">
+                <button
+                  onClick={() => { setVideoFormat('vertical'); setIsPlaying(false); playBoopSound(); }}
+                  className={`px-3 py-1.5 border transition-all ${
+                    videoFormat === 'vertical'
+                      ? 'bg-[#C8F31D] text-black border-black font-bold shadow-[2px_2px_0_#2457D6]'
+                      : 'bg-[#1a261a] text-[#8B9B85] border-[#283826] hover:text-white'
+                  }`}
+                >
+                  📱 9:16 VERTICAL SHORT (X / REELS / TELEGRAM)
+                </button>
+                <button
+                  onClick={() => { setVideoFormat('landscape'); setIsPlaying(false); playBoopSound(); }}
+                  className={`px-3 py-1.5 border transition-all ${
+                    videoFormat === 'landscape'
+                      ? 'bg-[#C8F31D] text-black border-black font-bold shadow-[2px_2px_0_#2457D6]'
+                      : 'bg-[#1a261a] text-[#8B9B85] border-[#283826] hover:text-white'
+                  }`}
+                >
+                  🖥️ 16:9 LANDSCAPE TRAILER
+                </button>
+              </div>
+            </div>
+
             <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-center">
               
               {/* Video Player Box with CRT border */}
-              <div className="w-full lg:w-3/5 relative bg-black border-4 border-[#283826] overflow-hidden shadow-[6px_6px_0_#C8F31D] group">
+              <div className={`w-full ${videoFormat === 'vertical' ? 'lg:w-[420px] max-w-[360px]' : 'lg:w-3/5'} relative bg-black border-4 border-[#283826] overflow-hidden shadow-[6px_6px_0_#C8F31D] group mx-auto`}>
                 <video
+                  key={videoFormat}
                   ref={videoRef}
-                  src={getAssetUrl('/videos/kepo-genesis-teaser.mp4')}
-                  poster={getAssetUrl('/banners/kepo-cat-landscape-genesis.jpg')}
+                  src={getAssetUrl(videoFormat === 'vertical' ? '/videos/kepo-strategy-short-9x16.mp4' : '/videos/kepo-genesis-teaser.mp4')}
+                  poster={getAssetUrl(videoFormat === 'vertical' ? '/scene_1_hook.png' : '/banners/kepo-cat-landscape-genesis.jpg')}
                   controls
                   playsInline
-                  className="w-full aspect-video object-cover"
+                  className={`w-full ${videoFormat === 'vertical' ? 'aspect-[9/16] object-contain' : 'aspect-video object-cover'}`}
                   onPlay={() => setIsPlaying(true)}
                   onPause={() => setIsPlaying(false)}
                 />
@@ -155,35 +187,37 @@ export const EcosystemHub: React.FC = () => {
                 )}
               </div>
 
-              {/* Video Context & Action Buttons for X */}
-              <div className="w-full lg:w-2/5 flex flex-col justify-between">
+              {/* Video Context & Action Buttons */}
+              <div className="w-full lg:flex-1 flex flex-col justify-between">
                 <div>
                   <div className="inline-block bg-[#2457D6] text-white font-mono text-[10px] px-2.5 py-1 uppercase tracking-wider mb-3">
-                    OFFICIAL X INVESTOR PRESENTATION (1080P HD)
+                    {videoFormat === 'vertical' ? 'WALBI × FXPRO × GATEKID3 VIRAL CUT (1080x1920)' : 'OFFICIAL X INVESTOR PRESENTATION (1080P HD)'}
                   </div>
                   <h3 className="font-pixel text-xl sm:text-2xl text-white mb-3">
-                    $KEPO — MORE THAN A MEME, IT'S A MOVEMENT.
+                    {videoFormat === 'vertical' ? '$KEPO: THE 16-BIT MEME COIN WITH REAL VALUE' : "$KEPO — MORE THAN A MEME, IT'S A MOVEMENT."}
                   </h3>
                   <p className="font-retro text-sm text-[#8B9B85] mb-4 leading-relaxed">
-                    Video presentasi resmi berdurasi 68 detik berstandar tinggi (mengacu pada ChillMech) yang merangkum 7 pilar: Dozens of Moods, pembuktian anti-rug (0% tax, LP burn), Step 01 (50 Diamond Paws Assembly), Step 02 (Fair Launch Tokenomics & Math), Arsitektur 6 Node Ekosistem, Live Website Proof, dan Launchpad Outro.
+                    {videoFormat === 'vertical'
+                      ? 'Format vertikal (9:16) berkecepatan tinggi yang dirancang khusus untuk feed X (Twitter), Shorts, dan Telegram. Menggabungkan arsitektur AI Walbi (pembuktian utilitas langsung), presisi FxPro (kepercayaan institusional matematika 0% tax & burned LP), serta visual animasi pixel ekspresif ala Gatekid3.'
+                      : 'Video presentasi resmi berdurasi 68 detik berstandar tinggi yang merangkum 7 pilar: Dozens of Moods, pembuktian anti-rug (0% tax, LP burn), Step 01 (50 Diamond Paws Assembly), Step 02 (Fair Launch Tokenomics & Math), Arsitektur 6 Node Ekosistem, Live Website Proof, dan Launchpad Outro.'}
                   </p>
 
                   <div className="space-y-2 font-mono text-xs text-white/80 mb-6 bg-[#0B0F0A] p-3 border border-[#283826]">
                     <div className="flex justify-between">
-                      <span className="text-[#8B9B85]">RESOLUSI:</span>
-                      <span className="text-[#C8F31D]">1920x1080 Full HD (16:9)</span>
+                      <span className="text-[#8B9B85]">ASPECT RATIO:</span>
+                      <span className="text-[#C8F31D]">{videoFormat === 'vertical' ? '1080x1920 Vertical (9:16)' : '1920x1080 Full HD (16:9)'}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-[#8B9B85]">DURASI:</span>
-                      <span className="text-white">68.2 Detik (Paced with Reference Soundtrack)</span>
+                      <span className="text-white">{videoFormat === 'vertical' ? '30.0 Detik (Fast-Paced High Retention)' : '68.2 Detik (Full Deck Breakdown)'}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[#8B9B85]">STRUCTURE:</span>
-                      <span className="text-[#C8F31D]">7-Part Investor Deck (ChillMech Standard)</span>
+                      <span className="text-[#8B9B85]">STRATEGY:</span>
+                      <span className="text-[#C8F31D]">Walbi Utility + FxPro Trust + Gatekid3 16-Bit</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-[#8B9B85]">AUDIO:</span>
-                      <span className="text-white">Stereo 48kHz High-Octane Synth Beat</span>
+                      <span className="text-white">Stereo 48kHz High-Octane Arcade Synth</span>
                     </div>
                   </div>
                 </div>
@@ -191,8 +225,8 @@ export const EcosystemHub: React.FC = () => {
                 {/* 1-Click Action Buttons */}
                 <div className="flex flex-col sm:flex-row gap-3">
                   <a
-                    href={getAssetUrl('/videos/kepo-genesis-teaser.mp4')}
-                    download="kepo-genesis-presentation-1080p.mp4"
+                    href={getAssetUrl(videoFormat === 'vertical' ? '/videos/kepo-strategy-short-9x16.mp4' : '/videos/kepo-genesis-teaser.mp4')}
+                    download={videoFormat === 'vertical' ? 'kepo-strategy-short-9x16.mp4' : 'kepo-genesis-presentation-1080p.mp4'}
                     className="flex-1 py-3 px-4 bg-[#C8F31D] text-black font-pixel text-xs text-center border-2 border-black shadow-[4px_4px_0_#000] hover:bg-[#d9ff4a] transition-all flex items-center justify-center gap-2 font-bold"
                   >
                     <Download size={16} />
