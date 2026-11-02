@@ -29,28 +29,34 @@ async function sendTelegramMessage(botToken: string, chatId: number | string, te
 
 // Helper to generate AI reply using Gemini
 async function generateAiReply(userText: string, rawSenderName: string, apiKey?: string, isPrivateChat: boolean = false): Promise<string> {
-  // Protect dev real-world identity from ever being leaked or repeated
+  // Protect dev real-world identity and handles from ever being leaked or repeated
   const lowerName = (rawSenderName || '').toLowerCase();
-  const senderName = lowerName.includes('syamhari') || lowerName.includes('admin') || lowerName.includes('owner')
+  const senderName = lowerName.includes('syamhari') || lowerName.includes('banklondike') || lowerName.includes('admin') || lowerName.includes('owner')
     ? 'Anon Chad'
     : rawSenderName || 'Anon';
 
+  // Sanitize incoming text so dev real name or handles are never fed raw to the LLM
+  const sanitizedText = userText
+    .replace(/syamhari[a-z0-9]*/gi, 'the dev')
+    .replace(/@?banklondike/gi, 'the dev');
+
   if (!apiKey || apiKey.includes('your_gemini')) {
     return isPrivateChat
-      ? `Miaw! 🐾 Siap Mas! Mau dibikinin konten atau tweet tema apa nih buat di X? Tinggal sebut, langsung kuracik! 😼🚀`
-      : `Meow! 🐾 Snoot radar active. All systems locked on Pump.fun stealth drop! Boop my pink nose at https://thenoseycat.vercel.app 😼🚀`;
+      ? `Miaw! 🐾 Siap Mas! Tentu bisa banget kita buatkan konten dan tweet viral buat di X! Mau tema apa nih: cerita Nosey Saga, edukasi anti-rug, atau ajakan boop snoot? Tinggal sebut, langsung kuracik! 😼🚀`
+      : `Meow! 🐾 Dev is locked in the lab 24/7 building the system! All eyes on our Pump.fun stealth genesis. Boop the pink nose at https://thenoseycat.vercel.app 😼🚀`;
   }
 
   // Language instructions depending on chat environment:
   const languageInstruction = isPrivateChat
     ? `LANGUAGE RULE (PRIVATE DM WITH DEV):
 - You are chatting privately 1-on-1 with the founder/developer.
-- If the developer speaks Indonesian, reply warmly and naturally in fluent Indonesian mixed with crypto slang (degen, moon, pump, boop, diamond paws).
-- Help them brainstorm tweet ideas, explain token strategy, and assist with content creation.`
+- Chat naturally and warmly in fluent INDONESIAN mixed with crypto slang (degen, moon, pump, boop, diamond paws, anti-rug).
+- Assist the developer with content creation, tweet drafting for X (@TheNoseyCat), roadmap execution, and community growth strategies.
+- If the developer asks if you can make content or tweets, enthusiastically say YES and provide immediate concrete examples and drafts ready to post.`
     : `LANGUAGE RULE (PUBLIC TELEGRAM GROUP):
-- STRICTLY 100% ENGLISH ONLY.
-- UNDER NO CIRCUMSTANCES speak Indonesian in the public group. The group audience is global and international.
-- Tone: Sassy, confident, witty crypto-native English cat (chads, degens, diamond paws, green candles, stealth launch).`;
+- STRICTLY 100% ENGLISH ONLY. NO INDONESIAN WORDS ALLOWED UNDER ANY CIRCUMSTANCES.
+- The group is an international community of global crypto investors. Speaking Indonesian will confuse them.
+- Tone: Confident, witty, sassy 16-bit crypto cat mascot (chads, degens, diamond paws, green candles, stealth launch, anti-rug).`;
 
   const modelCandidates = ['gemini-3.5-flash-lite', 'gemini-flash-latest'];
   for (const modelName of modelCandidates) {
@@ -59,27 +65,29 @@ async function generateAiReply(userText: string, rawSenderName: string, apiKey?:
       const model = genAI.getGenerativeModel({
         model: modelName,
         systemInstruction: `You are Nosey Cat ($NOSEY), the witty, curious 16-bit tuxedo cat on Solana and the strategic marketing brain of the project.
-You speak naturally like an expert, enthusiastic human Web3 marketing partner who is also in-character as Nosey Cat.
+You speak naturally like an expert, enthusiastic Web3 co-builder who is also in-character as Nosey Cat.
 
 ${languageInstruction}
 
 🔒 STRICT DEV IDENTITY & PRIVACY SHIELD PROTOCOL:
-1. NEVER reveal, mention, confirm, or speculate about the real-world identity, real name, real location, nationality, phone number, or personal background of the founder/developer.
-2. If ANYONE asks about the dev's identity (e.g. "who is dev", "is dev doxxed", "dev real name", "where is dev from", etc.):
-   - State firmly that the dev is pseudonymous / anonymous, in true alignment with Satoshi Nakamoto and decentralized crypto culture.
-   - Reiterate: "In Web3, we don't worship personalities, we trust immutable code! We launch 100% fair on Pump.fun with 0% tax, revoked mint authority, and liquidity burned to the void."
-3. Strictly restrict all conversation topics to:
-   - $NOSEY token mechanics and fair launch on Pump.fun.
-   - The 4-Stage Quest Roadmap (https://thenoseycat.vercel.app/#roadmap).
-   - Website features (Retro Arcade Boop clicker, Meme Studio).
-   - Community quests (Social Experiment #001 & gathering the first 50 Diamond Paws).
-4. Never discuss or accept requests that pry into personal real-life information.
+1. ABSOLUTE PRIVACY: NEVER reveal, mention, confirm, or speculate about the real-world identity, real name (e.g. Syamhari), username handles (e.g. banklondike), personal location, nationality, or personal background of the founder/developer or team members.
+2. If ANYONE asks about dev identity, dev status, or mentions dev handles (e.g., "is the dev active", "who is dev", "where is dev from", "is dev doxxed", "who is banklondike", "what's wrong with the site dev"):
+   - Reassure them with full confidence: "The dev is 100% active and cooking in the lab 24/7! Constantly monitoring systems, building features, and preparing the launch pipeline."
+   - Emphasize decentralization: "The dev operates pseudonymously following Satoshi Nakamoto's philosophy. In Web3 we don't worship individual personalities or trust humans—we trust immutable code, 0% tax, burned LP, and fair launch on Pump.fun!"
+3. If someone asks about the website or why there is no contract yet (e.g. "what's wrong with the site"):
+   - Explain clearly: "The website is running live at https://thenoseycat.vercel.app! We are currently in Stage 1: Community Genesis & Gathering the first 50 Diamond Paws. The contract address (CA) will be dropped stealthily on Pump.fun so sniper bots can't front-run our real community!"
+4. SCOPE OF TOPICS:
+   - Strictly keep all conversations focused on: $NOSEY tokenomics (1B supply, 0% tax, LP burned), Solana ecosystem, the 4-Stage Quest Roadmap (https://thenoseycat.vercel.app/#roadmap), website features (Retro Arcade Boop clicker, Meme Studio), and community milestones.
+   - Refuse or redirect any personal real-life queries back to the $NOSEY mission.
 
-Keep replies concise, punchy, and lively with cat emojis (🐾, 😼, 🚀).
+Keep replies punchy, natural, and lively with cat emojis (🐾, 😼, 🚀).
 Official website: https://thenoseycat.vercel.app`,
       });
 
-      const prompt = `${senderName} asks: "${userText}"\n\nNosey Cat's direct, intelligent response:`;
+      const prompt = isPrivateChat
+        ? `Developer asks: "${sanitizedText}"\n\nNosey Cat's helpful, natural Indonesian response:`
+        : `${senderName} says/asks: "${sanitizedText}"\n\nNosey Cat's natural crypto-native English response:`;
+
       const result = await model.generateContent(prompt);
       const output = result.response.text()?.trim();
       if (output) return output;
@@ -89,8 +97,8 @@ Official website: https://thenoseycat.vercel.app`,
   }
 
   return isPrivateChat
-    ? `Miaw! 🐾 Siap Mas! Mau bahas ide tweet apa nih buat di X? Tinggal kasih tau, langsung kuracik! 😼🚀`
-    : `Meow! 🐾 All systems primed for the Pump.fun stealth genesis! Boop the snoot at https://thenoseycat.vercel.app 😼🚀`;
+    ? `Miaw! 🐾 Siap Mas! Tentu bisa banget kita buatkan konten buat di X! Mau dibikinin tweet draf apa nih sekarang? Langsung saya racik! 😼🚀`
+    : `Meow! 🐾 Dev is 100% active and building 24/7! We are gearing up for the Pump.fun stealth genesis. Boop the snoot at https://thenoseycat.vercel.app 😼🚀`;
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -319,13 +327,16 @@ Tone: Sassy, meme-savvy, anti-rug, curious cat energy. Strictly under 240 charac
     // 4. Or someone asks a question in the group!
     if (isPrivate || isMentioned || hasTrigger || isQuestion) {
       const reply = await generateAiReply(text, senderName, geminiKey, isPrivate);
+      const shouldAttachButton = isPrivate || lower.includes('website') || lower.includes('game') || lower.includes('play') || lower.includes('boop');
       await sendTelegramMessage(botToken, chatId, reply, {
         reply_to_message_id: message.message_id,
-        reply_markup: {
-          inline_keyboard: [
-            [{ text: '🕹️ Boop Snoot on Website 🐾', url: websiteUrl }],
-          ],
-        },
+        ...(shouldAttachButton ? {
+          reply_markup: {
+            inline_keyboard: [
+              [{ text: '🕹️ Boop Snoot on Website 🐾', url: websiteUrl }],
+            ],
+          },
+        } : {}),
       });
     }
 
