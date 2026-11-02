@@ -269,14 +269,22 @@ Tone: Sassy, meme-savvy, anti-rug, curious cat energy. Strictly under 240 charac
     // ----------------------------------------------------
     const lower = text.toLowerCase();
     const isMentioned = lower.includes('@nesey_cat_bot') || lower.includes('nosey') || lower.includes('cat');
+    const isQuestion = text.includes('?');
     const triggers = [
       'halo', 'hai', 'hello', 'hi', 'kucing', 'dev', 'launch', 'kapan', 'beli', 'buy', 
       'safe', 'rug', 'scam', 'ca', 'solana', 'pink', 'snoot', 'boop', 'konten', 'content', 
-      'tweet', 'jadwal', 'schedule', 'post', 'cerita', 'story', 'meme', 'ide', 'idea'
+      'tweet', 'jadwal', 'schedule', 'post', 'cerita', 'story', 'meme', 'ide', 'idea',
+      'active', 'site', 'web', 'legit', 'good', 'gm', 'gn', 'evening', 'morning', 
+      'guys', 'chads', 'anyone', 'admin', 'update', 'status', 'token'
     ];
     const hasTrigger = triggers.some((t) => lower.includes(t));
 
-    if (isPrivate || isMentioned || hasTrigger) {
+    // Respond if:
+    // 1. Private chat
+    // 2. Mentioned directly (@nesey_cat_bot / nosey / cat)
+    // 3. Contains trigger keywords (dev, active, site, gm, etc.)
+    // 4. Or someone asks a question in the group!
+    if (isPrivate || isMentioned || hasTrigger || isQuestion) {
       const reply = await generateAiReply(text, senderName, geminiKey);
       await sendTelegramMessage(botToken, chatId, reply, {
         reply_to_message_id: message.message_id,
