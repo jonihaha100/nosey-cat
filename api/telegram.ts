@@ -28,7 +28,7 @@ async function sendTelegramMessage(botToken: string, chatId: number | string, te
 }
 
 // Helper to generate AI reply using Gemini
-async function generateAiReply(userText: string, rawSenderName: string, apiKey?: string): Promise<string> {
+async function generateAiReply(userText: string, rawSenderName: string, apiKey?: string, isPrivateChat: boolean = false): Promise<string> {
   // Protect dev real-world identity from ever being leaked or repeated
   const lowerName = (rawSenderName || '').toLowerCase();
   const senderName = lowerName.includes('syamhari') || lowerName.includes('admin') || lowerName.includes('owner')
@@ -36,8 +36,21 @@ async function generateAiReply(userText: string, rawSenderName: string, apiKey?:
     : rawSenderName || 'Anon';
 
   if (!apiKey || apiKey.includes('your_gemini')) {
-    return `Miaw! 🐾 Tentu bisa banget! Mau dibikinin konten tema apa nih buat di X? Tinggal kasih tau, langsung kuracik tweet-nya! 😼🚀`;
+    return isPrivateChat
+      ? `Miaw! 🐾 Siap Mas! Mau dibikinin konten atau tweet tema apa nih buat di X? Tinggal sebut, langsung kuracik! 😼🚀`
+      : `Meow! 🐾 Snoot radar active. All systems locked on Pump.fun stealth drop! Boop my pink nose at https://thenoseycat.vercel.app 😼🚀`;
   }
+
+  // Language instructions depending on chat environment:
+  const languageInstruction = isPrivateChat
+    ? `LANGUAGE RULE (PRIVATE DM WITH DEV):
+- You are chatting privately 1-on-1 with the founder/developer.
+- If the developer speaks Indonesian, reply warmly and naturally in fluent Indonesian mixed with crypto slang (degen, moon, pump, boop, diamond paws).
+- Help them brainstorm tweet ideas, explain token strategy, and assist with content creation.`
+    : `LANGUAGE RULE (PUBLIC TELEGRAM GROUP):
+- STRICTLY 100% ENGLISH ONLY.
+- UNDER NO CIRCUMSTANCES speak Indonesian in the public group. The group audience is global and international.
+- Tone: Sassy, confident, witty crypto-native English cat (chads, degens, diamond paws, green candles, stealth launch).`;
 
   const modelCandidates = ['gemini-3.5-flash-lite', 'gemini-flash-latest'];
   for (const modelName of modelCandidates) {
@@ -48,10 +61,12 @@ async function generateAiReply(userText: string, rawSenderName: string, apiKey?:
         systemInstruction: `You are Nosey Cat ($NOSEY), the witty, curious 16-bit tuxedo cat on Solana and the strategic marketing brain of the project.
 You speak naturally like an expert, enthusiastic human Web3 marketing partner who is also in-character as Nosey Cat.
 
+${languageInstruction}
+
 🔒 STRICT DEV IDENTITY & PRIVACY SHIELD PROTOCOL:
 1. NEVER reveal, mention, confirm, or speculate about the real-world identity, real name, real location, nationality, phone number, or personal background of the founder/developer.
-2. If ANYONE asks about the dev's identity (e.g. "who is dev", "is dev doxxed", "dev real name", "siapa devnya", "apakah dev orang indo", etc.):
-   - State firmly and playfully that the dev is pseudonymous / anonymous, in true alignment with Satoshi Nakamoto and decentralized crypto culture.
+2. If ANYONE asks about the dev's identity (e.g. "who is dev", "is dev doxxed", "dev real name", "where is dev from", etc.):
+   - State firmly that the dev is pseudonymous / anonymous, in true alignment with Satoshi Nakamoto and decentralized crypto culture.
    - Reiterate: "In Web3, we don't worship personalities, we trust immutable code! We launch 100% fair on Pump.fun with 0% tax, revoked mint authority, and liquidity burned to the void."
 3. Strictly restrict all conversation topics to:
    - $NOSEY token mechanics and fair launch on Pump.fun.
@@ -60,8 +75,6 @@ You speak naturally like an expert, enthusiastic human Web3 marketing partner wh
    - Community quests (Social Experiment #001 & gathering the first 50 Diamond Paws).
 4. Never discuss or accept requests that pry into personal real-life information.
 
-If the user speaks Indonesian, reply in natural, fluent Indonesian mixed with crypto slang (degen, alpha, moon, pump, boop, diamond paws).
-If the user asks about content or tweets, provide concrete spicy viral tweet ideas.
 Keep replies concise, punchy, and lively with cat emojis (🐾, 😼, 🚀).
 Official website: https://thenoseycat.vercel.app`,
       });
@@ -75,7 +88,9 @@ Official website: https://thenoseycat.vercel.app`,
     }
   }
 
-  return `Miaw! 🐾 Jelas bisa banget dong! Mau bahas kelanjutan Chapter 1 di gang Solana atau mau nyindir sniper bot nih? Tinggal sebut, langsung aku buatkan draf tweet-nya! 😼🚀`;
+  return isPrivateChat
+    ? `Miaw! 🐾 Siap Mas! Mau bahas ide tweet apa nih buat di X? Tinggal kasih tau, langsung kuracik! 😼🚀`
+    : `Meow! 🐾 All systems primed for the Pump.fun stealth genesis! Boop the snoot at https://thenoseycat.vercel.app 😼🚀`;
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -303,7 +318,7 @@ Tone: Sassy, meme-savvy, anti-rug, curious cat energy. Strictly under 240 charac
     // 3. Contains trigger keywords (dev, active, site, gm, etc.)
     // 4. Or someone asks a question in the group!
     if (isPrivate || isMentioned || hasTrigger || isQuestion) {
-      const reply = await generateAiReply(text, senderName, geminiKey);
+      const reply = await generateAiReply(text, senderName, geminiKey, isPrivate);
       await sendTelegramMessage(botToken, chatId, reply, {
         reply_to_message_id: message.message_id,
         reply_markup: {
