@@ -170,7 +170,7 @@ async function handleDevContentRequest(
     try {
       const genAI = new GoogleGenerativeAI(geminiKey);
       const model = genAI.getGenerativeModel({
-        model: 'gemini-3.5-flash-lite',
+        model: 'gemini-3.5-flash',
         systemInstruction: `You are the viral social media strategist for Kepo Cat ($KEPO), a 16-bit retro arcade meme coin on Solana.
 When given a user prompt, output a JSON object with two fields:
 1. "indonesian": A snappy, bullish tweet in Indonesian (under 220 chars) perfect for local Telegram/Twitter crypto degens. Include $KEPO and #Solana.
@@ -296,7 +296,7 @@ async function generateAiReply(userText: string, rawSenderName: string, apiKey?:
   * DO NOT SPAM LINKS: Never post website or Twitter links unless someone explicitly asks for them! If they ask: "site's live at https://nosey-cat.vercel.app 🐾"
 - STRICT ENGLISH: 100% natural crypto English in the public group. Casual, friendly, human, and concise.`;
 
-  const modelCandidates = ['gemini-3.5-flash-lite', 'gemini-flash-latest'];
+  const modelCandidates = ['gemini-3.5-flash', 'gemini-flash-latest', 'gemini-3.5-flash-lite'];
   for (const modelName of modelCandidates) {
     try {
       const genAI = new GoogleGenerativeAI(apiKey);
@@ -381,8 +381,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const update = req.body;
-  if (!update) {
+  let update = req.body;
+  if (typeof update === 'string') {
+    try {
+      update = JSON.parse(update);
+    } catch {
+      // ignore
+    }
+  }
+
+  if (!update || typeof update !== 'object') {
     return res.status(200).json({ ok: true, note: 'Empty body' });
   }
 
@@ -599,10 +607,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           `🖼️ <b>KONTEN RESMI: ${theme.title}</b>\n\n📌 <i>Visual ini cocok dan menggambarkan bahasan draf tweet di atas! Simpan ke galeri untuk diposting ke X / Telegram!</i>`
         );
       }
-    }
-          },
-        } : {}),
-      });
     }
 
     return res.status(200).json({ ok: true });

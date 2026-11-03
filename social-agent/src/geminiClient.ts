@@ -30,7 +30,7 @@ export async function generateCharacterReply(
   chatHistory: Array<{ sender: string; text: string }> = []
 ): Promise<string> {
   const instance = getGeminiInstance();
-  const modelName = process.env.GEMINI_MODEL || 'gemini-1.5-flash';
+  const modelName = process.env.GEMINI_MODEL || 'gemini-3.5-flash';
 
   // Fallback if no Gemini key yet
   if (!instance) {
